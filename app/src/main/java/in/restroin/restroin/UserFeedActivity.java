@@ -2,15 +2,19 @@ package in.restroin.restroin;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Adapter;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -64,9 +68,7 @@ public class UserFeedActivity extends AppCompatActivity {
                     List<Offers> offers = response.body();
                     OffersAdapter offersAdapter = new OffersAdapter(offers, context);
                     offersRecycler.setAdapter(offersAdapter);
-                    Toast.makeText(context, "Retrived URI : " + response.body().get(0).getImage(), Toast.LENGTH_SHORT).show();
-
-                    Toast.makeText(context, "Mesage: " + response.message() , Toast.LENGTH_SHORT).show();
+                    scaleItem(offersRecycler, offersAdapter, offers);
                 } else {
                     Toast.makeText(context, "Something Went wrong : " + response.message(), Toast.LENGTH_SHORT).show();
                 }
@@ -78,5 +80,68 @@ public class UserFeedActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void scaleItem(RecyclerView recyclerView, final RecyclerView.Adapter adapter, final List<Offers> offers){
+        final GestureDetector gestureDetector = new GestureDetector(UserFeedActivity.this, new GestureDetector.OnGestureListener() {
+            @Override
+            public boolean onDown(MotionEvent e) {
+                return false;
+            }
+
+            @Override
+            public void onShowPress(MotionEvent e) {
+
+            }
+
+            @Override
+            public boolean onSingleTapUp(MotionEvent e) {
+                return true;
+            }
+
+            @Override
+            public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+                return false;
+            }
+
+            @Override
+            public void onLongPress(MotionEvent e) {
+
+            }
+
+            @Override
+            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+                return false;
+            }
+        });
+        recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+            @Override
+            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+                final View offerView = rv.findChildViewUnder(e.getX(), e.getY());
+                final int position = rv.getChildAdapterPosition(offerView);
+                if(offerView != null && gestureDetector.onTouchEvent(e)){
+                    offerView.setScaleX((float)0.985);
+                    offerView.setScaleY((float) 0.985);
+                    Toast.makeText(UserFeedActivity.this, "Coupon: " + offers.get(position).getOffer_filter_code(), Toast.LENGTH_SHORT).show();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            offerView.setScaleX((float)1.0);
+                            offerView.setScaleY((float)1.0);
+                        }
+                    }, 100);
+                }
+                return false;
+            }
+
+            @Override
+            public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+            }
+        });
     }
 }
