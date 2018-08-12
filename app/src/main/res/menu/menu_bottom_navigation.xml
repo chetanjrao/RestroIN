@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/find_a_restaurant"
+        android:title="Find Restaurants" />
+
+    <item android:id="@+id/notifications"
+        android:title="Notifications" />
+
+    <item android:id="@+id/wishlist_and_likes"
+        android:title="Liked Restaurants" />
+
+    <item android:id="@+id/profile"
+        android:title="Profile" />
+
+</menu>
