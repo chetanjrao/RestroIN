@@ -67,11 +67,22 @@ public class PopularRestaurantsAdapter extends RecyclerView.Adapter<PopularResta
                 Toast.makeText(context, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-        Toast.makeText(context, "URL : " +  image_location, Toast.LENGTH_SHORT).show();
-        holder.restaurant_name.setText(popularRestaurants.get(position).getRestaurant_name());
+        String name_of_restaurant;
+        if(popularRestaurants.get(position).getRestaurant_name().length() > 15){
+            char[] name = new char[16];
+            String name_re = popularRestaurants.get(position).getRestaurant_name();
+            name_re.getChars(0, 15, name, 0);
+            name_of_restaurant = String.valueOf(name ) +  "...";
+        } else {
+           name_of_restaurant = popularRestaurants.get(position).getRestaurant_name();
+        }
+        holder.restaurant_name.setText(String.valueOf(name_of_restaurant));
         holder.restaurant_rating.setRating(Float.parseFloat(popularRestaurants.get(position).getRestaurant_rating()));
-        holder.price_for_two.setText(popularRestaurants.get(position).getPrice_for_two());
-        holder.restaurant_region.setText(popularRestaurants.get(position).getRestaurant_region());
+        char[] region_chars = new char[23];
+        String region_text = popularRestaurants.get(position).getRestaurant_region();
+        region_text.getChars(0, 22, region_chars, 0);
+        holder.price_for_two.setText("\u20B9" + popularRestaurants.get(position).getPrice_for_two() + "(approx)");
+        holder.restaurant_region.setText(String.valueOf(region_chars) + "..");
     }
 
     @Override

@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Adapter;
+import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -25,10 +26,13 @@ import com.google.gson.GsonBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
+import in.restroin.restroin.adapters.CusinesGridAdapter;
 import in.restroin.restroin.adapters.OffersAdapter;
 import in.restroin.restroin.adapters.PopularRestaurantsAdapter;
+import in.restroin.restroin.interfaces.CusinesClient;
 import in.restroin.restroin.interfaces.OfferClient;
 import in.restroin.restroin.interfaces.PopularRestaurantsClient;
+import in.restroin.restroin.models.CusineGridModel;
 import in.restroin.restroin.models.Offers;
 import in.restroin.restroin.models.PopularRestaurants;
 import in.restroin.restroin.utils.OfferDeserializer;
@@ -37,6 +41,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import in.restroin.restroin.utils.MyGridView;
 
 public class UserFeedActivity extends AppCompatActivity {
 
@@ -58,6 +63,7 @@ public class UserFeedActivity extends AppCompatActivity {
             }
         });
         ShowPopularRestaurants(UserFeedActivity.this);
+        ShowCusines();
     }
 
     public void ShowPopularRestaurants(final Context context){
@@ -218,7 +224,6 @@ public class UserFeedActivity extends AppCompatActivity {
                 if(offerView != null && gestureDetector.onTouchEvent(e)){
                     offerView.setScaleX((float)0.985);
                     offerView.setScaleY((float) 0.985);
-                    Toast.makeText(UserFeedActivity.this, "Coupon: " + offers.get(position).getFront_image(), Toast.LENGTH_SHORT).show();
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -237,6 +242,30 @@ public class UserFeedActivity extends AppCompatActivity {
             @Override
             public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
 
+            }
+        });
+    }
+
+    public void ShowCusines(){
+        Retrofit Cusines = builder.build();
+        final MyGridView cusinesGridView = (MyGridView) findViewById(R.id.cusines_gridView);
+        CusinesClient client = Cusines.create(CusinesClient.class);
+        Call<List<CusineGridModel>> call = client.getCusines();
+        call.enqueue(new Callback<List<CusineGridModel>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<CusineGridModel>> call,@NonNull Response<List<CusineGridModel>> response) {
+                if(response.isSuccessful()){
+                    List<CusineGridModel> cusines = response.body();
+                    CusinesGridAdapter cusinesGridAdapter = new CusinesGridAdapter(cusines, UserFeedActivity.this);
+                    cusinesGridView.setAdapter(cusinesGridAdapter);
+                } else {
+                    Toast.makeText(UserFeedActivity.this, "Something went wrong: ", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<CusineGridModel>> call, Throwable t) {
+                Toast.makeText(UserFeedActivity.this, "Error :( + " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

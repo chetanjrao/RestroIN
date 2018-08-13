@@ -21,14 +21,77 @@
 
             </android.support.v7.widget.RecyclerView>
 
-            <android.support.v7.widget.RecyclerView
-                android:layout_marginTop="30dp"
-                android:id="@+id/popular_restaurants_recycler"
+            <RelativeLayout
+                android:layout_margin="10dp"
+                android:id="@+id/top_restaurants"
                 android:layout_below="@id/offers_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="24dp">
+
+                <TextView
+                    android:id="@+id/top_restaurants_around"
+                    android:layout_width="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:textStyle="bold"
+                    android:textColor="#000"
+                    android:text="Popular Restaurants "
+                    android:layout_height="wrap_content" />
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:background="#b4b4b4"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@id/top_restaurants_around"
+                    android:layout_height="1dp" />
+
+            </RelativeLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:theme="@style/RecyclerTheme"
+                android:id="@+id/popular_restaurants_recycler"
+                android:layout_below="@id/top_restaurants"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
             </android.support.v7.widget.RecyclerView>
+
+            <RelativeLayout
+                android:layout_margin="10dp"
+                android:layout_below="@id/popular_restaurants_recycler"
+                android:id="@+id/cusines_intro"
+                android:layout_width="match_parent"
+                android:layout_height="24dp">
+
+                <TextView
+                    android:id="@+id/popular_cusines_around"
+                    android:layout_width="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:textColor="#000"
+                    android:textStyle="bold"
+                    android:text="Popular Cusines "
+                    android:layout_height="wrap_content" />
+
+                <View
+                    android:layout_width="wrap_content"
+                    android:background="#d6d6d6"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@id/popular_cusines_around"
+                    android:layout_height="1dp" />
+
+            </RelativeLayout>
+
+            <in.restroin.restroin.utils.MyGridView
+                android:gravity="center"
+                android:numColumns="3"
+                android:layout_margin="6dp"
+                android:verticalSpacing="6dp"
+                android:id="@+id/cusines_gridView"
+                android:layout_below="@+id/cusines_intro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </in.restroin.restroin.utils.MyGridView>
+
 
 
         </RelativeLayout>
