@@ -23,7 +23,7 @@
                 android:layout_width="match_parent"
                 android:src="@mipmap/restro20"
                 android:scaleType="centerCrop"
-                android:layout_height="wrap_content" />
+                android:layout_height="match_parent" />
 
         </RelativeLayout>
 
@@ -69,6 +69,7 @@
                 android:layout_width="wrap_content"
                 style="@style/Widget.AppCompat.RatingBar.Small"
                 android:numStars="5"
+                android:id="@+id/restaurant_rating"
                 android:max="5"
                 android:layout_margin="2dp"
                 android:layout_alignParentBottom="true"
