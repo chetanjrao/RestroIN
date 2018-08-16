@@ -9,33 +9,26 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.Adapter;
-import android.widget.GridView;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import in.restroin.restroin.adapters.CusinesGridAdapter;
 import in.restroin.restroin.adapters.OffersAdapter;
+import in.restroin.restroin.adapters.PopularLocationsAdapter;
 import in.restroin.restroin.adapters.PopularRestaurantsAdapter;
 import in.restroin.restroin.interfaces.CusinesClient;
 import in.restroin.restroin.interfaces.OfferClient;
+import in.restroin.restroin.interfaces.PopularLocationClient;
 import in.restroin.restroin.interfaces.PopularRestaurantsClient;
 import in.restroin.restroin.models.CusineGridModel;
 import in.restroin.restroin.models.Offers;
+import in.restroin.restroin.models.PopularLocations;
 import in.restroin.restroin.models.PopularRestaurants;
-import in.restroin.restroin.utils.OfferDeserializer;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -44,6 +37,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import in.restroin.restroin.utils.MyGridView;
 
 public class UserFeedActivity extends AppCompatActivity {
+
+    private final static String RETROFIT_TAG = "RETROFIT_LOG";
 
     Retrofit.Builder builder = new Retrofit.Builder()
             .baseUrl("http://restroin.in/")
@@ -64,6 +59,8 @@ public class UserFeedActivity extends AppCompatActivity {
         });
         ShowPopularRestaurants(UserFeedActivity.this);
         ShowCusines();
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.popular_locations_recycler);
+        ShowPopularLocations(recyclerView);
     }
 
     public void ShowPopularRestaurants(final Context context){
@@ -266,6 +263,31 @@ public class UserFeedActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<List<CusineGridModel>> call, Throwable t) {
                 Toast.makeText(UserFeedActivity.this, "Error :( + " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void ShowPopularLocations(final RecyclerView recyclerView){
+        Retrofit Locations = builder.build();
+        LinearLayoutManager layoutManager = new LinearLayoutManager(UserFeedActivity.this, LinearLayoutManager.HORIZONTAL, false);
+        recyclerView.setLayoutManager(layoutManager);
+        PopularLocationClient client = Locations.create(PopularLocationClient.class);
+        Call<List<PopularLocations>> call = client.getPopularLocations();
+        call.enqueue(new Callback<List<PopularLocations>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<PopularLocations>> call,@NonNull Response<List<PopularLocations>> response) {
+                if(response.isSuccessful()){
+                    List<PopularLocations> locations = response.body();
+                    PopularLocationsAdapter adapter = new PopularLocationsAdapter(locations, UserFeedActivity.this);
+                    recyclerView.setAdapter(adapter);
+                } else {
+                    Log.e(RETROFIT_TAG, "Something Went Wrong: " + response.message());
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<List<PopularLocations>> call,@NonNull Throwable t) {
+                Log.e(RETROFIT_TAG, "Something Went Wrong: " + t.getMessage());
             }
         });
     }

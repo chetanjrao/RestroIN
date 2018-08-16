@@ -39,6 +39,14 @@
           }
         },
         {
+          "client_id": "209730493187-vojevp7rf34egaa86qqeasr4mmk1nsr5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "in.restroin.restroin",
+            "certificate_hash": "5e879a6f3a91797ecfb69e126ec07e2a3f4c4835"
+          }
+        },
+        {
           "client_id": "209730493187-t3088pjun8pt65fnocok40j2q68h8iov.apps.googleusercontent.com",
           "client_type": 3
         }

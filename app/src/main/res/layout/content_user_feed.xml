@@ -110,7 +110,7 @@
                     android:layout_centerVertical="true"
                     android:textColor="#000"
                     android:textStyle="bold"
-                    android:text="Special Locations"
+                    android:text="Most Visited Locations"
                     android:layout_height="wrap_content" />
 
                 <View
