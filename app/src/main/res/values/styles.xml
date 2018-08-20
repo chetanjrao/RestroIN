@@ -8,6 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:colorControlActivated">#FFD700</item>
         <item name="android:colorControlNormal">#FFD700</item>
+        <item name="colorControlHighlight">#fff</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -20,6 +21,15 @@
         <item name="colorPrimary">@android:color/transparent</item>
         <item name="colorPrimaryDark">@android:color/transparent</item>
         <item name="colorAccent">@android:color/transparent</item>
+        <item name="android:colorControlActivated">#FFD700</item>
+        <item name="android:colorControlNormal">#FFD700</item>
+    </style>
+
+    <style name="ImageTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">#fff</item>
+        <item name="colorPrimaryDark">#fff</item>
+        <item name="colorAccent">#fff</item>
         <item name="android:colorControlActivated">#FFD700</item>
         <item name="android:colorControlNormal">#FFD700</item>
     </style>

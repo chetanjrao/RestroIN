@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:layout_width="15dp"
+        android:id="@+id/amenity_image"
+        android:src="@drawable/ic_done"
+        android:layout_height="15dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:textSize="12sp"
+        android:layout_marginStart="2dp"
+        android:layout_toEndOf="@id/amenity_image"
+        android:text="Air Conditioner"
+        android:textColor="#363636"
+        android:id="@+id/amenity_name"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>

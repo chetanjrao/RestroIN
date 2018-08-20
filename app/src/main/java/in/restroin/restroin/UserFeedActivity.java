@@ -1,6 +1,7 @@
 package in.restroin.restroin;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -226,8 +227,11 @@ public class UserFeedActivity extends AppCompatActivity {
                         public void run() {
                             offerView.setScaleX((float)1.0);
                             offerView.setScaleY((float)1.0);
+                            Intent goToView = new Intent(UserFeedActivity.this, RestaurantViewActivity.class);
+                            goToView.putExtra("restaurant_id", offers.get(position).getId());
+                            startActivity(goToView);
                         }
-                    }, 100);
+                    }, 300);
                 }
                 return false;
             }

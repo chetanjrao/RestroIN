@@ -34,6 +34,7 @@ public class PopularRestaurantsAdapter extends RecyclerView.Adapter<PopularResta
         ImageView restaurant_image;
         TextView restaurant_name, price_for_two, restaurant_region;
         RatingBar restaurant_rating;
+        String restaurant_id;
         public ViewHolder(View itemView){
             super(itemView);
             restaurant_image = (ImageView) itemView.findViewById(R.id.restaurant_image);
@@ -83,6 +84,7 @@ public class PopularRestaurantsAdapter extends RecyclerView.Adapter<PopularResta
         region_text.getChars(0, 22, region_chars, 0);
         holder.price_for_two.setText("\u20B9" + popularRestaurants.get(position).getPrice_for_two() + "(approx)");
         holder.restaurant_region.setText(String.valueOf(region_chars) + "..");
+        holder.restaurant_id = popularRestaurants.get(position).getId();
     }
 
     @Override
