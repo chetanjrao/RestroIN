@@ -98,7 +98,7 @@ public class RestaurantViewActivity extends AppCompatActivity {
                     restaurant_name.setText(response.body().getRestaurant_name());
                     restaurant_city.setText(response.body().getCity_id());
                     restaurant_address.setText(" " +response.body().getRestaurant_address());
-                    cost_for_two.setText(" \u20B9 " +response.body().getPrice_for_two());
+                    cost_for_two.setText(" \u20B9 " +response.body().getPrice_for_two() + " /-");
                     restaurant_rating.setRating(Float.parseFloat(response.body().getRestaurant_rating()));
                     restaurant_timing.setText(" " + response.body().getRestaurant_opening_time() + "-" + response.body().getRestaurant_closing_time());
                     AmenitiesGridAdapter amenitiesGridAdapter = new AmenitiesGridAdapter(restaurant_features,RestaurantViewActivity.this);
