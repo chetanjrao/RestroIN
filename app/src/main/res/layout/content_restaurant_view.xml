@@ -4,180 +4,107 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".RestaurantViewActivity"
     tools:showIn="@layout/activity_restaurant_view">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true">
 
         <RelativeLayout
-            android:layout_marginTop="20dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp">
 
             <ImageView
                 android:id="@+id/backbutton"
+                android:layout_width="30dp"
+                android:layout_height="25dp"
+                android:backgroundTint="#fff"
                 android:clickable="true"
                 android:focusable="true"
-                android:src="@drawable/ic_back"
-                android:backgroundTint="#fff"
                 android:foreground="?attr/selectableItemBackground"
-                android:layout_width="30dp"
-                android:layout_height="25dp" />
+                android:src="@drawable/ic_back" />
 
             <RelativeLayout
-                android:layout_alignParentEnd="true"
                 android:layout_width="wrap_content"
-                android:layout_height="25dp">
+                android:layout_height="25dp"
+                android:layout_alignParentEnd="true">
 
                 <ImageView
+                    android:id="@+id/share"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
                     android:clickable="true"
                     android:focusable="true"
-                    android:id="@+id/share"
                     android:foreground="?attr/selectableItemBackground"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_width="30dp"
-                    android:src="@drawable/ic_share"
-                    android:layout_height="30dp" />
+                    android:src="@drawable/ic_share" />
 
             </RelativeLayout>
 
         </RelativeLayout>
 
         <android.support.v7.widget.CardView
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="200dp"
             android:id="@+id/into_card_restaurant"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="200dp">
 
             <RelativeLayout
-                android:layout_margin="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="350dp">
-
-               <TextView
-                   android:layout_width="wrap_content"
-                   android:textSize="21sp"
-                   android:layout_margin="5dp"
-                   android:id="@+id/restaurant_name"
-                   android:textColor="#000"
-                   android:fontFamily="@font/raleway"
-                   android:text="Shimmar Taj"
-                   android:layout_height="wrap_content" />
-
-                <RatingBar
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:scaleX="0.7"
-                    android:scaleY="0.7"
-                    android:isIndicator="true"
-                    android:id="@+id/restaurant_rating"
-                    android:numStars="5"
-                    android:layout_alignParentEnd="true"
-                    android:rating="4"
-                    style="@style/Widget.AppCompat.RatingBar.Indicator"/>
+                android:layout_height="300dp"
+                android:layout_margin="10dp">
 
                 <TextView
-                    android:layout_marginStart="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:textColor="#363636"
-                    android:fontFamily="@font/raleway"
-                    android:textSize="15sp"
+                    android:id="@+id/restaurant_name"
                     android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:fontFamily="@font/raleway"
+                    android:text="Shimmar Taj"
+                    android:textColor="#000"
+                    android:textSize="21sp" />
+
+                <RatingBar
+                    android:id="@+id/restaurant_rating"
+                    style="@style/Widget.AppCompat.RatingBar.Indicator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:isIndicator="true"
+                    android:numStars="5"
+                    android:rating="4"
+                    android:scaleX="0.7"
+                    android:scaleY="0.7" />
+
+                <TextView
                     android:id="@+id/restaurant_city"
-                    android:text="Yelahanka, Bangalore"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_below="@id/restaurant_name"
-                    android:layout_height="wrap_content" />
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginStart="5dp"
+                    android:fontFamily="@font/raleway"
+                    android:text="Yelahanka, Bangalore"
+                    android:textColor="#363636"
+                    android:textSize="16sp" />
 
                 <LinearLayout
                     android:id="@+id/location_layout"
-                    android:layout_marginTop="2dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_below="@id/restaurant_city"
-                    android:layout_width="match_parent"
-                    android:orientation="horizontal"
-                    android:weightSum="1"
-                    android:layout_height="wrap_content">
-
-                    <RelativeLayout
-                        android:layout_weight="0.65"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content">
-
-                        <ImageView
-                            android:layout_marginTop="2dp"
-                            android:layout_width="15dp"
-                            android:src="@drawable/ic_location"
-                            android:id="@+id/location_image"
-                            android:layout_height="15dp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:textSize="12dp"
-                            android:id="@+id/address_of_restaurant"
-                            android:layout_marginStart="2dp"
-                            android:layout_toEndOf="@id/location_image"
-                            android:textColor="#363636"
-                            android:textAlignment="textStart"
-                            android:text="BMS Institute of Technology and Management, Doddaballapura Main Road, Yelahanka, Bangalore - 5600064"
-                            android:layout_height="wrap_content" />
-
-                    </RelativeLayout>
-
-
-                </LinearLayout>
-
-                <LinearLayout
                     android:layout_marginTop="2dp"
-                    android:id="@+id/open_timings"
-                    android:layout_below="@id/location_layout"
-                    android:layout_width="match_parent"
                     android:orientation="horizontal"
-                    android:weightSum="1"
-                    android:layout_height="wrap_content">
-
-                    <RelativeLayout
-                        android:layout_weight="0.65"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content">
-
-                        <ImageView
-                            android:layout_marginTop="2dp"
-                            android:layout_width="15dp"
-                            android:src="@drawable/ic_time"
-                            android:id="@+id/ting_image"
-                            android:layout_height="15dp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:textSize="12dp"
-                            android:layout_marginStart="2dp"
-                            android:layout_toEndOf="@id/ting_image"
-                            android:textColor="#363636"
-                            android:textAlignment="textStart"
-                            android:id="@+id/timing_of_restaurant"
-                            android:text=" 8:00AM - 9:00PM"
-                            android:layout_height="wrap_content" />
-
-                    </RelativeLayout>
-
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_marginTop="2dp"
-                    android:id="@+id/cost_for_two_layout"
-                    android:layout_below="@id/open_timings"
-                    android:layout_width="match_parent"
-                    android:orientation="horizontal"
-                    android:weightSum="1"
-                    android:layout_height="wrap_content">
+                    android:weightSum="1">
 
                     <RelativeLayout
                         android:layout_width="0dp"
@@ -185,22 +112,96 @@
                         android:layout_weight="0.65">
 
                         <ImageView
-                            android:layout_marginTop="2dp"
+                            android:id="@+id/location_image"
                             android:layout_width="15dp"
-                            android:src="@drawable/ic_money"
-                            android:id="@+id/cost_for_two_image"
-                            android:layout_height="15dp" />
+                            android:layout_height="15dp"
+                            android:layout_marginTop="2dp"
+                            android:src="@drawable/ic_location" />
 
                         <TextView
+                            android:id="@+id/address_of_restaurant"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="2dp"
+                            android:layout_toEndOf="@id/location_image"
+                            android:text="BMS Institute of Technology and Management, Doddaballapura Main Road, Yelahanka, Bangalore - 5600064"
+                            android:textAlignment="textStart"
+                            android:textColor="#363636"
+                            android:textSize="14sp" />
+
+                    </RelativeLayout>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/open_timings"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/location_layout"
+                    android:layout_marginTop="2dp"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.65">
+
+                        <ImageView
+                            android:id="@+id/ting_image"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_marginTop="2dp"
+                            android:src="@drawable/ic_time" />
+
+                        <TextView
+                            android:id="@+id/timing_of_restaurant"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="2dp"
+                            android:layout_toEndOf="@id/ting_image"
+                            android:text=" 8:00AM - 9:00PM"
+                            android:textAlignment="textStart"
+                            android:textColor="#363636"
+                            android:textSize="14sp" />
+
+                    </RelativeLayout>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/cost_for_two_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/open_timings"
+                    android:layout_marginTop="2dp"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.65">
+
+                        <ImageView
+                            android:id="@+id/cost_for_two_image"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_marginTop="2dp"
+                            android:src="@drawable/ic_money" />
+
+                        <TextView
                             android:id="@+id/cost_for_two"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="2dp"
                             android:layout_toEndOf="@id/cost_for_two_image"
                             android:text=" \u20B9 600 /-"
                             android:textAlignment="textStart"
                             android:textColor="#363636"
-                            android:textSize="12dp" />
+                            android:textSize="14sp" />
 
                     </RelativeLayout>
 
@@ -209,28 +210,29 @@
 
                 <LinearLayout
                     android:id="@+id/actions_linear_layout"
-                    android:orientation="horizontal"
-                    android:weightSum="1"
-                    android:layout_below="@id/cost_for_two_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/cost_for_two_layout"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
 
                     <LinearLayout
                         android:layout_width="0dp"
-                        android:orientation="vertical"
-                        android:layout_weight="0.65"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.66"
+                        android:orientation="vertical">
 
                         <RelativeLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content">
+
                             <TextView
-                                android:textColor="#363636"
-                                android:textSize="12sp"
-                                android:textStyle="bold"
                                 android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
                                 android:text="Features &amp; Amentites"
-                                android:layout_height="wrap_content" />
+                                android:textColor="#363636"
+                                android:textSize="15sp"
+                                android:textStyle="bold" />
                         </RelativeLayout>
 
                         <RelativeLayout
@@ -238,11 +240,11 @@
                             android:layout_height="wrap_content">
 
                             <in.restroin.restroin.utils.MyGridView
-                                android:numColumns="2"
-                                android:layout_marginTop="5dp"
                                 android:id="@+id/features_gridView"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="5dp"
+                                android:numColumns="2">
 
                             </in.restroin.restroin.utils.MyGridView>
 
@@ -252,44 +254,29 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:gravity="center_vertical"
-                        android:layout_marginTop="2dp"
                         android:id="@+id/actions_layout"
                         android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="40dp"
                         android:layout_weight="0.35"
-                        android:orientation="vertical"
-                        android:layout_height="wrap_content">
+                        android:gravity="center_vertical"
+                        android:orientation="vertical">
 
                         <Button
-                            android:layout_width="wrap_content"
-                            android:textSize="14sp"
-                            android:padding="14dp"
-                            android:textStyle="bold"
-                            android:textColor="#fff"
-                            android:background="@drawable/button_background"
                             android:id="@+id/book_now_button"
-                            android:textAlignment="center"
-                            android:foreground="?attr/selectableItemBackground"
-                            android:text="Reserve Now"
-                            android:fontFamily="@font/raleway"
-                            android:textAllCaps="false"
-                            android:layout_height="60dp" />
-
-                        <Button
-                            android:foreground="?attr/selectableItemBackground"
                             android:layout_width="wrap_content"
-                            android:textAlignment="center"
-                            android:text="Write a Review"
-                            android:textSize="14sp"
-                            android:padding="12dp"
-                            android:layout_marginTop="5dp"
-                            android:textColor="#fff"
+                            android:layout_height="60dp"
                             android:background="@drawable/button_background"
                             android:fontFamily="@font/raleway"
+                            android:foreground="?attr/selectableItemBackground"
+                            android:padding="14dp"
+                            android:text="Reserve Now"
+                            android:layout_gravity="center_vertical"
+                            android:textAlignment="center"
                             android:textAllCaps="false"
-                            android:src="@drawable/ic_time"
-                            android:id="@+id/write_a_review_button"
-                            android:layout_height="60dp" />
+                            android:textColor="#fff"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
 
                     </LinearLayout>
 
@@ -300,19 +287,18 @@
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
-            android:layout_marginLeft="5dp"
-            android:layout_marginBottom="50dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="10dp"
-            android:layout_below="@id/into_card_restaurant"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_below="@id/into_card_restaurant"
+            android:layout_marginBottom="50dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="10dp">
 
             <RelativeLayout
-                android:layout_margin="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="300dp">
-
+                android:layout_height="300dp"
+                android:layout_margin="10dp">
 
 
             </RelativeLayout>

@@ -124,7 +124,7 @@
             </RelativeLayout>
 
             <android.support.v7.widget.RecyclerView
-                android:layout_margin="5dp"
+                 android:layout_margin="5dp"
                 android:layout_below="@+id/popular_locations_intro"
                 android:id="@+id/popular_locations_recycler"
                 android:layout_width="match_parent"
