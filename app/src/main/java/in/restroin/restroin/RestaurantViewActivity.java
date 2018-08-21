@@ -1,16 +1,22 @@
 package in.restroin.restroin;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
@@ -21,8 +27,19 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.LegendEntry;
+import com.github.mikephil.charting.data.ChartData;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.PercentFormatter;
+import com.github.mikephil.charting.utils.ColorTemplate;
+
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import in.restroin.restroin.adapters.AmenitiesGridAdapter;
@@ -36,9 +53,17 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static com.github.mikephil.charting.utils.ColorTemplate.rgb;
+
 public class RestaurantViewActivity extends AppCompatActivity {
 
     private final static String RETROFIT_TAG = "RETROFIT_LOG";
+    protected ChartData<?> mChartData = generateDataPie();
+    private Typeface mTf;
+    private List<LegendEntry> list;
+    private static final int[] COLORS = {
+            rgb("#c70000"), rgb("#e23100"), rgb("#ff9500"), rgb("#88ff00"), rgb("#26ca02")
+    };
 
     Retrofit.Builder builder = new Retrofit.Builder()
             .baseUrl("http://restroin.in/")
@@ -68,6 +93,7 @@ public class RestaurantViewActivity extends AppCompatActivity {
             @Override
             public void run() {
                 scrollPos[0] = view.getScaleY();
+
                 if (scrollPos[0] > 300) {
                     Toast.makeText(RestaurantViewActivity.this, "Done : " + scrollPos[0], Toast.LENGTH_SHORT).show();
                 }
@@ -87,6 +113,36 @@ public class RestaurantViewActivity extends AppCompatActivity {
         final TextView restaurant_timing = (TextView) findViewById(R.id.timing_of_restaurant);
         final RatingBar restaurant_rating = (RatingBar) findViewById(R.id.restaurant_rating);
         final TextView cost_for_two = (TextView) findViewById(R.id.cost_for_two);
+        PieChart chart = (PieChart) findViewById(R.id.chart);
+        mTf = ResourcesCompat.getFont(RestaurantViewActivity.this, R.font.raleway);
+
+
+        SpannableString mCenterText;
+        mCenterText = generateCenterText();
+
+        chart.getDescription().setEnabled(false);
+        chart.setHoleRadius(50f);
+        chart.setTransparentCircleRadius(100f);
+        chart.setCenterText(mCenterText);
+        chart.setCenterTextTypeface(mTf);
+        chart.setCenterTextSize(18f);
+        chart.setUsePercentValues(true);
+        chart.setExtraOffsets(5, 10, 50, 10);
+        mChartData.setValueFormatter(new PercentFormatter());
+        mChartData.setValueTypeface(mTf);
+        mChartData.setValueTextSize(11f);
+        mChartData.setValueTextColor(Color.WHITE);
+        chart.setData((PieData) mChartData);
+     Legend l = chart.getLegend();
+     l.setEnabled(false);
+//        l.setVerticalAlignment(Legend.LegendVerticalAlignment.CENTER);
+//        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
+//        l.setOrientation(Legend.LegendOrientation.VERTICAL);
+//        l.setDrawInside(false);
+//        l.setYEntrySpace(0f);
+//        l.setYOffset(0f);
+        chart.animateY(900);
+        chart.setData(generateDataPie());
         RestaurantClient client = restaurant_retrofit.create(RestaurantClient.class);
         Call<RestaurantModel> call = client.getRestaurantData(id);
         call.enqueue(new Callback<RestaurantModel>() {
@@ -100,7 +156,7 @@ public class RestaurantViewActivity extends AppCompatActivity {
                     restaurant_address.setText(" " +response.body().getRestaurant_address());
                     cost_for_two.setText(" \u20B9 " +response.body().getPrice_for_two() + " /-");
                     restaurant_rating.setRating(Float.parseFloat(response.body().getRestaurant_rating()));
-                    restaurant_timing.setText(" " + response.body().getRestaurant_opening_time() + "-" + response.body().getRestaurant_closing_time());
+                    restaurant_timing.setText(" " + response.body().getRestaurant_opening_time() + " - " + response.body().getRestaurant_closing_time());
                     AmenitiesGridAdapter amenitiesGridAdapter = new AmenitiesGridAdapter(restaurant_features,RestaurantViewActivity.this);
                     myGridView.setAdapter(amenitiesGridAdapter);
                     RestaurantImageAdapter adapter = new RestaurantImageAdapter(restaurant_images);
@@ -116,4 +172,27 @@ public class RestaurantViewActivity extends AppCompatActivity {
             }
         });
     }
+    private SpannableString generateCenterText() {
+        SpannableString s = new SpannableString("4.6/5");
+//        s.setSpan(new RelativeSizeSpan(1.6f), 0, 14, 0);
+//        s.setSpan(new ForegroundColorSpan(ColorTemplate.VORDIPLOM_COLORS[0]), 0, 14, 0);
+//        s.setSpan(new RelativeSizeSpan(.9f), 14, 25, 0);
+//        s.setSpan(new ForegroundColorSpan(Color.GRAY), 14, 25, 0);
+//        s.setSpan(new RelativeSizeSpan(1.4f), 25, s.length(), 0);
+//        s.setSpan(new ForegroundColorSpan(ColorTemplate.getHoloBlue()), 25, s.length(), 0);
+        return s;
+    }
+
+    private PieData generateDataPie() {
+        ArrayList<PieEntry> entries = new ArrayList<PieEntry>();
+
+        for (int i = 0; i < 5; i++) {
+            entries.add(new PieEntry((float) (i+1), i));
+        }
+        PieDataSet d = new PieDataSet(entries, "");
+        d.setColors(COLORS);
+        PieData cd = new PieData(d);
+        return cd;
+    }
+
 }

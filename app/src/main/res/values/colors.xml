@@ -6,4 +6,13 @@
     <color name="button_pressed">#fff</color>
     <color name="button_focused">#fff</color>
     <color name="button_default">#fff</color>
+    <color name="white">#fff</color>
+    <color name="one">#c70000</color>
+    <color name="two">#e23100</color>
+    <color name="three">#ff9500</color>
+    <color name="four">#88ff00</color>
+    <color name="five">#26ca02</color>
+    <array name="colors_rating">
+
+    </array>
 </resources>
