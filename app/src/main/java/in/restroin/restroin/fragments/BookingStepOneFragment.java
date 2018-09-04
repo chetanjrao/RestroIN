@@ -27,15 +27,19 @@ import java.util.TimeZone;
 
 import in.restroin.restroin.R;
 import in.restroin.restroin.adapters.DatesChooseAdapter;
+import in.restroin.restroin.adapters.PeopleChooseAdapter;
 import in.restroin.restroin.utils.SmoothCheckBox;
 
 public class BookingStepOneFragment extends Fragment implements BlockingStep {
     List<String> dates = new ArrayList<>();
+    List<String> people = new ArrayList<>();
 
     public List<String> getListOfDates(){
        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Asia/Kolkata"));
        calendar.setTimeZone(TimeZone.getTimeZone("Asia/Kolkata"));
-        for(int i=0; i <7; i++){
+        dates.add("Today");
+        dates.add("Tomorrow");
+        for(int i=2; i <7; i++){
             int new_date = calendar.get(Calendar.DATE) + i;
             dates.add(new_date + "-" + decideMonthName(calendar.get(Calendar.MONTH)));
         }
@@ -47,6 +51,15 @@ public class BookingStepOneFragment extends Fragment implements BlockingStep {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View StepOneView = inflater.inflate(R.layout.fragment_booking_step_one, container, false);
         RecyclerView dates_recycler = (RecyclerView) StepOneView.findViewById(R.id.dates_recycler);
+        RecyclerView people_recycler_view = (RecyclerView) StepOneView.findViewById(R.id.people_recycler);
+        for(int i=1; i < 10; i++){
+            people.add(""+i);
+        }
+        people.add("10+");
+        PeopleChooseAdapter peopleChooseAdapter = new PeopleChooseAdapter(people);
+        LinearLayoutManager peopleLayoutManager = new LinearLayoutManager(container.getContext(), LinearLayoutManager.HORIZONTAL, false);
+        people_recycler_view.setLayoutManager(peopleLayoutManager);
+        people_recycler_view.setAdapter(peopleChooseAdapter);
         DatesChooseAdapter adapter = new DatesChooseAdapter(getListOfDates());
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(container.getContext(), LinearLayoutManager.HORIZONTAL, false);
         dates_recycler.setLayoutManager(linearLayoutManager);
@@ -99,40 +112,40 @@ public class BookingStepOneFragment extends Fragment implements BlockingStep {
         String month_name = null;
         switch (month+1){
             case 1:
-                month_name = "January";
+                month_name = "Jan";
                 break;
             case 2:
-                month_name = "February";
+                month_name = "Feb";
                 break;
             case 3:
-                month_name = "March";
+                month_name = "Mar";
                 break;
             case 4:
-                month_name = "April";
+                month_name = "Apr";
                 break;
             case 5:
                 month_name = "May";
                 break;
             case 6:
-                month_name = "June";
+                month_name = "Jun";
                 break;
             case 7:
-                month_name = "July";
+                month_name = "Jul";
                 break;
             case 8:
-                month_name = "August";
+                month_name = "Aug";
                 break;
             case 9:
-                month_name = "September";
+                month_name = "Sep";
                 break;
             case 10:
-                month_name = "October";
+                month_name = "Oct";
                 break;
             case 11:
-                month_name = "November";
+                month_name = "Nov";
                 break;
             case 12:
-                month_name = "December";
+                month_name = "Dec";
                 break;
         }
         return month_name;

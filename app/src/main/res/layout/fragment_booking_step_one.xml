@@ -19,7 +19,7 @@
                 android:layout_height="24dp">
 
                 <TextView
-                    android:id="@+id/top_restaurants_around"
+                    android:id="@+id/choose_date_text"
                     android:layout_width="wrap_content"
                     android:layout_centerVertical="true"
                     android:textStyle="bold"
@@ -32,7 +32,7 @@
                     android:layout_width="wrap_content"
                     android:background="#b4b4b4"
                     android:layout_centerVertical="true"
-                    android:layout_toEndOf="@id/top_restaurants_around"
+                    android:layout_toEndOf="@id/choose_date_text"
                     android:layout_height="1dp" />
 
             </RelativeLayout>
@@ -46,6 +46,49 @@
                 <android.support.v7.widget.RecyclerView
                     android:layout_marginStart="5dp"
                     android:id="@+id/dates_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                </android.support.v7.widget.RecyclerView>
+
+
+        </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_margin="10dp"
+                android:layout_below="@id/dates_recycler_layout"
+                android:id="@+id/choose_people"
+                android:layout_width="match_parent"
+                android:layout_height="24dp">
+
+                <TextView
+                    android:id="@+id/number_of_people_text"
+                    android:layout_width="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:textStyle="bold"
+                    android:textColor="#000"
+                    android:text="Number of People"
+                    android:layout_height="wrap_content" />
+
+                <View
+                    android:layout_marginTop="2dp"
+                    android:layout_width="wrap_content"
+                    android:background="#b4b4b4"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@id/number_of_people_text"
+                    android:layout_height="1dp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_below="@id/choose_people"
+                android:id="@+id/people_recycler_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.v7.widget.RecyclerView
+                    android:layout_marginStart="5dp"
+                    android:id="@+id/people_recycler"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
