@@ -1,5 +1,6 @@
 package in.restroin.restroin;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -12,7 +13,9 @@ import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SnapHelper;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
@@ -24,6 +27,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Adapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,6 +48,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import in.restroin.restroin.adapters.AmenitiesGridAdapter;
+import in.restroin.restroin.adapters.MenuImagesAdapter;
 import in.restroin.restroin.adapters.RestaurantImageAdapter;
 import in.restroin.restroin.interfaces.RestaurantClient;
 import in.restroin.restroin.models.RestaurantModel;
@@ -108,11 +113,15 @@ public class RestaurantViewActivity extends AppCompatActivity {
         final NestedScrollView nestedScrollView = (NestedScrollView) findViewById(R.id.restaurant_nested_view);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(RestaurantViewActivity.this, LinearLayoutManager.HORIZONTAL, false);
         final RecyclerView images_recycler = (RecyclerView) findViewById(R.id.restaurant_images);
+        SnapHelper images_helper = new PagerSnapHelper();
+        images_helper.attachToRecyclerView(images_recycler);
         final MyGridView myGridView = (MyGridView) findViewById(R.id.features_gridView);
         String id = getIntent().getStringExtra("restaurant_id");
         Toast.makeText(this, "ID IS: " + id, Toast.LENGTH_SHORT).show();
         images_recycler.setLayoutManager(layoutManager);
         Retrofit restaurant_retrofit = builder.build();
+        final RecyclerView restaurant_menu_images = (RecyclerView) findViewById(R.id.menu_recycler);
+        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(RestaurantViewActivity.this, LinearLayoutManager.HORIZONTAL, false);
         final TextView restaurant_name = (TextView) findViewById(R.id.restaurant_name);
         final TextView restaurant_city = (TextView) findViewById(R.id.restaurant_city);
         final TextView restaurant_address = (TextView) findViewById(R.id.address_of_restaurant);
@@ -131,6 +140,10 @@ public class RestaurantViewActivity extends AppCompatActivity {
                     restaurant_city.setText(response.body().getCity_id());
                     restaurant_address.setText(" " +response.body().getRestaurant_address());
                     cost_for_two.setText(" \u20B9 " +response.body().getPrice_for_two() + " /-");
+                    List<String> menu_image = response.body().getMenu_image();
+                    MenuImagesAdapter imagesAdapter = new MenuImagesAdapter(menu_image);
+                    restaurant_menu_images.setLayoutManager(linearLayoutManager);
+                    restaurant_menu_images.setAdapter(imagesAdapter);
                     restaurant_rating.setRating(Float.parseFloat(response.body().getRestaurant_rating()));
                     restaurant_timing.setText(" " + response.body().getRestaurant_opening_time() + " - " + response.body().getRestaurant_closing_time());
                     AmenitiesGridAdapter amenitiesGridAdapter = new AmenitiesGridAdapter(restaurant_features,RestaurantViewActivity.this);
@@ -144,9 +157,13 @@ public class RestaurantViewActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(@NonNull Call<RestaurantModel> call,@NonNull Throwable t) {
-                Toast.makeText(RestaurantViewActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                Toast.makeText(RestaurantViewActivity.this, "Error" + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public void showDatesRecycler(final RecyclerView recyclerView, Context context){
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
     }
 
 }

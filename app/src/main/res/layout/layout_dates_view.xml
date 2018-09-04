@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView android:background="#bfbfbf"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="140dp"
+    android:layout_height="100dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <in.restroin.restroin.utils.SmoothCheckBox
+            android:layout_width="30dp"
+            app:color_checked="@color/colorPrimary"
+            android:id="@+id/date_smooth_checkbox"
+            android:layout_height="30dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:id="@+id/date_of_booking_choose"
+            android:text="21-Aug"
+            android:layout_below="@id/date_smooth_checkbox"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+
+</android.support.v7.widget.CardView>

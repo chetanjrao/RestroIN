@@ -12,6 +12,8 @@ import in.restroin.restroin.fragments.BookingStepOneFragment;
 import in.restroin.restroin.fragments.BookingStepThreeFragment;
 import in.restroin.restroin.fragments.BookingStepTwoFragment;
 
+import in.restroin.restroin.R;
+
 public class BookingStepAdapter extends AbstractFragmentStepAdapter {
     public BookingStepAdapter(@NonNull FragmentManager fm, @NonNull Context context) {
         super(fm, context);
@@ -29,17 +31,13 @@ public class BookingStepAdapter extends AbstractFragmentStepAdapter {
                 final BookingStepTwoFragment bookingStepTwoFragment = new BookingStepTwoFragment();
                 returnStep = bookingStepTwoFragment;
                 break;
-            case 2:
-                final BookingStepThreeFragment bookingStepThreeFragment = new BookingStepThreeFragment();
-                returnStep = bookingStepThreeFragment;
-                break;
         }
         return returnStep;
     }
 
     @Override
     public int getCount() {
-        return 3;
+        return 2;
     }
 
     @NonNull
@@ -47,11 +45,9 @@ public class BookingStepAdapter extends AbstractFragmentStepAdapter {
     public StepViewModel getViewModel(int position) {
         switch (position){
             case 0:
-                return new StepViewModel.Builder(context).setTitle("One step").create();
+                return new StepViewModel.Builder(context).setTitle("Details").setBackButtonLabel("Cancel").setEndButtonLabel("Book Now").setBackButtonStartDrawableResId(R.drawable.ic_back_navigte).setNextButtonEndDrawableResId(R.drawable.ic_next_navigation).create();
             case 1:
-                return new StepViewModel.Builder(context).setTitle("Two step").create();
-            case 2:
-                return new StepViewModel.Builder(context).setTitle("Three step").create();
+                return new StepViewModel.Builder(context).setTitle("Confirmation").setEndButtonLabel("View Booking").setBackButtonStartDrawableResId(R.drawable.ic_back_navigte).create();
         }
         return null;
     }

@@ -9,6 +9,7 @@ import com.stepstone.stepper.StepperLayout;
 import com.stepstone.stepper.VerificationError;
 
 import in.restroin.restroin.adapters.BookingStepAdapter;
+import in.restroin.restroin.utils.SmoothCheckBox;
 
 public class BookingActivity extends AppCompatActivity implements StepperLayout.StepperListener{
 

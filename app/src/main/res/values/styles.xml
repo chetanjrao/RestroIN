@@ -9,6 +9,7 @@
         <item name="android:colorControlActivated">#FFD700</item>
         <item name="android:colorControlNormal">#FFD700</item>
         <item name="colorControlHighlight">#fff</item>
+        <item name="android:statusBarColor">#000</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -21,8 +22,8 @@
         <item name="colorPrimary">@android:color/transparent</item>
         <item name="colorPrimaryDark">@android:color/transparent</item>
         <item name="colorAccent">@android:color/transparent</item>
-        <item name="android:colorControlActivated">#FFD700</item>
-        <item name="android:colorControlNormal">#FFD700</item>
+        <item name="android:colorControlActivated">#000</item>
+        <item name="android:colorControlNormal">#000</item>
     </style>
 
     <style name="ImageTheme" parent="Theme.AppCompat.Light.NoActionBar">
