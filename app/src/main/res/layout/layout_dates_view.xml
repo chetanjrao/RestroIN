@@ -12,12 +12,12 @@
         android:id="@+id/date_select_cardView"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <ImageView
-            android:layout_width="wrap_content"
-            android:src="@mipmap/back"
+            android:layout_width="match_parent"
             android:id="@+id/background_image"
             android:scaleType="fitXY"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent" />
 
         <in.restroin.restroin.utils.SmoothCheckBox
             android:layout_width="30dp"

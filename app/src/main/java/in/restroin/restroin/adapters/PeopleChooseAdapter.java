@@ -1,5 +1,6 @@
 package in.restroin.restroin.adapters;
 
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -55,7 +58,8 @@ public class PeopleChooseAdapter extends RecyclerView.Adapter<PeopleChooseAdapte
         public ViewHolder(View itemView) {
             super(itemView);
             background_image = (ImageView) itemView.findViewById(R.id.background_image);
-            background_image.setImageResource(R.mipmap.people);
+            Uri path_to_assets = Uri.parse("http://developers.restroin.in/api/assets/people.jpg");
+            Picasso.get().load(path_to_assets).into(background_image);
             smoothCheckBox = (SmoothCheckBox) itemView.findViewById(R.id.date_smooth_checkbox);
             smoothCheckBox.setClickable(false);
             smoothCheckBox.setFocusable(false);

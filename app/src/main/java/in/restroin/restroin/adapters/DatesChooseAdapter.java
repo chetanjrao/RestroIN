@@ -1,15 +1,18 @@
 package in.restroin.restroin.adapters;
 
 import android.content.ClipData;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.data.ChartData;
+import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -59,8 +62,12 @@ public class DatesChooseAdapter extends RecyclerView.Adapter<DatesChooseAdapter.
         TextView date_of_booking;
         RelativeLayout layout_dates;
         SmoothCheckBox smoothCheckBox;
+        ImageView background_image;
         public ViewHolder(View itemView) {
             super(itemView);
+            background_image = (ImageView) itemView.findViewById(R.id.background_image);
+            Uri path_to_assets = Uri.parse("http://developers.restroin.in/api/assets/back.jpg");
+            Picasso.get().load(path_to_assets).into(background_image);
             smoothCheckBox = (SmoothCheckBox) itemView.findViewById(R.id.date_smooth_checkbox);
             smoothCheckBox.setClickable(false);
             smoothCheckBox.setFocusable(false);

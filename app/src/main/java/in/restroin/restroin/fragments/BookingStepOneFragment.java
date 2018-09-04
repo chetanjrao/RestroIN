@@ -57,7 +57,7 @@ public class BookingStepOneFragment extends Fragment implements BlockingStep {
         }
         people.add("10+");
         PeopleChooseAdapter peopleChooseAdapter = new PeopleChooseAdapter(people);
-        LinearLayoutManager peopleLayoutManager = new LinearLayoutManager(container.getContext(), LinearLayoutManager.HORIZONTAL, false);
+        LinearLayoutManager peopleLayoutManager = new  LinearLayoutManager(container.getContext(), LinearLayoutManager.HORIZONTAL, false);
         people_recycler_view.setLayoutManager(peopleLayoutManager);
         people_recycler_view.setAdapter(peopleChooseAdapter);
         DatesChooseAdapter adapter = new DatesChooseAdapter(getListOfDates());
