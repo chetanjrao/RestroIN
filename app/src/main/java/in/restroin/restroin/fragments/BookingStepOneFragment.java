@@ -39,7 +39,7 @@ public class BookingStepOneFragment extends Fragment implements BlockingStep {
        calendar.setTimeZone(TimeZone.getTimeZone("Asia/Kolkata"));
         dates.add("Today");
         dates.add("Tomorrow");
-        for(int i=2; i <7; i++){
+        for(int i=2; i <10; i++){
             int new_date = calendar.get(Calendar.DATE) + i;
             dates.add(new_date + "-" + decideMonthName(calendar.get(Calendar.MONTH)));
         }

@@ -57,7 +57,7 @@ public class UserFeedActivity extends AppCompatActivity {
     private final static String RETROFIT_TAG = "RETROFIT_LOG";
 
     Retrofit.Builder builder = new Retrofit.Builder()
-            .baseUrl("http://restroin.in/")
+            .baseUrl("https://www.restroin.in/")
             .addConverterFactory(GsonConverterFactory.create());
 
     @Override

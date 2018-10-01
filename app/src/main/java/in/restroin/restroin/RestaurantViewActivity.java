@@ -69,7 +69,7 @@ public class RestaurantViewActivity extends AppCompatActivity {
     };
 
     Retrofit.Builder builder = new Retrofit.Builder()
-            .baseUrl("http://restroin.in/")
+            .baseUrl("https://www.restroin.in/")
             .addConverterFactory(GsonConverterFactory.create());
 
 

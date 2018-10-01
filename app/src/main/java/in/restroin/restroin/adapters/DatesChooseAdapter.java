@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.data.ChartData;
 import com.squareup.picasso.Picasso;
@@ -45,12 +46,13 @@ public class DatesChooseAdapter extends RecyclerView.Adapter<DatesChooseAdapter.
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         holder.date_of_booking.setText(dates.get(position));
-        holder.layout_dates.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                holder.smoothCheckBox.toggle();
-            }
-        });
+        if (CheckedCardViewPosition == position){
+            holder.smoothCheckBox.animate();
+            holder.smoothCheckBox.setChecked(true);
+        } else {
+            holder.smoothCheckBox.animate();
+            holder.smoothCheckBox.setChecked(false);
+        }
     }
 
     @Override
@@ -66,13 +68,20 @@ public class DatesChooseAdapter extends RecyclerView.Adapter<DatesChooseAdapter.
         public ViewHolder(View itemView) {
             super(itemView);
             background_image = (ImageView) itemView.findViewById(R.id.background_image);
-            Uri path_to_assets = Uri.parse("http://developers.restroin.in/api/assets/back.jpg");
+            Uri path_to_assets = Uri.parse("https://www.restroin.in/developers/api/assets/back.jpg");
             Picasso.get().load(path_to_assets).into(background_image);
             smoothCheckBox = (SmoothCheckBox) itemView.findViewById(R.id.date_smooth_checkbox);
             smoothCheckBox.setClickable(false);
             smoothCheckBox.setFocusable(false);
             layout_dates = (RelativeLayout) itemView.findViewById(R.id.date_select_cardView);
             date_of_booking = (TextView) itemView.findViewById(R.id.date_of_booking_choose);
+            layout_dates.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    CheckedCardViewPosition = getAdapterPosition();
+                    notifyDataSetChanged();
+                }
+            });
         }
     }
 }
