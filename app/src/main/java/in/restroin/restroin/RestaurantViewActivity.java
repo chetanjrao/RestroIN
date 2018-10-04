@@ -57,6 +57,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
@@ -65,10 +67,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import in.restroin.restroin.adapters.AmenitiesGridAdapter;
+import in.restroin.restroin.adapters.CuisinesGridAdapter;
+import in.restroin.restroin.adapters.CusinesGridAdapter;
+import in.restroin.restroin.adapters.DishesAdapter;
 import in.restroin.restroin.adapters.MenuImagesAdapter;
 import in.restroin.restroin.adapters.RestaurantImageAdapter;
 import in.restroin.restroin.interfaces.RestaurantClient;
+import in.restroin.restroin.models.RestaurantDishesModel;
 import in.restroin.restroin.models.RestaurantModel;
+import in.restroin.restroin.utils.DishesDeserializer;
 import in.restroin.restroin.utils.MyGridView;
 import in.restroin.restroin.utils.MySpannable;
 import retrofit2.Call;
@@ -87,6 +94,7 @@ public class RestaurantViewActivity extends FragmentActivity implements OnMapRea
             rgb("#c70000"), rgb("#e23100"), rgb("#ff9500"), rgb("#88ff00"), rgb("#26ca02")
     };
 
+
     Retrofit.Builder builder = new Retrofit.Builder()
             .baseUrl("https://www.restroin.in/")
             .addConverterFactory(GsonConverterFactory.create());
@@ -94,10 +102,7 @@ public class RestaurantViewActivity extends FragmentActivity implements OnMapRea
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restaurant_view);
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
+        //final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         /********************** Maps *****************************/
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -162,10 +167,14 @@ public class RestaurantViewActivity extends FragmentActivity implements OnMapRea
         menu_images_count.setTypeface(raleway);
         final TextView restaurant_image_count = (TextView) findViewById(R.id.restaurant_images_count);
         restaurant_image_count.setTypeface(raleway);
+        final MyGridView cuisines_grid_view = (MyGridView) findViewById(R.id.cusines_gridView_special);
         RestaurantClient client = restaurant_retrofit.create(RestaurantClient.class);
         final ImageView menu_images_header = (ImageView) findViewById(R.id.main_image_of_menu);
         final ImageView restaurant_image_header = (ImageView) findViewById(R.id.main_image_of_restaurant);
         Call<RestaurantModel> call = client.getRestaurantData(id);
+        final RecyclerView popular_dishes_recycler_view = (RecyclerView) findViewById(R.id.popular_dishes_recycler);
+        final LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        popular_dishes_recycler_view.setLayoutManager(linearLayoutManager1);
         call.enqueue(new Callback<RestaurantModel>() {
             @Override
             public void onResponse(@NonNull Call<RestaurantModel> call,@NonNull Response<RestaurantModel> response) {
@@ -176,10 +185,13 @@ public class RestaurantViewActivity extends FragmentActivity implements OnMapRea
                     restaurant_name.setText(response.body().getRestaurant_name());
                     restaurant_city.setText(response.body().getCity_id() + ", " + response.body().getRestaurant_region() + " Bangalore");
                     restaurant_address.setText(" " +response.body().getRestaurant_address());
-                    cost_for_two.setText(" \u20B9 " +response.body().getPrice_for_two() + " /- (for 2 people approx.)");
+                    cost_for_two.setText(" \u20B9 " +response.body().getPrice_for_two() + "/- (for 2 people approx.)");
                     List<String> menu_image = response.body().getMenu_image();
                     menu_images_count.setText(menu_image.size() + " images");
                     restaurant_image_count.setText(restaurant_images.size() + " images");
+                    DishesAdapter dishesAdapter = new DishesAdapter(response.body().getPopular_dishes(), RestaurantViewActivity.this);
+                    Toast.makeText(RestaurantViewActivity.this, "Size: " + response.body().getPopular_dishes().size(), Toast.LENGTH_SHORT).show();
+                    popular_dishes_recycler_view.setAdapter(dishesAdapter);
                     if (restaurant_images.size() > 0){
                         Uri restaurant_header_image = Uri.parse("https://www.restroin.in/" + restaurant_images.get(0));
                         Picasso.get().load(restaurant_header_image).into(restaurant_image_header);
@@ -192,6 +204,8 @@ public class RestaurantViewActivity extends FragmentActivity implements OnMapRea
                     mMap.addMarker(new MarkerOptions().position(restaurant_location).title("Location of: " + response.body().getRestaurant_name()));
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(restaurant_location));
                     mMap.animateCamera(cameraUpdate);
+                    CuisinesGridAdapter cuisines_adapter = new CuisinesGridAdapter(response.body().getRestaurant_cuisines_available(), RestaurantViewActivity.this);
+                    cuisines_grid_view.setAdapter(cuisines_adapter);
                     restaurant_about.setText(response.body().getRestaurant_about());
                     makeTextViewResizable(restaurant_about, 3, "View More..", true);
                     restaurant_rating.setRating(Float.parseFloat(response.body().getRestaurant_rating()));

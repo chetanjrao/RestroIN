@@ -86,7 +86,7 @@
                         android:id="@+id/location_layout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
+                        android:layout_marginTop="7dp"
                         android:orientation="horizontal"
                         android:weightSum="1">
 
@@ -123,7 +123,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/location_layout"
-                        android:layout_marginTop="2dp"
+                        android:layout_marginTop="7dp"
                         android:orientation="horizontal"
                         android:weightSum="1">
 
@@ -160,7 +160,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/open_timings"
-                        android:layout_marginTop="2dp"
+                        android:layout_marginTop="7dp"
                         android:orientation="horizontal"
                         android:weightSum="1">
 
@@ -207,6 +207,7 @@
 
                     </LinearLayout>
                     <LinearLayout
+                        android:layout_marginTop="7dp"
                         android:id="@+id/features_and_amenities_layout"
                         android:layout_below="@id/details_layout"
                         android:layout_width="match_parent"
@@ -235,14 +236,14 @@
                                     android:id="@+id/features_gridView"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="5dp"
+                                    android:layout_marginTop="7dp"
                                     android:numColumns="2">
 
                                 </in.restroin.restroin.utils.MyGridView>
 
                             </RelativeLayout>
                     <LinearLayout
-                        android:layout_marginTop="6dp"
+                        android:layout_marginTop="7dp"
                         android:weightSum="1"
                         android:orientation="horizontal"
                         android:layout_marginStart="0dp"
@@ -326,18 +327,42 @@
                         android:id="@+id/about_restaurant_text"
                         android:textSize="15sp"
                         android:textStyle="bold"
+                        android:layout_marginTop="7dp"
                         android:textColor="#363636"
                         android:text="About the Restaurant :"
                         android:layout_height="wrap_content" />
                     <TextView
                         android:layout_width="match_parent"
                         android:id="@+id/about_restaurant"
-                        android:layout_marginTop="3sp"
+                        android:layout_marginTop="7sp"
                         android:textSize="14sp"
                         android:textColor="#000"
-                        android:lineSpacingExtra="3dp"
+                        android:lineSpacingExtra="3.8dp"
                         android:layout_below="@id/about_restaurant_text"
                         android:layout_height="wrap_content" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:id="@+id/cusines_available_text"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:layout_marginTop="7dp"
+                        android:layout_below="@id/about_restaurant"
+                        android:textColor="#363636"
+                        android:text="Cuisines Served:"
+                        android:layout_height="wrap_content" />
+
+                    <in.restroin.restroin.utils.MyGridView
+                        android:layout_below="@id/cusines_available_text"
+                        android:layout_marginTop="7dp"
+                        android:layout_marginStart="5dp"
+                        android:numColumns="2"
+                        android:id="@+id/cusines_gridView_special"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+
+
+                    </in.restroin.restroin.utils.MyGridView>
 
                 </RelativeLayout>
 
@@ -348,7 +373,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/menu_images"
                 android:layout_below="@id/critic_mood"
-                android:layout_marginBottom="50dp"
+
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_marginTop="10dp">
@@ -494,6 +519,73 @@
                     </RelativeLayout>
 
                 </RelativeLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_marginBottom="50dp"
+                android:layout_marginLeft="5dp"
+                app:cardElevation="2dp"
+                android:padding="2dp"
+                app:cardCornerRadius="2dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_below="@id/menu_images"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_marginStart="5dp"
+                        android:layout_width="wrap_content"
+                        android:fontFamily="@font/raleway"
+                        android:id="@+id/food_dishes_text"
+                        android:textSize="14sp"
+                        android:layout_marginTop="7dp"
+                        android:textColor="#363636"
+                        android:textStyle="bold"
+                        android:text="Popular Food &amp; Dishes: "
+                        android:layout_height="wrap_content" />
+
+                    <android.support.v7.widget.RecyclerView
+                        android:layout_marginTop="7dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_below="@id/food_dishes_text"
+                        android:id="@+id/popular_dishes_recycler"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+
+
+                    </android.support.v7.widget.RecyclerView>
+
+                    <TextView
+                        android:layout_marginStart="5dp"
+                        android:layout_width="wrap_content"
+                        android:fontFamily="@font/raleway"
+                        android:layout_below="@id/popular_dishes_recycler"
+                        android:id="@+id/customer_reviews_text"
+                        android:textSize="14sp"
+                        android:layout_marginTop="7dp"
+                        android:textColor="#363636"
+                        android:textStyle="bold"
+                        android:text="Customer Reviews :"
+                        android:layout_height="wrap_content" />
+                    
+                    <android.support.v7.widget.RecyclerView
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="7dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_below="@id/customer_reviews_text"
+                        android:layout_height="wrap_content">
+
+                    </android.support.v7.widget.RecyclerView>
+
+                </RelativeLayout>
+
 
             </android.support.v7.widget.CardView>
 

@@ -1,10 +1,13 @@
 package in.restroin.restroin.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RestaurantModel {
     private String restaurant_id, restaurant_name, restaurant_region, restaurant_address, city_id, restaurant_about, restaurant_manager_name, restaurant_phone, restaurant_email, price_for_two, restaurant_seat_available, restaurant_speciality, restaurant_lat, restaurant_lng, restaurant_opening_time, restaurant_closing_time, restaurant_rating;
-    private List<String> restaurant_cuisines_available, restaurant_features_amenities, front_image, restaurant_coupon_selected, menu_image;
+    private List<String> restaurant_cuisines_available, restaurant_features_amenities, front_image, menu_image;
+    private ArrayList<CouponModel> restaurant_coupon_selected;
+    private ArrayList<RestaurantDishesModel> popular_dishes;
 
     public String getRestaurant_id() {
         return restaurant_id;
@@ -166,14 +169,6 @@ public class RestaurantModel {
         this.front_image = front_image;
     }
 
-    public List<String> getRestaurant_coupon_selected() {
-        return restaurant_coupon_selected;
-    }
-
-    public void setRestaurant_coupon_selected(List<String> restaurant_coupon_selected) {
-        this.restaurant_coupon_selected = restaurant_coupon_selected;
-    }
-
     public List<String> getMenu_image() {
         return menu_image;
     }
@@ -182,8 +177,23 @@ public class RestaurantModel {
         this.menu_image = menu_image;
     }
 
-    public RestaurantModel(String restaurant_id, String restaurant_name, String restaurant_region, String restaurant_address, String city_id, String restaurant_about, String restaurant_manager_name, String restaurant_phone, String restaurant_email, String price_for_two, String restaurant_seat_available, String restaurant_speciality, String restaurant_lat, String restaurant_lng, String restaurant_opening_time, String restaurant_closing_time, String restaurant_rating, List<String> restaurant_cuisines_available, List<String> restaurant_features_amenities, List<String> front_image, List<String> restaurant_coupon_selected, List<String> menu_image) {
+    public ArrayList<CouponModel> getRestaurant_coupon_selected() {
+        return restaurant_coupon_selected;
+    }
 
+    public void setRestaurant_coupon_selected(ArrayList<CouponModel> restaurant_coupon_selected) {
+        this.restaurant_coupon_selected = restaurant_coupon_selected;
+    }
+
+    public ArrayList<RestaurantDishesModel> getPopular_dishes() {
+        return popular_dishes;
+    }
+
+    public void setPopular_dishes(ArrayList<RestaurantDishesModel> popular_dishes) {
+        this.popular_dishes = popular_dishes;
+    }
+
+    public RestaurantModel(String restaurant_id, String restaurant_name, String restaurant_region, String restaurant_address, String city_id, String restaurant_about, String restaurant_manager_name, String restaurant_phone, String restaurant_email, String price_for_two, String restaurant_seat_available, String restaurant_speciality, String restaurant_lat, String restaurant_lng, String restaurant_opening_time, String restaurant_closing_time, String restaurant_rating, List<String> restaurant_cuisines_available, List<String> restaurant_features_amenities, List<String> front_image, List<String> menu_image, ArrayList<CouponModel> restaurant_coupon_selected, ArrayList<RestaurantDishesModel> popular_dishes) {
         this.restaurant_id = restaurant_id;
         this.restaurant_name = restaurant_name;
         this.restaurant_region = restaurant_region;
@@ -204,7 +214,8 @@ public class RestaurantModel {
         this.restaurant_cuisines_available = restaurant_cuisines_available;
         this.restaurant_features_amenities = restaurant_features_amenities;
         this.front_image = front_image;
-        this.restaurant_coupon_selected = restaurant_coupon_selected;
         this.menu_image = menu_image;
+        this.restaurant_coupon_selected = restaurant_coupon_selected;
+        this.popular_dishes = popular_dishes;
     }
 }
