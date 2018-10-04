@@ -24,6 +24,7 @@
                     android:layout_centerVertical="true"
                     android:textStyle="bold"
                     android:textColor="#000"
+                    android:fontFamily="@font/raleway"
                     android:text="Choose a date"
                     android:layout_height="wrap_content" />
 
@@ -67,6 +68,7 @@
                     android:layout_centerVertical="true"
                     android:textStyle="bold"
                     android:textColor="#000"
+                    android:fontFamily="@font/raleway"
                     android:text="Number of People"
                     android:layout_height="wrap_content" />
 

@@ -1,6 +1,7 @@
 package in.restroin.restroin.adapters;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,6 +46,7 @@ public class AmenitiesGridAdapter extends BaseAdapter {
             assert inflater != null;
             AmenitiesView = inflater.inflate(R.layout.layout_amenity_view, parent, false);
             TextView cusine_name = (TextView) AmenitiesView.findViewById(R.id.amenity_name);
+            cusine_name.setTypeface(Typeface.createFromAsset(parent.getContext().getAssets(), "font/raleway.ttf"));
             cusine_name.setText(amenities.get(position));
         } else {
             AmenitiesView = (View) convertView;

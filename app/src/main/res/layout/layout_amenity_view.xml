@@ -16,6 +16,7 @@
         android:layout_marginStart="2dp"
         android:layout_toEndOf="@id/amenity_image"
         android:text="Air Conditioner"
+        android:fontFamily="@font/raleway"
         android:textColor="#363636"
         android:id="@+id/amenity_name"
         android:layout_height="wrap_content" />

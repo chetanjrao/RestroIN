@@ -32,7 +32,7 @@ public class RestaurantImageAdapter extends RecyclerView.Adapter<RestaurantImage
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         String path = images.get(i).replaceAll("^\"|\"$", "");
-        String image_location = "http://restroin.in/" + path;
+        String image_location = "https://www.restroin.in/" + path;
         Uri image_path = Uri.parse(image_location);
         Picasso.get().load(image_path).into(viewHolder.restaurant_image);
     }
