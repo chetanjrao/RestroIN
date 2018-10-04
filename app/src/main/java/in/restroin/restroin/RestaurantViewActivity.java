@@ -180,10 +180,13 @@ public class RestaurantViewActivity extends FragmentActivity implements OnMapRea
                     List<String> menu_image = response.body().getMenu_image();
                     menu_images_count.setText(menu_image.size() + " images");
                     restaurant_image_count.setText(restaurant_images.size() + " images");
-                    Uri restaurant_header_image = Uri.parse("https://www.restroin.in/" + restaurant_images.get(0));
-                    Uri menu_header_image = Uri.parse("https://www.restroin.in/" + menu_image.get(0));
-                    Picasso.get().load(restaurant_header_image).into(restaurant_image_header);
-                    Picasso.get().load(menu_header_image).into(menu_images_header);
+                    if (restaurant_images.size() > 0){
+                        Uri restaurant_header_image = Uri.parse("https://www.restroin.in/" + restaurant_images.get(0));
+                        Picasso.get().load(restaurant_header_image).into(restaurant_image_header);
+                    } if(menu_image.size() > 0) {
+                        Uri menu_header_image = Uri.parse("https://www.restroin.in/" + menu_image.get(0));
+                        Picasso.get().load(menu_header_image).into(menu_images_header);
+                    }
                     LatLng restaurant_location = new LatLng(Double.valueOf(response.body().getRestaurant_lat()), Double.valueOf(response.body().getRestaurant_lng()));
                     CameraUpdate cameraUpdate = CameraUpdateFactory.zoomTo(10);
                     mMap.addMarker(new MarkerOptions().position(restaurant_location).title("Location of: " + response.body().getRestaurant_name()));
