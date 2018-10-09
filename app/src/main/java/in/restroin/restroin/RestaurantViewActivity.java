@@ -28,6 +28,7 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.view.animation.Animation;
@@ -67,12 +68,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import in.restroin.restroin.adapters.AmenitiesGridAdapter;
+import in.restroin.restroin.adapters.CouponsSelectAdapter;
 import in.restroin.restroin.adapters.CuisinesGridAdapter;
 import in.restroin.restroin.adapters.CusinesGridAdapter;
 import in.restroin.restroin.adapters.DishesAdapter;
 import in.restroin.restroin.adapters.MenuImagesAdapter;
 import in.restroin.restroin.adapters.RestaurantImageAdapter;
 import in.restroin.restroin.interfaces.RestaurantClient;
+import in.restroin.restroin.models.CouponModel;
 import in.restroin.restroin.models.RestaurantDishesModel;
 import in.restroin.restroin.models.RestaurantModel;
 import in.restroin.restroin.utils.DishesDeserializer;
@@ -149,7 +152,6 @@ public class RestaurantViewActivity extends FragmentActivity implements OnMapRea
         Retrofit restaurant_retrofit = builder.build();
         Typeface raleway = Typeface.createFromAsset(getAssets(),
                 "font/raleway.ttf");
-        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(RestaurantViewActivity.this, LinearLayoutManager.HORIZONTAL, false);
         final TextView restaurant_name = (TextView) findViewById(R.id.restaurant_name);
         restaurant_name.setTypeface(raleway);
         final TextView restaurant_city = (TextView) findViewById(R.id.restaurant_city);
@@ -167,6 +169,8 @@ public class RestaurantViewActivity extends FragmentActivity implements OnMapRea
         menu_images_count.setTypeface(raleway);
         final TextView restaurant_image_count = (TextView) findViewById(R.id.restaurant_images_count);
         restaurant_image_count.setTypeface(raleway);
+        final SnapHelper snapHelper = new PagerSnapHelper();
+        snapHelper.attachToRecyclerView(images_recycler);
         final MyGridView cuisines_grid_view = (MyGridView) findViewById(R.id.cusines_gridView_special);
         RestaurantClient client = restaurant_retrofit.create(RestaurantClient.class);
         final ImageView menu_images_header = (ImageView) findViewById(R.id.main_image_of_menu);
@@ -175,6 +179,10 @@ public class RestaurantViewActivity extends FragmentActivity implements OnMapRea
         final RecyclerView popular_dishes_recycler_view = (RecyclerView) findViewById(R.id.popular_dishes_recycler);
         final LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         popular_dishes_recycler_view.setLayoutManager(linearLayoutManager1);
+        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(RestaurantViewActivity.this, LinearLayoutManager.VERTICAL, false);
+        final RecyclerView specialCouponsRecyclerView = (RecyclerView) findViewById(R.id.special_coupons_recyclerView);
+        specialCouponsRecyclerView.setNestedScrollingEnabled(false);
+        specialCouponsRecyclerView.setLayoutManager(linearLayoutManager);
         call.enqueue(new Callback<RestaurantModel>() {
             @Override
             public void onResponse(@NonNull Call<RestaurantModel> call,@NonNull Response<RestaurantModel> response) {
@@ -214,6 +222,9 @@ public class RestaurantViewActivity extends FragmentActivity implements OnMapRea
                     myGridView.setAdapter(amenitiesGridAdapter);
                     RestaurantImageAdapter adapter = new RestaurantImageAdapter(restaurant_images);
                     images_recycler.setAdapter(adapter);
+                    ArrayList<CouponModel> special_coupons = response.body().getRestaurant_coupon_selected();
+                    CouponsSelectAdapter couponsSelectAdapter = new CouponsSelectAdapter(special_coupons, RestaurantViewActivity.this);
+                    specialCouponsRecyclerView.setAdapter(couponsSelectAdapter);
                 } else {
                     Toast.makeText(RestaurantViewActivity.this, "Something Went Wrong: " + response.message(), Toast.LENGTH_SHORT).show();
                 }

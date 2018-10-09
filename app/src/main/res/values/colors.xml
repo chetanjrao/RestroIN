@@ -12,6 +12,8 @@
     <color name="three">#ff9500</color>
     <color name="four">#88ff00</color>
     <color name="five">#26ca02</color>
+    <color name="green_dark">#3ca101</color>
+    <color name="gray">#bfbfbf</color>
     <array name="colors_rating">
 
     </array>

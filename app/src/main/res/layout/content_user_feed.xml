@@ -132,6 +132,41 @@
 
             </android.support.v7.widget.RecyclerView>
 
+            <RelativeLayout
+                android:layout_margin="10dp"
+                android:layout_below="@id/popular_locations_recycler"
+                android:id="@+id/hangout_places_intro"
+                android:layout_width="match_parent"
+                android:layout_height="24dp">
+
+                <TextView
+                    android:id="@+id/hangout_places_text"
+                    android:layout_width="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:textColor="#000"
+                    android:textStyle="bold"
+                    android:text="Hangout Places Nearby "
+                    android:layout_height="wrap_content" />
+
+                <View
+                    android:layout_marginTop="2dp"
+                    android:layout_width="wrap_content"
+                    android:background="#d6d6d6"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@id/hangout_places_text"
+                    android:layout_height="1dp" />
+
+            </RelativeLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:layout_margin="5dp"
+                android:layout_below="@+id/hangout_places_intro"
+                android:id="@+id/hangout_places_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </android.support.v7.widget.RecyclerView>
+
         </RelativeLayout>
 
     </android.support.v4.widget.NestedScrollView>

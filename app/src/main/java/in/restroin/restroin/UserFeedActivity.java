@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import in.restroin.restroin.adapters.CusinesGridAdapter;
+import in.restroin.restroin.adapters.HangoutPlacesAdapter;
 import in.restroin.restroin.adapters.OffersAdapter;
 import in.restroin.restroin.adapters.PopularLocationsAdapter;
 import in.restroin.restroin.adapters.PopularRestaurantsAdapter;
@@ -42,6 +43,7 @@ import in.restroin.restroin.interfaces.OfferClient;
 import in.restroin.restroin.interfaces.PopularLocationClient;
 import in.restroin.restroin.interfaces.PopularRestaurantsClient;
 import in.restroin.restroin.models.CusineGridModel;
+import in.restroin.restroin.models.HangoutRestaurants;
 import in.restroin.restroin.models.Offers;
 import in.restroin.restroin.models.PopularLocations;
 import in.restroin.restroin.models.PopularRestaurants;
@@ -77,6 +79,7 @@ public class UserFeedActivity extends AppCompatActivity {
         ShowCusines();
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.popular_locations_recycler);
         ShowPopularLocations(recyclerView);
+        ShowHangoutRestaurants(UserFeedActivity.this);
     }
 
     public void ShowPopularRestaurants(final Context context){
@@ -101,6 +104,32 @@ public class UserFeedActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(@NonNull Call<List<PopularRestaurants>> call,@NonNull Throwable t) {
+                Toast.makeText(UserFeedActivity.this, "Oops!! Error : " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void ShowHangoutRestaurants(final Context context){
+        Retrofit retrofit_popular_restaurants = builder.build();
+        final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.hangout_places_recycler);
+        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        PopularRestaurantsClient popularRestaurantsClient = retrofit_popular_restaurants.create(PopularRestaurantsClient.class);
+        Call<List<HangoutRestaurants>> call = popularRestaurantsClient.getHangoutPlaces();
+        call.enqueue(new Callback<List<HangoutRestaurants>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<HangoutRestaurants>> call,@NonNull Response<List<HangoutRestaurants>> response) {
+                if(response.isSuccessful()){
+                    List<HangoutRestaurants> popularRestaurants = response.body();
+                    HangoutPlacesAdapter popularRestaurantsAdapter = new HangoutPlacesAdapter(popularRestaurants, UserFeedActivity.this);
+                    recyclerView.setAdapter(popularRestaurantsAdapter);
+                } else {
+                    Toast.makeText(UserFeedActivity.this, "Something Went Wrong ", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<List<HangoutRestaurants>> call,@NonNull Throwable t) {
                 Toast.makeText(UserFeedActivity.this, "Oops!! Error : " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });

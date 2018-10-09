@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="120dp"
+    android:id="@+id/coupon_layout"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <in.restroin.restroin.utils.SmoothCheckBox
@@ -49,7 +50,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginTop="6dp"
         android:layout_width="match_parent"
-        android:background="#3ca101"
+        android:background="#bfbfbf"
         android:layout_height="4dp" />
 
 
