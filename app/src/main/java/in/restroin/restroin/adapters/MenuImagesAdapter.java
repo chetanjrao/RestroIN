@@ -34,7 +34,7 @@ public class MenuImagesAdapter extends RecyclerView.Adapter<MenuImagesAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         String path = menu_images.get(position).replaceAll("^\"|\"$", "");
-        String image_location = "http://restroin.in/" + path;
+        String image_location = "https://www.restroin.in/" + path;
         Uri image_path = Uri.parse(image_location);
         Picasso.get().load(image_path).into(holder.menu_image, new Callback() {
             @Override

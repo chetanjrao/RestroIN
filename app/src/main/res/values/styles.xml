@@ -26,6 +26,17 @@
         <item name="android:colorControlNormal">#000</item>
     </style>
 
+    <style name="EditTextTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">#3e3e3e</item>
+        <item name="colorPrimaryDark">#fff</item>
+        <item name="colorAccent">#3e3e3e</item>
+        <item name="android:colorActivatedHighlight">#fff</item>
+        <item name="colorControlHighlight">#fff</item>
+        <item name="android:colorControlActivated">#707070</item>
+        <item name="android:colorControlNormal">#707070</item>
+    </style>
+
     <style name="ImageTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">#fff</item>

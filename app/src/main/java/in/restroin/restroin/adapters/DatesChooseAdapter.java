@@ -51,6 +51,7 @@ public class DatesChooseAdapter extends RecyclerView.Adapter<DatesChooseAdapter.
             holder.smoothCheckBox.setChecked(true);
         } else {
             holder.smoothCheckBox.animate();
+
             holder.smoothCheckBox.setChecked(false);
         }
     }
