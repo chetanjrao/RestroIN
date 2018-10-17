@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -18,12 +19,19 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(getIntent().getStringExtra("isBackStack") == null){
-                    Toast.makeText(LoginActivity.this, "HI", Toast.LENGTH_SHORT).show();
                     Intent goToUserFeed = new Intent(LoginActivity.this, UserFeedActivity.class);
                     startActivity(goToUserFeed);
                 } else {
                     finish();
                 }
+            }
+        });
+        final Button signUpButton = (Button) findViewById(R.id.signup_button);
+        signUpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent goToSignup = new Intent(LoginActivity.this, RegisterActivity.class);
+                startActivity(goToSignup);
             }
         });
     }

@@ -5,7 +5,7 @@
         android:left="-2dp"
         android:right="-2dp"
         android:top="-2dp"
-        android:bottom="1dp">
+        android:bottom="0dp">
 
         <shape android:shape="rectangle" >
 

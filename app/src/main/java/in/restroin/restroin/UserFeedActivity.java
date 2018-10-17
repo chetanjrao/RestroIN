@@ -11,6 +11,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
@@ -138,6 +139,8 @@ public class UserFeedActivity extends AppCompatActivity {
     public void ShowOffers(final Context context){
         Retrofit retrofit_offers = builder.build();
         final RecyclerView offersRecycler = (RecyclerView) findViewById(R.id.offers_recycler_view);
+        PagerSnapHelper pagerSnapHelper = new PagerSnapHelper();
+        pagerSnapHelper.attachToRecyclerView(offersRecycler);
         final LinearLayoutManager OffersLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
         offersRecycler.setLayoutManager(OffersLayoutManager);
         OfferClient offerClient = retrofit_offers.create(OfferClient.class);
@@ -319,6 +322,8 @@ public class UserFeedActivity extends AppCompatActivity {
         Retrofit Locations = builder.build();
         LinearLayoutManager layoutManager = new LinearLayoutManager(UserFeedActivity.this, LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(layoutManager);
+        PagerSnapHelper pagerSnapHelper = new PagerSnapHelper();
+        pagerSnapHelper.attachToRecyclerView(recyclerView);
         PopularLocationClient client = Locations.create(PopularLocationClient.class);
         Call<List<PopularLocations>> call = client.getPopularLocations();
         call.enqueue(new Callback<List<PopularLocations>>() {
@@ -340,5 +345,12 @@ public class UserFeedActivity extends AppCompatActivity {
         });
     }
 
-    /////////////////////////////////////////////////////////////////////////////// sidhfiwhewifiw *////////////////////////////////////////////////////////////////
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent a = new Intent(Intent.ACTION_MAIN);
+        a.addCategory(Intent.CATEGORY_HOME);
+        a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(a);
+    }
 }

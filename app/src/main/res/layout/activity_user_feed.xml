@@ -7,17 +7,16 @@
     tools:context=".UserFeedActivity">
 
     <android.support.design.widget.AppBarLayout
-        app:elevation="5dp"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:background="@android:color/transparent"
-        android:layout_height="wrap_content">
+        app:elevation="5dp">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:background="@drawable/top_toolbar_lbackground">
-
 
 
         </android.support.v7.widget.Toolbar>
@@ -28,15 +27,15 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
-        android:background="#fff"
-        app:backgroundTint="#fff"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:borderWidth="0dp"
-        app:rippleColor="@color/colorPrimary"
-        app:fabSize="normal"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
+        android:background="#fff"
+        app:backgroundTint="#fff"
+        app:borderWidth="0dp"
+        app:fabSize="normal"
+        app:rippleColor="@color/colorPrimary"
         app:srcCompat="@drawable/ic_book_now" />
 
 </android.support.design.widget.CoordinatorLayout>

@@ -98,6 +98,49 @@
 
             </RelativeLayout>
 
+            <RelativeLayout
+                android:layout_margin="10dp"
+                android:layout_below="@id/people_recycler_layout"
+                android:id="@+id/booking_time_layout"
+                android:layout_width="match_parent"
+                android:layout_height="24dp">
+
+                <TextView
+                    android:id="@+id/booking_time_text"
+                    android:layout_width="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:textStyle="bold"
+                    android:textColor="#000"
+                    android:fontFamily="@font/raleway"
+                    android:text="Time of Arrival"
+                    android:layout_height="wrap_content" />
+
+                <View
+                    android:layout_marginTop="2dp"
+                    android:layout_width="wrap_content"
+                    android:background="#b4b4b4"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@id/booking_time_text"
+                    android:layout_height="1dp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_below="@id/booking_time_layout"
+                android:id="@+id/time_recycler_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.v7.widget.RecyclerView
+                    android:layout_marginStart="5dp"
+                    android:id="@+id/time_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                </android.support.v7.widget.RecyclerView>
+
+            </RelativeLayout>
+
         </RelativeLayout>
 
     </android.support.v4.widget.NestedScrollView>
