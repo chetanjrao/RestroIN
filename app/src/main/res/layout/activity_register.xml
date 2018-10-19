@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:theme="@style/EditTextTheme"
+    tools:context=".RegisterActivity">
+
+    <ImageButton
+        android:id="@+id/exit_button"
+        android:padding="15dp"
+        android:layout_width="wrap_content"
+        android:src="@drawable/ic_exit"
+        android:tint="#ff2f01"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+        android:background="@android:color/transparent"
+        android:layout_height="wrap_content" />
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_marginTop="55dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:textSize="19sp"
+            android:layout_marginStart="5dp"
+            android:text="Register to RestroIN"
+            android:fontFamily="@font/raleway"
+            android:textStyle="bold"
+            android:id="@+id/register_header"
+            android:textColor="#000"
+            android:layout_height="wrap_content" />
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/name_layout"
+            android:layout_marginTop="16dp"
+            android:layout_below="@id/register_header"
+            android:layout_marginBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
+
+            <android.support.design.widget.TextInputEditText
+                android:layout_width="match_parent"
+                android:id="@+id/register_name"
+                android:inputType="text"
+                android:hint="Name"
+                android:textColor="#363636"
+                android:textColorHint="#363636"
+                android:textStyle="bold"
+                android:fontFamily="@font/raleway"
+                android:theme="@style/EditTextTheme"
+                android:layout_height="match_parent" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/username_layout"
+            android:layout_marginTop="10dp"
+            android:layout_below="@id/name_layout"
+            android:layout_marginBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
+
+            <android.support.design.widget.TextInputEditText
+                android:layout_width="match_parent"
+                android:id="@+id/register_username"
+                android:inputType="textEmailAddress"
+                android:hint="Email Address"
+                android:textColor="#363636"
+                android:textColorHint="#363636"
+                android:textStyle="bold"
+                android:fontFamily="@font/raleway"
+                android:theme="@style/EditTextTheme"
+                android:layout_height="match_parent" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/mobile_layout"
+            android:layout_marginTop="10dp"
+            android:layout_below="@id/username_layout"
+            android:layout_marginBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
+
+            <android.support.design.widget.TextInputEditText
+                android:layout_width="match_parent"
+                android:id="@+id/register_mobile"
+                android:inputType="number"
+                android:hint="Phone No. "
+                android:textColor="#363636"
+                android:textColorHint="#363636"
+                android:textStyle="bold"
+                android:fontFamily="@font/raleway"
+                android:theme="@style/EditTextTheme"
+                android:layout_height="match_parent" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_below="@id/mobile_layout"
+            android:id="@+id/password_layout"
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
+
+            <android.support.design.widget.TextInputEditText
+                android:layout_width="match_parent"
+                android:id="@+id/register_password"
+                android:hint="Password"
+                android:textStyle="bold"
+                android:textColorHint="#363636"
+                android:inputType="textPassword"
+                android:textColor="#363636"
+                android:fontFamily="@font/raleway"
+                android:theme="@style/EditTextTheme"
+                android:layout_height="match_parent" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:textSize="13sp"
+            android:layout_below="@id/password_layout"
+            android:fontFamily="@font/raleway"
+            android:text="By Signing up, you agree to RestroIN's Terms, Conditions, Content and Privacy Policy"
+            android:layout_margin="5dp"
+            android:lineSpacingMultiplier="1.3"
+            android:textColor="#000"
+            android:id="@+id/terms_and_conditions"
+            android:layout_height="wrap_content" />
+
+       <Button
+           android:layout_width="match_parent"
+           android:text="SIGN UP"
+           android:layout_marginTop="8dp"
+           android:layout_below="@id/terms_and_conditions"
+           android:fontFamily="@font/raleway"
+           android:textStyle="bold"
+           android:textColor="#fff"
+           android:id="@+id/register_button"
+           android:foreground="?attr/selectableItemBackground"
+           android:background="@drawable/button_background_orange"
+           android:layout_height="60dp" />
+
+    </RelativeLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+</android.support.design.widget.CoordinatorLayout>

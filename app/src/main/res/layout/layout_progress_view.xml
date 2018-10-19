@@ -5,8 +5,9 @@
 
     <ProgressBar
         style="@style/RecyclerTheme"
+        android:indeterminateTint="@color/colorPrimary"
         android:layout_centerInParent="true"
-        android:layout_width="30dp"
-        android:layout_height="30dp" />
+        android:layout_width="20dp"
+        android:layout_height="20dp" />
 
 </RelativeLayout>

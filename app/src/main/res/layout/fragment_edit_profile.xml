@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:id="@+id/toolbar_layout"
+            android:layout_height="60dp">
+
+            <ImageButton
+                android:layout_width="60dp"
+                android:id="@+id/exit_button"
+                android:src="@drawable/ic_exit"
+                android:tint="@color/colorPrimary"
+                android:foreground="?attr/selectableItemBackground"
+                android:background="@android:color/transparent"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="Edit Your Profile"
+                android:fontFamily="@font/raleway"
+                android:textSize="21sp"
+                android:layout_toEndOf="@id/exit_button"
+                android:layout_marginStart="8sp"
+                android:layout_centerVertical="true"
+                android:textColor="#363636"
+                android:textStyle="bold"
+                android:layout_height="wrap_content" />
+
+            <ImageButton
+                android:layout_width="60dp"
+                android:id="@+id/accept_button"
+                android:src="@drawable/ic_done"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="3dp"
+                android:tint="@color/colorPrimary"
+                android:foreground="?attr/selectableItemBackground"
+                android:background="@android:color/transparent"
+                android:layout_height="match_parent" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/details_layout"
+            android:layout_below="@id/toolbar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/first_name_layout"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="60dp">
+
+                <android.support.design.widget.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:id="@+id/profile_first_name"
+                    android:inputType="text"
+                    android:hint="First Name"
+                    android:textColor="#363636"
+                    android:textColorHint="#363636"
+                    android:text="Chethan Jagannatha"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/raleway"
+                    android:theme="@style/EditTextTheme"
+                    android:layout_height="match_parent" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/last_name_layout"
+                android:layout_marginTop="10dp"
+                android:layout_below="@id/first_name_layout"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="60dp">
+
+                <android.support.design.widget.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:id="@+id/profile_last_name"
+                    android:inputType="text"
+                    android:hint="Last Name"
+                    android:text="Kulkarni"
+                    android:textColor="#363636"
+                    android:textColorHint="#363636"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/raleway"
+                    android:theme="@style/EditTextTheme"
+                    android:layout_height="match_parent" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/email_layout"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_below="@id/last_name_layout"
+                android:layout_marginBottom="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="60dp">
+
+                <android.support.design.widget.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:id="@+id/profile_email"
+                    android:inputType="textEmailAddress"
+                    android:hint="Email Address"
+                    android:textColor="#363636"
+                    android:text="chethanjkulkarni@gmail.com"
+                    android:textColorHint="#363636"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/raleway"
+                    android:theme="@style/EditTextTheme"
+                    android:layout_height="match_parent" />
+
+            </android.support.design.widget.TextInputLayout>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</android.support.design.widget.CoordinatorLayout>

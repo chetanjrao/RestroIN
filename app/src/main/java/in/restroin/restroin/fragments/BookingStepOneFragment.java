@@ -1,5 +1,6 @@
 package in.restroin.restroin.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -18,21 +19,58 @@ import com.stepstone.stepper.Step;
 import com.stepstone.stepper.StepperLayout;
 import com.stepstone.stepper.VerificationError;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Locale;
 import java.util.TimeZone;
 
 import in.restroin.restroin.R;
 import in.restroin.restroin.adapters.DatesChooseAdapter;
 import in.restroin.restroin.adapters.PeopleChooseAdapter;
+import in.restroin.restroin.adapters.TimeChooseAdapter;
 import in.restroin.restroin.utils.SmoothCheckBox;
 
 public class BookingStepOneFragment extends Fragment implements BlockingStep {
     List<String> dates = new ArrayList<>();
     List<String> people = new ArrayList<>();
+    List<String> timeList = new ArrayList<>();
+
+    public List<String> getTimeList() throws ParseException {
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Asia/Kolkata"));
+        calendar.setTimeZone(TimeZone.getTimeZone("Asia/Kolkata"));
+        SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm a");
+        String currentTime = dateFormat.format(calendar.getTime());
+        String closingTimeDate = getActivity().getIntent().getStringExtra("restaurant_closing_time");
+        while(dateFormat.parse(currentTime).before(dateFormat.parse(closingTimeDate))){
+            timeList.add(dateFormat.format(toNearestWholeHour(dateFormat.parse(currentTime), getContext())));
+            calendar.setTime(dateFormat.parse(currentTime));
+            calendar.add(Calendar.MINUTE, 30);
+            currentTime = dateFormat.format(calendar.getTime());
+        }
+        return timeList;
+    }
+
+    static Date toNearestWholeHour(Date d, Context context) {
+        Calendar c = new GregorianCalendar();
+        c.setTime(d);
+
+        if (c.get(Calendar.MINUTE) < 30) {
+            c.set(Calendar.MINUTE, 30);
+        } else if (c.get(Calendar.MINUTE) >= 30){
+            c.add(Calendar.HOUR, 1);
+            c.set(Calendar.MINUTE, 0);
+        }
+
+        return c.getTime();
+    }
 
     public List<String> getListOfDates(){
        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Asia/Kolkata"));
@@ -52,6 +90,16 @@ public class BookingStepOneFragment extends Fragment implements BlockingStep {
         View StepOneView = inflater.inflate(R.layout.fragment_booking_step_one, container, false);
         RecyclerView dates_recycler = (RecyclerView) StepOneView.findViewById(R.id.dates_recycler);
         RecyclerView people_recycler_view = (RecyclerView) StepOneView.findViewById(R.id.people_recycler);
+        RecyclerView times_recycler = (RecyclerView) StepOneView.findViewById(R.id.time_recycler);
+        LinearLayoutManager timeLinearLayoutManager = new LinearLayoutManager(container.getContext(), LinearLayoutManager.HORIZONTAL, false);
+        TimeChooseAdapter timeChooseAdapter = null;
+        try {
+            timeChooseAdapter = new TimeChooseAdapter(getTimeList());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        times_recycler.setLayoutManager(timeLinearLayoutManager);
+        times_recycler.setAdapter(timeChooseAdapter);
         for(int i=1; i < 10; i++){
             people.add(""+i);
         }

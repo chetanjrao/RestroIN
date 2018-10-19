@@ -122,17 +122,6 @@ public class RestaurantViewActivity extends FragmentActivity implements OnMapRea
                         .setAction("Action", null).show();
             }
         });
-        final Button button = (Button) findViewById(R.id.book_now_button);
-        Typeface raleway = Typeface.createFromAsset(getAssets(),
-                "font/raleway.ttf");
-        button.setTypeface(raleway);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(RestaurantViewActivity.this, BookingActivity.class);
-                startActivity(intent);
-            }
-        });
 
     }
 
@@ -185,7 +174,7 @@ public class RestaurantViewActivity extends FragmentActivity implements OnMapRea
         specialCouponsRecyclerView.setLayoutManager(linearLayoutManager);
         call.enqueue(new Callback<RestaurantModel>() {
             @Override
-            public void onResponse(@NonNull Call<RestaurantModel> call,@NonNull Response<RestaurantModel> response) {
+            public void onResponse(@NonNull Call<RestaurantModel> call,@NonNull final Response<RestaurantModel> response) {
                 if(response.isSuccessful()){
                     List<String> restaurant_images = response.body().getFront_image();
                     Toast.makeText(RestaurantViewActivity.this, "Size:" + restaurant_images.size(), Toast.LENGTH_SHORT).show();
@@ -207,6 +196,18 @@ public class RestaurantViewActivity extends FragmentActivity implements OnMapRea
                         Uri menu_header_image = Uri.parse("https://www.restroin.in/" + menu_image.get(0));
                         Picasso.get().load(menu_header_image).into(menu_images_header);
                     }
+                    Button button = (Button) findViewById(R.id.book_now_button);
+                    Typeface raleway = Typeface.createFromAsset(getAssets(),
+                            "font/raleway.ttf");
+                    button.setTypeface(raleway);
+                    button.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent intent = new Intent(RestaurantViewActivity.this, BookingActivity.class);
+                            intent.putExtra("restaurant_closing_time", response.body().getRestaurant_closing_time());
+                            startActivity(intent);
+                        }
+                    });
                     LatLng restaurant_location = new LatLng(Double.valueOf(response.body().getRestaurant_lat()), Double.valueOf(response.body().getRestaurant_lng()));
                     CameraUpdate cameraUpdate = CameraUpdateFactory.zoomTo(10);
                     mMap.addMarker(new MarkerOptions().position(restaurant_location).title("Location of: " + response.body().getRestaurant_name()));

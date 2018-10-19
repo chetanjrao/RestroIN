@@ -60,13 +60,13 @@ public class TimeChooseAdapter extends RecyclerView.Adapter<TimeChooseAdapter.Vi
         public ViewHolder(View itemView) {
             super(itemView);
             background_image = (ImageView) itemView.findViewById(R.id.background_image);
-            Uri path_to_assets = Uri.parse("https://www.restroin.in/developers/api/assets/back.jpg");
+            Uri path_to_assets = Uri.parse("https://www.restroin.in/uploads/img/time.jpeg");
             Picasso.get().load(path_to_assets).into(background_image);
-            smoothCheckBox = (SmoothCheckBox) itemView.findViewById(R.id.date_smooth_checkbox);
+            smoothCheckBox = (SmoothCheckBox) itemView.findViewById(R.id.time_smooth_checkbox);
             smoothCheckBox.setClickable(false);
             smoothCheckBox.setFocusable(false);
-            layout_time = (RelativeLayout) itemView.findViewById(R.id.date_select_cardView);
-            time_of_booking = (TextView) itemView.findViewById(R.id.date_of_booking_choose);
+            layout_time = (RelativeLayout) itemView.findViewById(R.id.time_select_cardView);
+            time_of_booking = (TextView) itemView.findViewById(R.id.booking_time);
             layout_time.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

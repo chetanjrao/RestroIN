@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ProfileActivityFragment"
+    tools:showIn="@layout/activity_profile">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.CardView
+            android:layout_marginBottom="10dp"
+            android:id="@+id/profile_details_card"
+            android:layout_width="match_parent"
+            app:cardCornerRadius="4dp"
+            app:cardElevation="3dp"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RelativeLayout
+                    android:id="@+id/profile_image_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:layout_width="100dp"
+                        android:layout_margin="10dp"
+                        android:id="@+id/profile_image"
+                        android:scaleType="centerCrop"
+                        android:src="@mipmap/restro20"
+                        android:layout_height="100dp" />
+
+                    <RelativeLayout
+                        android:layout_toEndOf="@id/profile_image"
+                        android:layout_marginStart="20dp"
+                        android:layout_centerVertical="true"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_centerHorizontal="true"
+                            android:layout_width="wrap_content"
+                            android:id="@+id/total_dines_text"
+                            android:text="Total Dines"
+                            android:fontFamily="@font/raleway"
+                            android:textColor="#363636"
+                            android:textSize="24sp"
+                            android:layout_height="wrap_content" />
+
+                        <TextView
+                            android:layout_centerHorizontal="true"
+                            android:layout_width="wrap_content"
+                            android:id="@+id/total_dines"
+                            android:layout_below="@id/total_dines_text"
+                            android:layout_marginTop="5sp"
+                            android:text="5"
+                            android:fontFamily="@font/raleway"
+                            android:textColor="#363636"
+                            android:textSize="28sp"
+                            android:layout_height="wrap_content" />
+
+
+                    </RelativeLayout>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/profile_details_layout"
+                    android:layout_below="@id/profile_image_layout"
+                    android:layout_marginTop="10sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:textSize="21sp"
+                        android:text="Chethan Jagannatha Kulkarni"
+                        android:textColor="#363636"
+                        android:fontFamily="@font/raleway"
+                        android:textStyle="bold"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginBottom="6dp"
+                        android:id="@+id/profile_name"
+                        android:layout_marginStart="10dp"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:textSize="18sp"
+                        android:text="chethanjkulkarni@gmail.com"
+                        android:textColor="#363636"
+                        android:layout_below="@id/profile_name"
+                        android:fontFamily="@font/raleway"
+                        android:id="@+id/profile_email"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginBottom="6dp"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:textSize="18sp"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginBottom="6dp"
+                        android:layout_below="@id/profile_email"
+                        android:text="9110466718"
+                        android:layout_marginStart="10dp"
+                        android:textColor="#363636"
+                        android:fontFamily="@font/raleway"
+                        android:id="@+id/profile_number"
+                        android:layout_height="wrap_content" />
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
+
+
+       <android.support.v7.widget.CardView
+           app:cardElevation="3dp"
+           app:cardCornerRadius="4dp"
+           android:layout_below="@id/profile_details_card"
+           android:layout_width="match_parent"
+           android:layout_marginTop="10dp"
+           android:layout_height="wrap_content">
+
+           <RelativeLayout
+               android:layout_marginBottom="30dp"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content">
+
+               <RelativeLayout
+                   android:id="@+id/dine_history_intro"
+                   android:layout_width="match_parent"
+                   android:layout_height="24dp">
+
+                   <TextView
+                       android:id="@+id/hangout_places_text"
+                       android:layout_width="wrap_content"
+                       android:layout_centerVertical="true"
+                       android:textColor="#363636"
+                       android:layout_marginStart="10dp"
+                       android:fontFamily="@font/raleway"
+                       android:textStyle="bold"
+                       android:text="Your Dining History"
+                       android:layout_height="wrap_content" />
+
+                   <View
+                       android:layout_marginTop="2dp"
+                       android:layout_width="wrap_content"
+                       android:background="#d6d6d6"
+                       android:layout_marginStart="5dp"
+                       android:layout_centerVertical="true"
+                       android:layout_toEndOf="@id/hangout_places_text"
+                       android:layout_height="1.5dp" />
+
+               </RelativeLayout>
+
+               <android.support.v7.widget.RecyclerView
+                   android:layout_marginTop="6dp"
+                   android:layout_marginStart="10dp"
+                   android:layout_below="@id/dine_history_intro"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content">
+
+               </android.support.v7.widget.RecyclerView>
+           </RelativeLayout>
+
+
+       </android.support.v7.widget.CardView>
+
+
+    </RelativeLayout>
+
+</android.support.design.widget.CoordinatorLayout>

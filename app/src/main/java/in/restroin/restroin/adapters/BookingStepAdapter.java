@@ -9,8 +9,6 @@ import com.stepstone.stepper.adapter.AbstractFragmentStepAdapter;
 import com.stepstone.stepper.viewmodel.StepViewModel;
 
 import in.restroin.restroin.fragments.BookingStepOneFragment;
-import in.restroin.restroin.fragments.BookingStepThreeFragment;
-import in.restroin.restroin.fragments.BookingStepTwoFragment;
 
 import in.restroin.restroin.R;
 
@@ -21,34 +19,18 @@ public class BookingStepAdapter extends AbstractFragmentStepAdapter {
 
     @Override
     public Step createStep(int position) {
-        Step returnStep = null;
-        switch (position){
-            case 0:
-                final BookingStepOneFragment bookingStepOneFragment = new BookingStepOneFragment();
-                returnStep = bookingStepOneFragment;
-                break;
-            case 1:
-                final BookingStepTwoFragment bookingStepTwoFragment = new BookingStepTwoFragment();
-                returnStep = bookingStepTwoFragment;
-                break;
-        }
-        return returnStep;
+        return new BookingStepOneFragment();
     }
 
     @Override
     public int getCount() {
-        return 2;
+        return 1;
     }
 
     @NonNull
     @Override
     public StepViewModel getViewModel(int position) {
-        switch (position){
-            case 0:
-                return new StepViewModel.Builder(context).setTitle("Details").setBackButtonLabel("Cancel").setEndButtonLabel("Book Now").setBackButtonStartDrawableResId(R.drawable.ic_back_navigte).setNextButtonEndDrawableResId(R.drawable.ic_next_navigation).create();
-            case 1:
-                return new StepViewModel.Builder(context).setTitle("Confirmation").setEndButtonLabel("View Booking").setBackButtonStartDrawableResId(R.drawable.ic_back_navigte).create();
-        }
-        return null;
+        return new StepViewModel.Builder(context).setTitle("Details").setBackButtonLabel("Cancel").setEndButtonLabel("Book Now").setBackButtonStartDrawableResId(R.drawable.ic_back_navigte).setNextButtonEndDrawableResId(R.drawable.ic_next_navigation).create();
     }
+
 }
