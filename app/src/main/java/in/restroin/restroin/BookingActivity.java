@@ -1,11 +1,13 @@
 package in.restroin.restroin;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.stepstone.stepper.StepperLayout;
@@ -24,13 +26,25 @@ import in.restroin.restroin.adapters.BookingStepAdapter;
 import in.restroin.restroin.adapters.DatesChooseAdapter;
 import in.restroin.restroin.adapters.PeopleChooseAdapter;
 import in.restroin.restroin.adapters.TimeChooseAdapter;
+import in.restroin.restroin.interfaces.RestroINAuthClient;
+import in.restroin.restroin.models.MessageModel;
+import in.restroin.restroin.utils.SaveSharedPreferences;
 import in.restroin.restroin.utils.SmoothCheckBox;
+import retrofit2.Call;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class BookingActivity extends AppCompatActivity{
 
     List<String> dates = new ArrayList<>();
     List<String> people = new ArrayList<>();
     List<String> timeList = new ArrayList<>();
+    String restaurant_id, user_id, visiting_date, visiting_time, number_of_male, guest_name, guest_email, guest_phone, access_token;
+
+    Retrofit.Builder builder = new Retrofit.Builder()
+            .baseUrl("https://www.restroin.in/developers/api/restroin/")
+            .addConverterFactory(GsonConverterFactory.create());
+    Retrofit retrofit = builder.build();
 
     public List<String> getTimeList() throws ParseException {
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Asia/Kolkata"));
@@ -120,6 +134,7 @@ public class BookingActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_booking);
+        checkAccessTokenStatus();
         RecyclerView dates_recycler = (RecyclerView) findViewById(R.id.dates_recycler);
         RecyclerView people_recycler_view = (RecyclerView) findViewById(R.id.people_recycler);
         RecyclerView times_recycler = (RecyclerView) findViewById(R.id.time_recycler);
@@ -132,10 +147,9 @@ public class BookingActivity extends AppCompatActivity{
         }
         times_recycler.setLayoutManager(timeLinearLayoutManager);
         times_recycler.setAdapter(timeChooseAdapter);
-        for(int i=1; i < 10; i++){
+        for(int i=1; i <= 25; i++){
             people.add(""+i);
         }
-        people.add("10+");
         PeopleChooseAdapter peopleChooseAdapter = new PeopleChooseAdapter(people);
         LinearLayoutManager peopleLayoutManager = new  LinearLayoutManager(BookingActivity.this, LinearLayoutManager.HORIZONTAL, false);
         people_recycler_view.setLayoutManager(peopleLayoutManager);
@@ -144,5 +158,30 @@ public class BookingActivity extends AppCompatActivity{
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(BookingActivity.this, LinearLayoutManager.HORIZONTAL, false);
         dates_recycler.setLayoutManager(linearLayoutManager);
         dates_recycler.setAdapter(adapter);
+        addBooking();
+        Button book_now_button = (Button) findViewById(R.id.book_now_button);
+    }
+
+    @Override
+    protected void onStart() {
+        checkAccessTokenStatus();
+        super.onStart();
+    }
+
+    public void checkAccessTokenStatus(){
+        SaveSharedPreferences saveSharedPreferences = new SaveSharedPreferences();
+        String access_token = saveSharedPreferences.getAccess_token(BookingActivity.this);
+        if(access_token == null){
+            Intent goToLogin = new Intent(BookingActivity.this, LoginActivity.class);
+            startActivity(goToLogin);
+        }
+    }
+
+    public void addBooking(){
+        DatesChooseAdapter adapter = new DatesChooseAdapter(getListOfDates());
+        RestroINAuthClient authClient = retrofit.create(RestroINAuthClient.class);
+        SaveSharedPreferences saveSharedPreferences = new SaveSharedPreferences();
+        this.restaurant_id = getIntent().getStringExtra("restaurant_id");
+        Toast.makeText(this, "date: " + adapter.getSelectedDate(), Toast.LENGTH_SHORT).show();
     }
 }

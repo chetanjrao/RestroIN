@@ -4,14 +4,53 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ProfileActivityFragment"
-    tools:showIn="@layout/activity_profile">
+    tools:context=".ProfileActivityFragment">
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <RelativeLayout
+            android:elevation="3dp"
+            android:background="#fff"
+            android:layout_width="match_parent"
+            android:id="@+id/toolbar_layout"
+            android:layout_height="60dp">
+
+            <ImageButton
+                android:layout_width="60dp"
+                android:id="@+id/exit_button"
+                android:src="@drawable/ic_back"
+                android:tint="@color/colorPrimary"
+                android:foreground="?attr/selectableItemBackground"
+                android:background="@android:color/transparent"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="Your Profile"
+                android:fontFamily="@font/raleway"
+                android:textSize="21sp"
+                android:layout_toEndOf="@id/exit_button"
+                android:layout_marginStart="8sp"
+                android:layout_centerVertical="true"
+                android:textColor="#363636"
+                android:textStyle="bold"
+                android:layout_height="wrap_content" />
+
+
+        </RelativeLayout>
+
+
         <android.support.v7.widget.CardView
+            android:layout_marginTop="15dp"
+            android:layout_below="@id/toolbar_layout"
             android:layout_marginBottom="10dp"
             android:id="@+id/profile_details_card"
             android:layout_width="match_parent"
@@ -24,6 +63,7 @@
                 android:layout_height="wrap_content">
 
                 <RelativeLayout
+                    android:layout_marginTop="15dp"
                     android:id="@+id/profile_image_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -72,8 +112,8 @@
 
                 <RelativeLayout
                     android:id="@+id/profile_details_layout"
+                    android:layout_marginBottom="10sp"
                     android:layout_below="@id/profile_image_layout"
-                    android:layout_marginTop="10sp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -126,6 +166,7 @@
        <android.support.v7.widget.CardView
            app:cardElevation="3dp"
            app:cardCornerRadius="4dp"
+           android:id="@+id/dine_history_card"
            android:layout_below="@id/profile_details_card"
            android:layout_width="match_parent"
            android:layout_marginTop="10dp"
@@ -176,7 +217,133 @@
 
        </android.support.v7.widget.CardView>
 
+        <android.support.v7.widget.CardView
+            app:cardElevation="3dp"
+            app:cardCornerRadius="4dp"
+            android:layout_below="@id/dine_history_card"
+            android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:layout_marginBottom="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RelativeLayout
+                    android:id="@+id/account_intro"
+                    android:layout_width="match_parent"
+                    android:layout_height="24dp">
+
+                    <TextView
+                        android:id="@+id/hangout_places_text_"
+                        android:layout_width="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:textColor="#363636"
+                        android:layout_marginStart="10dp"
+                        android:fontFamily="@font/raleway"
+                        android:textStyle="bold"
+                        android:text="Account &amp; Options"
+                        android:layout_height="wrap_content" />
+
+                    <View
+                        android:layout_marginTop="2dp"
+                        android:layout_width="wrap_content"
+                        android:background="#d6d6d6"
+                        android:layout_marginStart="5dp"
+                        android:layout_centerVertical="true"
+                        android:layout_toEndOf="@id/hangout_places_text_"
+                        android:layout_height="1.5dp" />
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_marginTop="6dp"
+                    android:orientation="vertical"
+                    android:layout_marginStart="10dp"
+                    android:layout_below="@id/account_intro"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <RelativeLayout
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:id="@+id/changePasswordLayout"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp">
+
+
+                        <TextView
+                            android:layout_centerVertical="true"
+                            android:layout_width="wrap_content"
+                            android:text="Change Password"
+                            android:fontFamily="@font/raleway"
+                            android:textSize="18sp"
+                            android:textColor="#363636"
+                            android:layout_height="wrap_content" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:id="@+id/feedBackLayout"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp">
+
+
+
+                        <TextView
+                            android:layout_centerVertical="true"
+                            android:layout_width="wrap_content"
+                            android:text="Give Feedback"
+                            android:fontFamily="@font/raleway"
+                            android:textSize="18sp"
+                            android:textColor="#363636"
+                            android:layout_height="wrap_content" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:id="@+id/SignOutLayout"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp">
+
+                        <ImageView
+                            android:layout_width="25dp"
+                            android:id="@+id/sign_out_image"
+                            android:layout_centerVertical="true"
+                            android:tint="@color/colorPrimary"
+                            android:src="@drawable/ic_signout"
+                            android:layout_height="25dp" />
+
+                        <TextView
+                            android:layout_marginStart="6dp"
+                            android:layout_toEndOf="@id/sign_out_image"
+                            android:layout_width="wrap_content"
+                            android:text="Log Out"
+                            android:layout_centerVertical="true"
+                            android:fontFamily="@font/raleway"
+                            android:textSize="18sp"
+                            android:textColor="#363636"
+                            android:layout_height="wrap_content" />
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+            </RelativeLayout>
+
+
+        </android.support.v7.widget.CardView>
+
 
     </RelativeLayout>
+
+    </android.support.v4.widget.NestedScrollView>
 
 </android.support.design.widget.CoordinatorLayout>

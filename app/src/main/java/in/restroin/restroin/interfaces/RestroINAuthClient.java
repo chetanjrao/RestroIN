@@ -8,6 +8,7 @@ import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 
 public interface RestroINAuthClient {
@@ -24,11 +25,12 @@ public interface RestroINAuthClient {
 
     @FormUrlEncoded
     @POST("v1/authorization/authenticator")
-    Call<LoginModel> authenticateUser();
+    Call<LoginModel> authenticateUser(@Field("device_uid") String device_uid);
 
     @FormUrlEncoded
     @POST("v1/authorization/bookingsManager")
     Call<MessageModel> ManageReservation(
+            @Header("Authorization: Bearer ") String access_token,
             @Field("actionStep") String actionStep,
             @Field("restaurant_id") String restaurant_id,
             @Field("user_id") String user_id,

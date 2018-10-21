@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:theme="@style/EditTextTheme"
     tools:context=".UserFeedActivity">
 
     <android.support.design.widget.AppBarLayout
@@ -12,30 +13,46 @@
         android:background="@android:color/transparent"
         app:elevation="5dp">
 
-        <android.support.v7.widget.Toolbar
+        <RelativeLayout
+            android:focusableInTouchMode="true"
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="60dp"
+            android:layout_gravity="end"
             android:background="@drawable/top_toolbar_lbackground">
 
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="30dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="15dp"
+                app:civ_border_width="1dp"
+                android:id="@+id/profile_image"
+                android:src="@mipmap/restro20"
+                app:civ_border_color="#363636"
+                android:layout_height="30dp" />
 
-        </android.support.v7.widget.Toolbar>
+            <android.support.v7.widget.SearchView
+                android:id="@+id/searchView"
+                android:layout_marginEnd="10dp"
+                android:focusedByDefault="false"
+                android:gravity="end"
+                app:queryBackground="@android:color/transparent"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/background_grey_searchview"
+                app:queryHint="Search Restaurants"
+                style="@style/EditTextTheme"
+                app:iconifiedByDefault="false"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@id/profile_image"
+                android:layout_width="match_parent"
+                android:layout_height="40dp">
+
+            </android.support.v7.widget.SearchView>
+
+
+        </RelativeLayout>
 
     </android.support.design.widget.AppBarLayout>
 
     <include layout="@layout/content_user_feed" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        android:background="#fff"
-        app:backgroundTint="#fff"
-        app:borderWidth="0dp"
-        app:fabSize="normal"
-        app:rippleColor="@color/colorPrimary"
-        app:srcCompat="@drawable/ic_book_now" />
-
 </android.support.design.widget.CoordinatorLayout>

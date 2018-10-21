@@ -31,6 +31,11 @@ public class DatesChooseAdapter extends RecyclerView.Adapter<DatesChooseAdapter.
     private List<String> dates;
     private int CheckedCardViewPosition;
     private RecyclerView recyclerView;
+    public String selectedDate;
+
+    public String getSelectedDate(){
+        return selectedDate;
+    }
 
     public DatesChooseAdapter(List<String> dates){
         this.dates = dates;
@@ -48,10 +53,10 @@ public class DatesChooseAdapter extends RecyclerView.Adapter<DatesChooseAdapter.
         holder.date_of_booking.setText(dates.get(position));
         if (CheckedCardViewPosition == position){
             holder.smoothCheckBox.animate();
+            selectedDate = dates.get(position);
             holder.smoothCheckBox.setChecked(true);
         } else {
             holder.smoothCheckBox.animate();
-
             holder.smoothCheckBox.setChecked(false);
         }
     }
@@ -66,7 +71,7 @@ public class DatesChooseAdapter extends RecyclerView.Adapter<DatesChooseAdapter.
         RelativeLayout layout_dates;
         SmoothCheckBox smoothCheckBox;
         ImageView background_image;
-        public ViewHolder(View itemView) {
+        public ViewHolder(final View itemView) {
             super(itemView);
             background_image = (ImageView) itemView.findViewById(R.id.background_image);
             Uri path_to_assets = Uri.parse("https://www.restroin.in/developers/api/assets/back.jpg");
@@ -80,9 +85,12 @@ public class DatesChooseAdapter extends RecyclerView.Adapter<DatesChooseAdapter.
                 @Override
                 public void onClick(View view) {
                     CheckedCardViewPosition = getAdapterPosition();
+                    selectedDate = dates.get(CheckedCardViewPosition);
                     notifyDataSetChanged();
                 }
             });
+            Toast.makeText(itemView.getContext(), "selected position: " + dates.get(getAdapterPosition() + 1), Toast.LENGTH_SHORT).show();
+
         }
     }
 }

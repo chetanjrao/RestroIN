@@ -132,8 +132,7 @@ public class RestaurantViewActivity extends FragmentActivity implements OnMapRea
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        String id = getIntent().getStringExtra("restaurant_id");
-        Toast.makeText(this, "ID IS: " + id, Toast.LENGTH_SHORT).show();
+        final String id = getIntent().getStringExtra("restaurant_id");
         final LinearLayoutManager layoutManager = new LinearLayoutManager(RestaurantViewActivity.this, LinearLayoutManager.HORIZONTAL, false);
         final RecyclerView images_recycler = (RecyclerView) findViewById(R.id.restaurant_images);
         final MyGridView myGridView = (MyGridView) findViewById(R.id.features_gridView);
@@ -204,6 +203,7 @@ public class RestaurantViewActivity extends FragmentActivity implements OnMapRea
                         @Override
                         public void onClick(View view) {
                             Intent intent = new Intent(RestaurantViewActivity.this, BookingActivity.class);
+                            intent.putExtra("restaurant_id", id);
                             intent.putExtra("restaurant_closing_time", response.body().getRestaurant_closing_time());
                             startActivity(intent);
                         }

@@ -54,11 +54,11 @@ public class OffersAdapter extends RecyclerView.Adapter<OffersAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        String image_location = "http://restroin.in/"  + offers.get(position).getImage();
+        String image_location = "https://www.restroin.in/"  + offers.get(position).getCoupon_image();
         Uri image_path = Uri.parse(image_location);
         Picasso.get().load(image_path).into(holder.offer_image);
-        holder.offer.setText(offers.get(position).getOffer());
-        holder.offer_code = offers.get(position).getOffer_filter_code();
+        holder.offer.setText(offers.get(position).getDescription());
+        holder.offer_code = offers.get(position).getCoupon_id();
     }
 
     @Override

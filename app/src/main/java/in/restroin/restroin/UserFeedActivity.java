@@ -2,24 +2,32 @@ package in.restroin.restroin;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.util.Log;
 import android.view.GestureDetector;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.PieChart;
@@ -30,10 +38,12 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import in.restroin.restroin.adapters.CusinesGridAdapter;
 import in.restroin.restroin.adapters.HangoutPlacesAdapter;
 import in.restroin.restroin.adapters.OffersAdapter;
@@ -48,6 +58,7 @@ import in.restroin.restroin.models.HangoutRestaurants;
 import in.restroin.restroin.models.Offers;
 import in.restroin.restroin.models.PopularLocations;
 import in.restroin.restroin.models.PopularRestaurants;
+import in.restroin.restroin.utils.SaveSharedPreferences;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -67,20 +78,66 @@ public class UserFeedActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_feed);
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        SearchView searchView = (SearchView) findViewById(R.id.searchView);
+        ImageView searchViewIcon = (ImageView) searchView.findViewById(android.support.v7.appcompat.R.id.search_mag_icon);
+        ViewGroup searchbarViewGroup = (ViewGroup) searchViewIcon.getParent();
+        searchbarViewGroup.removeView(searchViewIcon);
+        searchbarViewGroup.addView(searchViewIcon);
+        View v = searchView.findViewById(android.support.v7.appcompat.R.id.search_plate);
+        v.setBackgroundColor(Color.TRANSPARENT);
         ShowOffers(UserFeedActivity.this);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        setProfileImage();
+        CheckForfirstRejection();
         ShowPopularRestaurants(UserFeedActivity.this);
         ShowCusines();
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.popular_locations_recycler);
         ShowPopularLocations(recyclerView);
         ShowHangoutRestaurants(UserFeedActivity.this);
+        RelativeLayout profileLayout = (RelativeLayout) findViewById(R.id.toolbar);
+        profileLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent goToProfile = new Intent(UserFeedActivity.this, ProfileActivity.class);
+                startActivity(goToProfile);
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        SearchView searchView = (SearchView) findViewById(R.id.searchView);
+        RelativeLayout rootView = (RelativeLayout) findViewById(R.id.toolbar);
+        searchView.setQuery("", false);
+        rootView.requestFocus();
+    }
+
+    public void setProfileImage(){
+        SaveSharedPreferences saveSharedPreferences = new SaveSharedPreferences();
+        final CircleImageView imageView = (CircleImageView) findViewById(R.id.profile_image);
+        String image = saveSharedPreferences.getImage(UserFeedActivity.this);
+        if(image == null){
+            Uri image_path = Uri.parse("https://www.restroin.in/developers/api/images/blank.png");
+            Picasso.get().load(image_path).into(imageView);
+        } else {
+            Uri image_path = Uri.parse(image);
+            Picasso.get().load(image_path).into(imageView);
+        }
+    }
+
+    public void CheckForfirstRejection(){
+        SaveSharedPreferences s = new SaveSharedPreferences();
+        if (!s.getFirstLoginRejected(UserFeedActivity.this)) {
+            Intent goToLogin = new Intent(UserFeedActivity.this, LoginActivity.class);
+            s.setFirstLoginRejected(true, UserFeedActivity.this);
+            startActivity(goToLogin);
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        CheckForfirstRejection();
+        super.onStart();
     }
 
     public void ShowPopularRestaurants(final Context context){
@@ -206,7 +263,7 @@ public class UserFeedActivity extends AppCompatActivity {
                 if(offerView != null && gestureDetector.onTouchEvent(e)){
                     offerView.setScaleX((float)0.985);
                     offerView.setScaleY((float) 0.985);
-                    Toast.makeText(UserFeedActivity.this, "Coupon: " + offers.get(position).getOffer_filter_code(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(UserFeedActivity.this, "Coupon: " + offers.get(position).getCoupon_code(), Toast.LENGTH_SHORT).show();
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
