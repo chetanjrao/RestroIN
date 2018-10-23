@@ -139,7 +139,11 @@ public class UserFeedActivity extends AppCompatActivity {
         CheckForfirstRejection();
         super.onStart();
     }
-
+    @Override
+    protected void onPause() {
+        super.onPause();
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+    }
     public void ShowPopularRestaurants(final Context context){
         Retrofit retrofit_popular_restaurants = builder.build();
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.popular_restaurants_recycler);
@@ -263,6 +267,8 @@ public class UserFeedActivity extends AppCompatActivity {
                 if(offerView != null && gestureDetector.onTouchEvent(e)){
                     offerView.setScaleX((float)0.985);
                     offerView.setScaleY((float) 0.985);
+                    Intent intent = new Intent(UserFeedActivity.this, SearchActivity.class);
+                    startActivity(intent);
                     Toast.makeText(UserFeedActivity.this, "Coupon: " + offers.get(position).getCoupon_code(), Toast.LENGTH_SHORT).show();
                     new Handler().postDelayed(new Runnable() {
                         @Override

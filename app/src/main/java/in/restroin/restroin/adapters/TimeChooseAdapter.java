@@ -22,6 +22,7 @@ public class TimeChooseAdapter extends RecyclerView.Adapter<TimeChooseAdapter.Vi
     private List<String> time;
     private int CheckedCardViewPosition;
     private RecyclerView recyclerView;
+    private int selectedDate;
 
     public TimeChooseAdapter(List<String> dates){
         this.time = dates;
@@ -59,6 +60,7 @@ public class TimeChooseAdapter extends RecyclerView.Adapter<TimeChooseAdapter.Vi
         ImageView background_image;
         public ViewHolder(View itemView) {
             super(itemView);
+            selectedDate = CheckedCardViewPosition;
             background_image = (ImageView) itemView.findViewById(R.id.background_image);
             Uri path_to_assets = Uri.parse("https://www.restroin.in/uploads/img/time.jpeg");
             Picasso.get().load(path_to_assets).into(background_image);
@@ -71,9 +73,25 @@ public class TimeChooseAdapter extends RecyclerView.Adapter<TimeChooseAdapter.Vi
                 @Override
                 public void onClick(View view) {
                     CheckedCardViewPosition = getAdapterPosition();
+                    selectedDate = CheckedCardViewPosition;
                     notifyDataSetChanged();
                 }
             });
         }
+    }
+
+    public int getSelectedDate(){
+        selectedDate = CheckedCardViewPosition;
+        return this.selectedDate;
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
     }
 }

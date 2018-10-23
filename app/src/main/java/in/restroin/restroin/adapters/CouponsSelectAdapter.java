@@ -23,6 +23,7 @@ public class CouponsSelectAdapter extends RecyclerView.Adapter<CouponsSelectAdap
     private ArrayList<CouponModel> couponModels;
     private int checkedCouponPosition;
     private Context context;
+    private int checkedCoupon;
 
     public CouponsSelectAdapter(ArrayList<CouponModel> couponModels, Context context) {
         this.couponModels = couponModels;
@@ -74,6 +75,7 @@ public class CouponsSelectAdapter extends RecyclerView.Adapter<CouponsSelectAdap
         RelativeLayout coupon_layout;
         public ViewHolder(final View itemView) {
             super(itemView);
+            checkedCoupon = checkedCouponPosition;
             coupon_name = (TextView) itemView.findViewById(R.id.coupon_name);
             coupon_description = (TextView) itemView.findViewById(R.id.coupon_description);
             changingBackgroundView = (View) itemView.findViewById(R.id.changing_backgroundView);
@@ -84,9 +86,25 @@ public class CouponsSelectAdapter extends RecyclerView.Adapter<CouponsSelectAdap
                 public void onClick(View v) {
                     checkBox.animate();
                     checkedCouponPosition = getAdapterPosition();
+                    checkedCoupon = checkedCouponPosition;
                     notifyDataSetChanged();
                 }
             });
         }
+    }
+
+    public int getCheckedCoupon() {
+        checkedCoupon = checkedCouponPosition;
+        return this.checkedCoupon;
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
     }
 }

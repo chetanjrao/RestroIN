@@ -31,11 +31,7 @@ public class DatesChooseAdapter extends RecyclerView.Adapter<DatesChooseAdapter.
     private List<String> dates;
     private int CheckedCardViewPosition;
     private RecyclerView recyclerView;
-    public String selectedDate;
-
-    public String getSelectedDate(){
-        return selectedDate;
-    }
+    private int selectedDate;
 
     public DatesChooseAdapter(List<String> dates){
         this.dates = dates;
@@ -53,7 +49,6 @@ public class DatesChooseAdapter extends RecyclerView.Adapter<DatesChooseAdapter.
         holder.date_of_booking.setText(dates.get(position));
         if (CheckedCardViewPosition == position){
             holder.smoothCheckBox.animate();
-            selectedDate = dates.get(position);
             holder.smoothCheckBox.setChecked(true);
         } else {
             holder.smoothCheckBox.animate();
@@ -73,6 +68,7 @@ public class DatesChooseAdapter extends RecyclerView.Adapter<DatesChooseAdapter.
         ImageView background_image;
         public ViewHolder(final View itemView) {
             super(itemView);
+            selectedDate = CheckedCardViewPosition;
             background_image = (ImageView) itemView.findViewById(R.id.background_image);
             Uri path_to_assets = Uri.parse("https://www.restroin.in/developers/api/assets/back.jpg");
             Picasso.get().load(path_to_assets).into(background_image);
@@ -85,12 +81,25 @@ public class DatesChooseAdapter extends RecyclerView.Adapter<DatesChooseAdapter.
                 @Override
                 public void onClick(View view) {
                     CheckedCardViewPosition = getAdapterPosition();
-                    selectedDate = dates.get(CheckedCardViewPosition);
+                    selectedDate = CheckedCardViewPosition;
                     notifyDataSetChanged();
                 }
             });
-            Toast.makeText(itemView.getContext(), "selected position: " + dates.get(getAdapterPosition() + 1), Toast.LENGTH_SHORT).show();
-
         }
+    }
+
+    public int getSelectedDate(){
+        selectedDate = CheckedCardViewPosition;
+        return this.selectedDate;
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
     }
 }

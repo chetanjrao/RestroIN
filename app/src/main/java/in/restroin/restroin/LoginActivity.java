@@ -22,6 +22,8 @@ import in.restroin.restroin.interfaces.RestroINAuthClient;
 import in.restroin.restroin.models.LoginModel;
 import in.restroin.restroin.utils.SaveSharedPreferences;
 import in.restroin.restroin.utils.ServiceGenerator;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -30,6 +32,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class LoginActivity extends AppCompatActivity {
 
+    private HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY);
+    private OkHttpClient.Builder httpClient = new OkHttpClient.Builder().addInterceptor(loggingInterceptor);
     Retrofit.Builder builder = new Retrofit.Builder()
             .baseUrl("https://www.restroin.in/developers/api/restroin/")
             .addConverterFactory(GsonConverterFactory.create());
@@ -60,6 +64,7 @@ public class LoginActivity extends AppCompatActivity {
                             progressLayout.setVisibility(View.VISIBLE);
                             exit_button.setVisibility(View.GONE);
                             validateUser(username, password, device_uid);
+                            Toast.makeText(LoginActivity.this, device_uid, Toast.LENGTH_SHORT).show();
                         } else {
                             username_editText.setError("Kindly enter a valid email address");
                         }

@@ -1,5 +1,7 @@
 package in.restroin.restroin.interfaces;
 
+import java.util.List;
+
 import in.restroin.restroin.models.HangoutRestaurants;
 import in.restroin.restroin.models.LoginModel;
 import in.restroin.restroin.models.MessageModel;
@@ -25,12 +27,14 @@ public interface RestroINAuthClient {
 
     @FormUrlEncoded
     @POST("v1/authorization/authenticator")
-    Call<LoginModel> authenticateUser(@Field("device_uid") String device_uid);
+    Call<LoginModel> authenticateUser(
+            @Field("device_uid") String device_uid
+    );
 
     @FormUrlEncoded
     @POST("v1/authorization/bookingsManager")
     Call<MessageModel> ManageReservation(
-            @Header("Authorization: Bearer ") String access_token,
+            @Header("Authorization") String access_token,
             @Field("actionStep") String actionStep,
             @Field("restaurant_id") String restaurant_id,
             @Field("user_id") String user_id,
@@ -43,12 +47,29 @@ public interface RestroINAuthClient {
             @Field("couponSelected") String couponSelected
     );
 
+    @FormUrlEncoded
+    @POST("v1/authorization/OtpManager")
+    Call<MessageModel> otpGenerator(
+            @Header("Authorization") String access_token,
+            @Field("action") String action,
+            @Field("mobile_no") String mobile
+    );
+
+    @FormUrlEncoded
+    @POST("v1/authorization/OtpManager")
+    Call<MessageModel> otpVerifier(
+            @Header("Authorization") String access_token,
+            @Field("action") String action,
+            @Field("mobile_no") String mobile,
+            @Field("otp") String otp
+    );
+
     @GET("v1/authorization/getProfile")
     Call<ProfileModel> getUserProfile();
 
     @FormUrlEncoded
     @POST("v1/authorization/searchApi")
-    Call<HangoutRestaurants> getRestaurants(
+    Call<List<HangoutRestaurants>> getRestaurants(
             @Field("filter_name") String filter_name
     );
 

@@ -8,13 +8,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import in.restroin.restroin.fragments.ChangePasswordFragment;
 import in.restroin.restroin.fragments.EditProfileFragment;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * A placeholder fragment containing a simple view.
  */
 public class ProfileActivityFragment extends Fragment {
+
+    private HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY);
+    private OkHttpClient.Builder httpClient = new OkHttpClient.Builder().addInterceptor(loggingInterceptor);
+    Retrofit.Builder builder = new Retrofit.Builder()
+            .client(httpClient.build())
+            .baseUrl("https://www.restroin.in/developers/api/restroin/")
+            .addConverterFactory(GsonConverterFactory.create());
+    Retrofit retrofit = builder.build();
 
     public ProfileActivityFragment() {
     }
@@ -37,6 +50,8 @@ public class ProfileActivityFragment extends Fragment {
                 addFragment(new EditProfileFragment());
             }
         });
+        CircleImageView profile_image = (CircleImageView) view.findViewById(R.id.profile_image);
+
         return view;
     }
 

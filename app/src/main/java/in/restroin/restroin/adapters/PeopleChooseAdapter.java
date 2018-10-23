@@ -22,6 +22,7 @@ public class PeopleChooseAdapter extends RecyclerView.Adapter<PeopleChooseAdapte
     private List<String> people;
     private int CheckedCardViewPosition;
     private RecyclerView recyclerView;
+    private int people_;
 
     public PeopleChooseAdapter(List<String> people){
         this.people = people;
@@ -58,6 +59,7 @@ public class PeopleChooseAdapter extends RecyclerView.Adapter<PeopleChooseAdapte
         ImageView background_image;
         public ViewHolder(View itemView) {
             super(itemView);
+            people_ = CheckedCardViewPosition;
             background_image = (ImageView) itemView.findViewById(R.id.background_image);
             Uri path_to_assets = Uri.parse("https://www.restroin.in/developers/api/assets/people.jpg");
             Picasso.get().load(path_to_assets).into(background_image);
@@ -70,9 +72,25 @@ public class PeopleChooseAdapter extends RecyclerView.Adapter<PeopleChooseAdapte
                 @Override
                 public void onClick(View view) {
                     CheckedCardViewPosition = getAdapterPosition();
+                    people_ = CheckedCardViewPosition;
                     notifyDataSetChanged();
                 }
             });
         }
+    }
+
+    public int getPeopleCount(){
+        people_ = CheckedCardViewPosition;
+        return this.people_;
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
     }
 }

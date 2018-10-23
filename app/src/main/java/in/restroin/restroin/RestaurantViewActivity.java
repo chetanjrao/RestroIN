@@ -14,6 +14,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.PagerSnapHelper;
@@ -37,7 +38,9 @@ import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -105,6 +108,12 @@ public class RestaurantViewActivity extends FragmentActivity implements OnMapRea
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restaurant_view);
+        RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.restaurant_full_view);
+        ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        ProgressBar imagesProgressBar = (ProgressBar) findViewById(R.id.images_progress_bar);
+        relativeLayout.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
+        imagesProgressBar.setVisibility(View.VISIBLE);
         //final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         /********************** Maps *****************************/
 
@@ -113,15 +122,6 @@ public class RestaurantViewActivity extends FragmentActivity implements OnMapRea
         mapFragment.getMapAsync(this);
 
         /********************* Maps end *************************/
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
     }
 
@@ -176,7 +176,6 @@ public class RestaurantViewActivity extends FragmentActivity implements OnMapRea
             public void onResponse(@NonNull Call<RestaurantModel> call,@NonNull final Response<RestaurantModel> response) {
                 if(response.isSuccessful()){
                     List<String> restaurant_images = response.body().getFront_image();
-                    Toast.makeText(RestaurantViewActivity.this, "Size:" + restaurant_images.size(), Toast.LENGTH_SHORT).show();
                     List<String> restaurant_features = response.body().getRestaurant_features_amenities();
                     restaurant_name.setText(response.body().getRestaurant_name());
                     restaurant_city.setText(response.body().getCity_id() + ", " + response.body().getRestaurant_region() + " Bangalore");
@@ -185,9 +184,22 @@ public class RestaurantViewActivity extends FragmentActivity implements OnMapRea
                     List<String> menu_image = response.body().getMenu_image();
                     menu_images_count.setText(menu_image.size() + " images");
                     restaurant_image_count.setText(restaurant_images.size() + " images");
-                    DishesAdapter dishesAdapter = new DishesAdapter(response.body().getPopular_dishes(), RestaurantViewActivity.this);
-                    Toast.makeText(RestaurantViewActivity.this, "Size: " + response.body().getPopular_dishes().size(), Toast.LENGTH_SHORT).show();
-                    popular_dishes_recycler_view.setAdapter(dishesAdapter);
+                    final ArrayList<CouponModel> special_coupons = response.body().getRestaurant_coupon_selected();
+                    final CouponsSelectAdapter couponsSelectAdapter = new CouponsSelectAdapter(special_coupons, RestaurantViewActivity.this);
+                    if(response.body().getPopular_dishes() != null && response.body().getPopular_dishes().size() > 0){
+                        DishesAdapter dishesAdapter = new DishesAdapter(response.body().getPopular_dishes(), RestaurantViewActivity.this);
+                        popular_dishes_recycler_view.setAdapter(dishesAdapter);
+                    } else {
+                        RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.popular_food_dishes_layout);
+                        relativeLayout.setVisibility(View.GONE);
+                    }//couponsSelectLayout
+                    if(response.body().getRestaurant_coupon_selected() != null && response.body().getRestaurant_coupon_selected().size() > 0){
+                        CouponsSelectAdapter couponsSelectAdapter_ = new CouponsSelectAdapter(special_coupons, RestaurantViewActivity.this);
+                        specialCouponsRecyclerView.setAdapter(couponsSelectAdapter_);
+                    } else {
+                        CardView card = (CardView) findViewById(R.id.couponsSelectLayout);
+                        card.setVisibility(View.GONE);
+                    }
                     if (restaurant_images.size() > 0){
                         Uri restaurant_header_image = Uri.parse("https://www.restroin.in/" + restaurant_images.get(0));
                         Picasso.get().load(restaurant_header_image).into(restaurant_image_header);
@@ -199,15 +211,6 @@ public class RestaurantViewActivity extends FragmentActivity implements OnMapRea
                     Typeface raleway = Typeface.createFromAsset(getAssets(),
                             "font/raleway.ttf");
                     button.setTypeface(raleway);
-                    button.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Intent intent = new Intent(RestaurantViewActivity.this, BookingActivity.class);
-                            intent.putExtra("restaurant_id", id);
-                            intent.putExtra("restaurant_closing_time", response.body().getRestaurant_closing_time());
-                            startActivity(intent);
-                        }
-                    });
                     LatLng restaurant_location = new LatLng(Double.valueOf(response.body().getRestaurant_lat()), Double.valueOf(response.body().getRestaurant_lng()));
                     CameraUpdate cameraUpdate = CameraUpdateFactory.zoomTo(10);
                     mMap.addMarker(new MarkerOptions().position(restaurant_location).title("Location of: " + response.body().getRestaurant_name()));
@@ -223,20 +226,43 @@ public class RestaurantViewActivity extends FragmentActivity implements OnMapRea
                     myGridView.setAdapter(amenitiesGridAdapter);
                     RestaurantImageAdapter adapter = new RestaurantImageAdapter(restaurant_images);
                     images_recycler.setAdapter(adapter);
-                    ArrayList<CouponModel> special_coupons = response.body().getRestaurant_coupon_selected();
-                    CouponsSelectAdapter couponsSelectAdapter = new CouponsSelectAdapter(special_coupons, RestaurantViewActivity.this);
-                    specialCouponsRecyclerView.setAdapter(couponsSelectAdapter);
+                    button.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent intent = new Intent(RestaurantViewActivity.this, BookingActivity.class);
+                            intent.putExtra("restaurant_id", id);
+                            String couponSelected = special_coupons.get(couponsSelectAdapter.getCheckedCoupon()).getCoupon_code();
+                            intent.putExtra("couponSelected", couponSelected);
+                            intent.putExtra("restaurant_closing_time", response.body().getRestaurant_closing_time());
+                            intent.putExtra("restaurant_opening_time", response.body().getRestaurant_opening_time());
+                            startActivity(intent);
+                        }
+                    });
+                    RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.restaurant_full_view);
+                    ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar);
+                    ProgressBar imagesProgressBar = (ProgressBar) findViewById(R.id.images_progress_bar);
+                    relativeLayout.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.GONE);
+                    imagesProgressBar.setVisibility(View.GONE);
                 } else {
                     Toast.makeText(RestaurantViewActivity.this, "Something Went Wrong: " + response.message(), Toast.LENGTH_SHORT).show();
+                    finish();
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<RestaurantModel> call,@NonNull Throwable t) {
-                Toast.makeText(RestaurantViewActivity.this, "Error" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(RestaurantViewActivity.this, "Something Went Wrong. Check your internet connection", Toast.LENGTH_SHORT).show();
+                finish();
             }
         });
 
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
     public static void makeTextViewResizable(final TextView tv, final int maxLine, final String expandText, final boolean viewMore) {

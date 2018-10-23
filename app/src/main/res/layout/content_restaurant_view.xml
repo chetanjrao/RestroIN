@@ -12,7 +12,21 @@
         android:id="@+id/restaurant_view_nested_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ProgressBar
+                android:layout_centerHorizontal="true"
+                android:layout_width="20dp"
+                android:layout_marginTop="60sp"
+                android:indeterminateTint="@color/colorPrimary"
+                android:id="@+id/progressBar"
+                android:layout_height="20dp" />
+
+        <RelativeLayout
+            android:id="@+id/restaurant_full_view"
             android:descendantFocusability="blocksDescendants"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -581,6 +595,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
+                    <RelativeLayout
+                        android:id="@+id/popular_food_dishes_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
                     <TextView
                         android:layout_marginStart="5dp"
                         android:layout_width="wrap_content"
@@ -601,15 +619,19 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-
-
                     </android.support.v7.widget.RecyclerView>
+
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:layout_below="@id/popular_food_dishes_layout"
+                        android:id="@+id/customer_reviews_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
 
                     <TextView
                         android:layout_marginStart="5dp"
                         android:layout_width="wrap_content"
                         android:fontFamily="@font/raleway"
-                        android:layout_below="@id/popular_dishes_recycler"
                         android:id="@+id/customer_reviews_text"
                         android:textSize="14sp"
                         android:layout_marginTop="7dp"
@@ -627,10 +649,15 @@
 
                     </android.support.v7.widget.RecyclerView>
 
+                    </RelativeLayout>
+
                 </RelativeLayout>
 
 
             </android.support.v7.widget.CardView>
+
+
+        </RelativeLayout>
 
 
         </RelativeLayout>
