@@ -43,6 +43,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        checkAccessTokenStatus();
         final ImageButton exit_button = (ImageButton) findViewById(R.id.exit_button);
         final RelativeLayout progressLayout = (RelativeLayout) findViewById(R.id.progressBarLayout);
         final RelativeLayout main_layout = (RelativeLayout) findViewById(R.id.main_layout);
@@ -135,5 +136,14 @@ public class LoginActivity extends AppCompatActivity {
         Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
+    }
+
+    public void checkAccessTokenStatus(){
+        SaveSharedPreferences saveSharedPreferences = new SaveSharedPreferences();
+        String access_token = saveSharedPreferences.getAccess_token(LoginActivity.this);
+        if(access_token != null){
+            Intent goToLogin = new Intent(LoginActivity.this, UserFeedActivity.class);
+            startActivity(goToLogin);
+        }
     }
 }

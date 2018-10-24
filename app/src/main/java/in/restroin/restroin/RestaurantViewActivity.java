@@ -73,8 +73,12 @@ import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
 
 import in.restroin.restroin.adapters.AmenitiesGridAdapter;
 import in.restroin.restroin.adapters.CouponsSelectAdapter;
@@ -229,7 +233,27 @@ public class RestaurantViewActivity extends FragmentActivity implements OnMapRea
                         Uri menu_header_image = Uri.parse("https://www.restroin.in/" + menu_image.get(0));
                         Picasso.get().load(menu_header_image).into(menu_images_header);
                     }
-                    Button button = (Button) findViewById(R.id.book_now_button);
+                    Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Asia/Kolkata"));
+                    calendar.setTimeZone(TimeZone.getTimeZone("Asia/Kolkata"));
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm a");
+                    String currentTime = dateFormat.format(calendar.getTime());
+                    final Button button = (Button) findViewById(R.id.book_now_button);
+                    try {
+                        if(dateFormat.parse(currentTime).before(dateFormat.parse(response.body().getRestaurant_opening_time()))){
+                            button.setEnabled(false);
+                            button.setText("Closed Now");
+                            button.setBackgroundResource(R.drawable.dark_bottom_background_full_curved);
+                            button.setClickable(true);
+                            button.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Toast.makeText(RestaurantViewActivity.this, "This restaurant is closed for reservations now", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
                     Typeface raleway = Typeface.createFromAsset(getAssets(),
                             "font/raleway.ttf");
                     button.setTypeface(raleway);
@@ -251,9 +275,14 @@ public class RestaurantViewActivity extends FragmentActivity implements OnMapRea
                     button.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
+                            String couponSelected = null;
                             Intent intent = new Intent(RestaurantViewActivity.this, BookingActivity.class);
                             intent.putExtra("restaurant_id", id);
-                            String couponSelected = special_coupons.get(couponsSelectAdapter.getCheckedCoupon()).getCoupon_code();
+                            if(special_coupons == null){
+                                couponSelected = "";
+                            } else {
+                                couponSelected = special_coupons.get(couponsSelectAdapter.getCheckedCoupon()).getCoupon_code();
+                            }
                             intent.putExtra("couponSelected", couponSelected);
                             intent.putExtra("restaurant_closing_time", response.body().getRestaurant_closing_time());
                             intent.putExtra("restaurant_opening_time", response.body().getRestaurant_opening_time());

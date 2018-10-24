@@ -50,14 +50,15 @@
             android:label="@string/title_activity_maps" />
         <activity
             android:name=".LoginActivity"
-            android:windowSoftInputMode="adjustResize"></activity>
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".RegisterActivity"
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ProfileActivity"
             android:theme="@style/AppTheme" />
-        <activity android:name=".SearchActivity"></activity>
+        <activity android:name=".SearchActivity" />
+        <activity android:name=".EditBooking"></activity>
     </application>
 
 </manifest>

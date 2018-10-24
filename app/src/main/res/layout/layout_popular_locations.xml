@@ -42,6 +42,7 @@
                     android:layout_width="wrap_content"
                     android:rating="4"
                     android:numStars="5"
+                    android:theme="@style/ImageTheme"
                     android:id="@+id/popular_location_rating"
                     android:layout_below="@id/popular_location"
                     style="@style/Widget.AppCompat.RatingBar.Small"

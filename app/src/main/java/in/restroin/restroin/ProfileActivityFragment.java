@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -62,6 +63,13 @@ public class ProfileActivityFragment extends Fragment {
         RelativeLayout changePassword = (RelativeLayout) view.findViewById(R.id.changePasswordLayout);
         RelativeLayout editProfileLayout = (RelativeLayout) view.findViewById(R.id.EditProfileLayout);
         RelativeLayout logoutLayout = (RelativeLayout) view.findViewById(R.id.SignOutLayout);
+        ImageButton exit = (ImageButton) view.findViewById(R.id.exit_button);
+        exit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().onBackPressed();
+            }
+        });
         changePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -118,6 +126,12 @@ public class ProfileActivityFragment extends Fragment {
                 ProfileBookingStatusAdapter profileBookingStatusAdapter = new ProfileBookingStatusAdapter(response.body().getBookings());
                 dine_count.setText(response.body().getDine_count());
                 profile_name.setText(response.body().getName());
+                if(saveSharedPreferences.getFirst_name(view.getContext()) == null || saveSharedPreferences.getFirst_name(view.getContext()).equals("")){
+                    saveSharedPreferences.setFirst_name(response.body().getFirst_name(), view.getContext());
+                }
+                if(saveSharedPreferences.getLast_name(view.getContext()) == null || saveSharedPreferences.getLast_name(view.getContext()).equals("")){
+                    saveSharedPreferences.setLast_name(response.body().getLast_name(), view.getContext());
+                }
                 profile_email.setText(saveSharedPreferences.getEmail(view.getContext()));
                 profile_number.setText(saveSharedPreferences.getMobile_no(view.getContext()));
                 Uri image = Uri.parse(saveSharedPreferences.getImage(view.getContext()));

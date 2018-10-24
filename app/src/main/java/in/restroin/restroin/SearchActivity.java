@@ -9,7 +9,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
@@ -43,12 +45,21 @@ public class SearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search);
         String filter_type = getIntent().getStringExtra("filter_type");
         String filter_id = getIntent().getStringExtra("filter_id");
+        final TextView filter_type_text_view = (TextView) findViewById(R.id.filter_type);
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.searchRecyclerView);
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(SearchActivity.this, LinearLayoutManager.VERTICAL, false);
         final ProgressBar progressBar = (ProgressBar) findViewById(R.id.ProgressBar);
+        final ImageButton imageButton = (ImageButton) findViewById(R.id.exit_button);
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         progressBar.setVisibility(View.VISIBLE);
         recyclerView.setVisibility(View.GONE);
         if(getIntent().getStringExtra("filter_type") == null) {
+            filter_type_text_view.setText("Filter Type: All");
             RestroINAuthClient authClient = retrofit.create(RestroINAuthClient.class);
             Call<List<HangoutRestaurants>> restaurantsCall = authClient.getRestaurants("", "");
             restaurantsCall.enqueue(new Callback<List<HangoutRestaurants>>() {
@@ -69,6 +80,7 @@ public class SearchActivity extends AppCompatActivity {
                 }
             });
         } else{
+            filter_type_text_view.setText("Filter Type: " + getIntent().getStringExtra("filter_type"));
             RestroINAuthClient inAuthClient = retrofit.create(RestroINAuthClient.class);
             Call<List<HangoutRestaurants>> restaurantsCall = inAuthClient.getRestaurants(filter_id, filter_type);
             restaurantsCall.enqueue(new Callback<List<HangoutRestaurants>>() {

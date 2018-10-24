@@ -6,11 +6,22 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".UserFeedActivity">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ProgressBar
+        android:id="@+id/ProgressBar"
+        android:layout_width="20dp"
+        android:layout_centerInParent="true"
+        android:indeterminateTint="@color/colorPrimary"
+        android:layout_height="20dp" />
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <RelativeLayout
+            android:id="@+id/main_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -167,8 +178,38 @@
 
             </android.support.v7.widget.RecyclerView>
 
+            <RelativeLayout
+                android:layout_marginTop="6dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="6dp"
+                android:layout_below="@id/hangout_places_recycler"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_centerHorizontal="true"
+                    android:layout_width="wrap_content"
+                    android:fontFamily="@font/hobo"
+                    android:textSize="19sp"
+                    android:id="@+id/footer_intro"
+                    android:text="restroin"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:fontFamily="@font/raleway"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:textSize="12sp"
+                    android:textAlignment="center"
+                    android:text="We provide genuine results and restuarant data. Kindly visit our website for Terms, Conditions, Privacy and Content Policy"
+                    android:layout_below="@id/footer_intro"
+                    android:layout_height="wrap_content" />
+
+            </RelativeLayout>
         </RelativeLayout>
 
     </android.support.v4.widget.NestedScrollView>
+</RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>

@@ -643,6 +643,7 @@
                     <android.support.v7.widget.RecyclerView
                         android:layout_width="match_parent"
                         android:layout_marginTop="7dp"
+                        android:nestedScrollingEnabled="false"
                         android:id="@+id/ratings_reviews_recycler"
                         android:layout_marginStart="5dp"
                         android:layout_below="@id/customer_reviews_text"

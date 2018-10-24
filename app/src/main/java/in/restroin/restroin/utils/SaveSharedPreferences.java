@@ -8,8 +8,39 @@ public class SaveSharedPreferences {
     private Context context;
     private String auth_header = "AUTH_CREDENTIALS";
     private SharedPreferences sharedPreferences;
-    private String email, access_token, user_id, mobile_no, device_uid,image;
+    private String email, access_token, user_id, mobile_no, device_uid,image, first_name, last_name;
     private boolean firstLoginRejected;
+
+    public String getFirst_name(Context context) {
+        this.context = context;
+        sharedPreferences = context.getSharedPreferences(auth_header, Context.MODE_PRIVATE);
+        return sharedPreferences.getString("first_name", "");
+    }
+
+    public void setFirst_name(String first_name, Context context) {
+        this.context = context;
+        sharedPreferences = context.getSharedPreferences(auth_header, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("first_name", first_name);
+        editor.apply();
+        this.first_name = first_name;
+    }
+
+    public String getLast_name(Context context) {
+        this.context = context;
+        sharedPreferences = context.getSharedPreferences(auth_header, Context.MODE_PRIVATE);
+        return sharedPreferences.getString("last_name", "");
+    }
+
+    public void setLast_name(String last_name, Context context) {
+        this.context = context;
+        sharedPreferences = context.getSharedPreferences(auth_header, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("last_name", last_name);
+        editor.apply();
+        this.last_name = last_name;
+    }
+
 
     public String getImage(Context context) {
         this.context = context;

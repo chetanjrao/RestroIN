@@ -28,6 +28,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -79,13 +80,31 @@ public class UserFeedActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_feed);
-        SearchView searchView = (SearchView) findViewById(R.id.searchView);
+        final ProgressBar progressBar = (ProgressBar) findViewById(R.id.ProgressBar);
+        RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.main_layout);
+        progressBar.setVisibility(View.VISIBLE);
+        relativeLayout.setVisibility(View.GONE);
+        final SearchView searchView = (SearchView) findViewById(R.id.searchView);
         ImageView searchViewIcon = (ImageView) searchView.findViewById(android.support.v7.appcompat.R.id.search_mag_icon);
         ViewGroup searchbarViewGroup = (ViewGroup) searchViewIcon.getParent();
         searchbarViewGroup.removeView(searchViewIcon);
         searchbarViewGroup.addView(searchViewIcon);
         View v = searchView.findViewById(android.support.v7.appcompat.R.id.search_plate);
         v.setBackgroundColor(Color.TRANSPARENT);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Intent intent = new Intent(UserFeedActivity.this, SearchActivity.class);
+                intent.putExtra("filter_type", "Restaurant");
+                intent.putExtra("filter_id", query);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
         ShowOffers(UserFeedActivity.this);
         setProfileImage();
         CheckForfirstRejection();
@@ -146,6 +165,10 @@ public class UserFeedActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
     public void ShowPopularRestaurants(final Context context){
+        final ProgressBar progressBar = (ProgressBar) findViewById(R.id.ProgressBar);
+        RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.main_layout);
+        progressBar.setVisibility(View.VISIBLE);
+        relativeLayout.setVisibility(View.GONE);
         Retrofit retrofit_popular_restaurants = builder.build();
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.popular_restaurants_recycler);
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
@@ -159,6 +182,10 @@ public class UserFeedActivity extends AppCompatActivity {
                     List<PopularRestaurants> popularRestaurants = response.body();
                     PopularRestaurantsAdapter popularRestaurantsAdapter = new PopularRestaurantsAdapter(popularRestaurants, UserFeedActivity.this);
                     recyclerView.setAdapter(popularRestaurantsAdapter);
+                    final ProgressBar progressBar = (ProgressBar) findViewById(R.id.ProgressBar);
+                    RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.main_layout);
+                    progressBar.setVisibility(View.GONE);
+                    relativeLayout.setVisibility(View.VISIBLE);
                     scaleRestaurnats(recyclerView, popularRestaurantsAdapter, popularRestaurants);
                 } else {
                     Toast.makeText(UserFeedActivity.this, "Something Went Wrong ", Toast.LENGTH_SHORT).show();
@@ -173,6 +200,10 @@ public class UserFeedActivity extends AppCompatActivity {
     }
 
     public void ShowHangoutRestaurants(final Context context){
+        final ProgressBar progressBar = (ProgressBar) findViewById(R.id.ProgressBar);
+        RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.main_layout);
+        progressBar.setVisibility(View.VISIBLE);
+        relativeLayout.setVisibility(View.GONE);
         Retrofit retrofit_popular_restaurants = builder.build();
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.hangout_places_recycler);
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
@@ -186,6 +217,10 @@ public class UserFeedActivity extends AppCompatActivity {
                     final List<HangoutRestaurants> popularRestaurants = response.body();
                     HangoutPlacesAdapter popularRestaurantsAdapter = new HangoutPlacesAdapter(popularRestaurants, UserFeedActivity.this);
                     recyclerView.setAdapter(popularRestaurantsAdapter);
+                    final ProgressBar progressBar = (ProgressBar) findViewById(R.id.ProgressBar);
+                    RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.main_layout);
+                    progressBar.setVisibility(View.GONE);
+                    relativeLayout.setVisibility(View.VISIBLE);
                     final GestureDetector gestureDetector = new GestureDetector(UserFeedActivity.this, new GestureDetector.OnGestureListener() {
                         @Override
                         public boolean onDown(MotionEvent e) {
@@ -261,6 +296,10 @@ public class UserFeedActivity extends AppCompatActivity {
     }
 
     public void ShowOffers(final Context context){
+        final ProgressBar progressBar = (ProgressBar) findViewById(R.id.ProgressBar);
+        RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.main_layout);
+        progressBar.setVisibility(View.VISIBLE);
+        relativeLayout.setVisibility(View.GONE);
         Retrofit retrofit_offers = builder.build();
         final RecyclerView offersRecycler = (RecyclerView) findViewById(R.id.offers_recycler_view);
         PagerSnapHelper pagerSnapHelper = new PagerSnapHelper();
@@ -277,6 +316,10 @@ public class UserFeedActivity extends AppCompatActivity {
                     OffersAdapter offersAdapter = new OffersAdapter(offers, context);
                     offersRecycler.setAdapter(offersAdapter);
                     scaleItem(offersRecycler, offersAdapter, offers);
+                    final ProgressBar progressBar = (ProgressBar) findViewById(R.id.ProgressBar);
+                    RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.main_layout);
+                    progressBar.setVisibility(View.GONE);
+                    relativeLayout.setVisibility(View.VISIBLE);
                 } else {
                     Toast.makeText(context, "Something Went wrong : " + response.message(), Toast.LENGTH_SHORT).show();
                 }
@@ -422,6 +465,10 @@ public class UserFeedActivity extends AppCompatActivity {
     }
 
     public void ShowCusines(){
+        final ProgressBar progressBar = (ProgressBar) findViewById(R.id.ProgressBar);
+        RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.main_layout);
+        progressBar.setVisibility(View.VISIBLE);
+        relativeLayout.setVisibility(View.GONE);
         Retrofit Cusines = builder.build();
         final MyGridView cusinesGridView = (MyGridView) findViewById(R.id.cusines_gridView);
         CusinesClient client = Cusines.create(CusinesClient.class);
@@ -433,6 +480,10 @@ public class UserFeedActivity extends AppCompatActivity {
                     final List<CusineGridModel> cusines = response.body();
                     CusinesGridAdapter cusinesGridAdapter = new CusinesGridAdapter(cusines, UserFeedActivity.this);
                     cusinesGridView.setAdapter(cusinesGridAdapter);
+                    final ProgressBar progressBar = (ProgressBar) findViewById(R.id.ProgressBar);
+                    RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.main_layout);
+                    progressBar.setVisibility(View.GONE);
+                    relativeLayout.setVisibility(View.VISIBLE);
                     cusinesGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -455,6 +506,10 @@ public class UserFeedActivity extends AppCompatActivity {
     }
 
     public void ShowPopularLocations(final RecyclerView recyclerView){
+        final ProgressBar progressBar = (ProgressBar) findViewById(R.id.ProgressBar);
+        RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.main_layout);
+        progressBar.setVisibility(View.VISIBLE);
+        relativeLayout.setVisibility(View.GONE);
         Retrofit Locations = builder.build();
         LinearLayoutManager layoutManager = new LinearLayoutManager(UserFeedActivity.this, LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(layoutManager);
@@ -532,6 +587,10 @@ public class UserFeedActivity extends AppCompatActivity {
 
                         }
                     });
+                    final ProgressBar progressBar = (ProgressBar) findViewById(R.id.ProgressBar);
+                    RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.main_layout);
+                    progressBar.setVisibility(View.GONE);
+                    relativeLayout.setVisibility(View.VISIBLE);
                 } else {
                     Log.e(RETROFIT_TAG, "Something Went Wrong: " + response.message());
                 }
