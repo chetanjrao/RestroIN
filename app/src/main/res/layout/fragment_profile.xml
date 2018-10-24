@@ -10,11 +10,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-
-
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
+
+        <ProgressBar
+            android:layout_width="20dp"
+            android:id="@+id/ProgressBar"
+            android:indeterminateTint="@color/colorPrimary"
+            android:layout_centerInParent="true"
+            android:layout_height="20dp" />
+
+        <RelativeLayout
+            android:id="@+id/main_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
 
         <RelativeLayout
             android:elevation="3dp"
@@ -70,7 +80,7 @@
 
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:layout_width="100dp"
-                        android:layout_margin="10dp"
+                        android:layout_marginStart="20dp"
                         android:id="@+id/profile_image"
                         android:scaleType="centerCrop"
                         android:src="@mipmap/restro20"
@@ -90,7 +100,7 @@
                             android:text="Total Dines"
                             android:fontFamily="@font/raleway"
                             android:textColor="#363636"
-                            android:textSize="24sp"
+                            android:textSize="20sp"
                             android:layout_height="wrap_content" />
 
                         <TextView
@@ -102,7 +112,7 @@
                             android:text="5"
                             android:fontFamily="@font/raleway"
                             android:textColor="#363636"
-                            android:textSize="28sp"
+                            android:textSize="24sp"
                             android:layout_height="wrap_content" />
 
 
@@ -119,7 +129,7 @@
 
                     <TextView
                         android:layout_width="match_parent"
-                        android:textSize="21sp"
+                        android:textSize="18sp"
                         android:text="Chethan Jagannatha Kulkarni"
                         android:textColor="#363636"
                         android:fontFamily="@font/raleway"
@@ -132,7 +142,7 @@
 
                     <TextView
                         android:layout_width="match_parent"
-                        android:textSize="18sp"
+                        android:textSize="15sp"
                         android:text="chethanjkulkarni@gmail.com"
                         android:textColor="#363636"
                         android:layout_below="@id/profile_name"
@@ -145,7 +155,7 @@
 
                     <TextView
                         android:layout_width="match_parent"
-                        android:textSize="18sp"
+                        android:textSize="15sp"
                         android:layout_marginTop="6dp"
                         android:layout_marginBottom="6dp"
                         android:layout_below="@id/profile_email"
@@ -178,9 +188,11 @@
                android:layout_height="wrap_content">
 
                <RelativeLayout
+                   android:layout_marginTop="5dp"
+                   android:layout_marginBottom="5dp"
                    android:id="@+id/dine_history_intro"
                    android:layout_width="match_parent"
-                   android:layout_height="24dp">
+                   android:layout_height="40dp">
 
                    <TextView
                        android:id="@+id/hangout_places_text"
@@ -190,7 +202,8 @@
                        android:layout_marginStart="10dp"
                        android:fontFamily="@font/raleway"
                        android:textStyle="bold"
-                       android:text="Your Dining History"
+                       android:layout_marginTop="6dp"
+                       android:text="Your recent dinings"
                        android:layout_height="wrap_content" />
 
                    <View
@@ -206,7 +219,9 @@
 
                <android.support.v7.widget.RecyclerView
                    android:layout_marginTop="6dp"
-                   android:layout_marginStart="10dp"
+                   android:layout_marginStart="5dp"
+                   android:nestedScrollingEnabled="false"
+                   android:id="@+id/dining_status_recycler"
                    android:layout_below="@id/dine_history_intro"
                    android:layout_width="match_parent"
                    android:layout_height="wrap_content">
@@ -264,6 +279,27 @@
                     android:layout_below="@id/account_intro"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
+
+                    <RelativeLayout
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:id="@+id/EditProfileLayout"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp">
+
+
+                        <TextView
+                            android:layout_centerVertical="true"
+                            android:layout_width="wrap_content"
+                            android:text="Edit Profile"
+                            android:fontFamily="@font/raleway"
+                            android:textSize="18sp"
+                            android:textColor="#363636"
+                            android:layout_height="wrap_content" />
+
+                    </RelativeLayout>
+
 
                     <RelativeLayout
                         android:clickable="true"
@@ -340,6 +376,9 @@
 
 
         </android.support.v7.widget.CardView>
+
+
+        </RelativeLayout>
 
 
     </RelativeLayout>

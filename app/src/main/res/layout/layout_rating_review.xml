@@ -7,19 +7,21 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <RelativeLayout
-        android:layout_marginTop="5dp"
+        android:background="@drawable/review_card_background"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <RelativeLayout
             android:id="@+id/review_profile_layout"
             android:layout_width="match_parent"
-            android:layout_height="70dp">
+            android:layout_height="60dp">
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_width="50dp"
                 android:id="@+id/reviews_profile_image"
-                android:layout_margin="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="6dp"
                 android:scaleType="centerCrop"
                 android:src="@mipmap/restro20"
                 android:layout_height="50dp" />
@@ -60,9 +62,10 @@
         <RelativeLayout
             android:layout_below="@id/review_profile_layout"
             android:id="@+id/review_layout"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
+            android:layout_centerHorizontal="true"
             android:layout_marginBottom="10dp"
             android:layout_height="wrap_content">
 
@@ -70,8 +73,9 @@
                 android:layout_width="wrap_content"
                 android:textColor="#000"
                 android:textAlignment="center"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:id="@+id/review"
+                android:textStyle="italic"
                 android:fontFamily="@font/raleway"
                 android:text="This is truly a good restaurant and I was spent around Rs. 3000 and It was surely worth it absolutely. Here was good hospitality and service &quot;"
                 android:layout_height="wrap_content" />

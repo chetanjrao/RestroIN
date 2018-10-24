@@ -1,5 +1,6 @@
 package in.restroin.restroin.adapters;
 
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -33,10 +34,13 @@ public class RatingReviewsAdapter extends RecyclerView.Adapter<RatingReviewsAdap
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.review.setText(reviewsRatingModels.get(position).getReview());
+        Typeface raleway = Typeface.createFromAsset(holder.itemView.getContext().getAssets(), "font/raleway.ttf");
+        holder.review.setText("\"" + reviewsRatingModels.get(position).getReview() + "\"");
+        holder.review.setTypeface(raleway);
         holder.reviewer.setText(reviewsRatingModels.get(position).getReviewer());
+        holder.reviewer.setTypeface(raleway);
         holder.reviews_rating.setRating(Float.parseFloat(reviewsRatingModels.get(position).getRating()));
-        Uri image = Uri.parse("https://www.restroin.in/developers/api/images" + reviewsRatingModels.get(position).getImage());
+        Uri image = Uri.parse("https://www.restroin.in/developers/api/images/" + reviewsRatingModels.get(position).getImage());
         Picasso.get().load(image).into(holder.profile_image);
     }
 

@@ -50,7 +50,6 @@ public class LoginActivity extends AppCompatActivity {
         progressLayout.setVisibility(View.GONE);
         final TextInputEditText username_editText = (TextInputEditText) findViewById(R.id.login_username);
         final TextInputEditText password_editText = (TextInputEditText) findViewById(R.id.login_password);
-        final String device_uid = FirebaseInstanceId.getInstance().getToken();
         Button loginBtn = (Button) findViewById(R.id.login_button);
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,11 +59,11 @@ public class LoginActivity extends AppCompatActivity {
                 if(!TextUtils.isEmpty(username)){
                     if(!TextUtils.isEmpty(password)){
                         if(isEmailValid(username)){
+                            final String device_uid = FirebaseInstanceId.getInstance().getToken();
                             main_layout.setVisibility(View.GONE);
                             progressLayout.setVisibility(View.VISIBLE);
                             exit_button.setVisibility(View.GONE);
                             validateUser(username, password, device_uid);
-                            Toast.makeText(LoginActivity.this, device_uid, Toast.LENGTH_SHORT).show();
                         } else {
                             username_editText.setError("Kindly enter a valid email address");
                         }

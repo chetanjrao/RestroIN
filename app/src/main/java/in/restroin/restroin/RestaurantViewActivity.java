@@ -4,12 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.media.Rating;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.widget.NestedScrollView;
@@ -25,9 +27,12 @@ import android.text.Html;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
+import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -38,6 +43,7 @@ import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
@@ -76,14 +82,18 @@ import in.restroin.restroin.adapters.CuisinesGridAdapter;
 import in.restroin.restroin.adapters.CusinesGridAdapter;
 import in.restroin.restroin.adapters.DishesAdapter;
 import in.restroin.restroin.adapters.MenuImagesAdapter;
+import in.restroin.restroin.adapters.RatingReviewsAdapter;
 import in.restroin.restroin.adapters.RestaurantImageAdapter;
 import in.restroin.restroin.interfaces.RestaurantClient;
+import in.restroin.restroin.interfaces.RestroINAuthClient;
 import in.restroin.restroin.models.CouponModel;
+import in.restroin.restroin.models.MessageModel;
 import in.restroin.restroin.models.RestaurantDishesModel;
 import in.restroin.restroin.models.RestaurantModel;
 import in.restroin.restroin.utils.DishesDeserializer;
 import in.restroin.restroin.utils.MyGridView;
 import in.restroin.restroin.utils.MySpannable;
+import in.restroin.restroin.utils.SaveSharedPreferences;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -92,8 +102,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.github.mikephil.charting.utils.ColorTemplate.rgb;
 
-public class RestaurantViewActivity extends FragmentActivity implements OnMapReadyCallback {
+public class RestaurantViewActivity extends FragmentActivity implements OnMapReadyCallback, View.OnTouchListener {
     private GoogleMap mMap;
+    private PopupWindow popupWindow;
 
     private final static String RETROFIT_TAG = "RETROFIT_LOG";
     private static final int[] COLORS = {
@@ -104,6 +115,7 @@ public class RestaurantViewActivity extends FragmentActivity implements OnMapRea
     Retrofit.Builder builder = new Retrofit.Builder()
             .baseUrl("https://www.restroin.in/")
             .addConverterFactory(GsonConverterFactory.create());
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -137,7 +149,7 @@ public class RestaurantViewActivity extends FragmentActivity implements OnMapRea
         final RecyclerView images_recycler = (RecyclerView) findViewById(R.id.restaurant_images);
         final MyGridView myGridView = (MyGridView) findViewById(R.id.features_gridView);
         images_recycler.setLayoutManager(layoutManager);
-        Retrofit restaurant_retrofit = builder.build();
+        final Retrofit restaurant_retrofit = builder.build();
         Typeface raleway = Typeface.createFromAsset(getAssets(),
                 "font/raleway.ttf");
         final TextView restaurant_name = (TextView) findViewById(R.id.restaurant_name);
@@ -171,6 +183,8 @@ public class RestaurantViewActivity extends FragmentActivity implements OnMapRea
         final RecyclerView specialCouponsRecyclerView = (RecyclerView) findViewById(R.id.special_coupons_recyclerView);
         specialCouponsRecyclerView.setNestedScrollingEnabled(false);
         specialCouponsRecyclerView.setLayoutManager(linearLayoutManager);
+        final RecyclerView ratings_reviews_recycler_view = (RecyclerView) findViewById(R.id.ratings_reviews_recycler);
+        final LinearLayoutManager ratingLayoutManager = new LinearLayoutManager(RestaurantViewActivity.this, LinearLayoutManager.VERTICAL, false);
         call.enqueue(new Callback<RestaurantModel>() {
             @Override
             public void onResponse(@NonNull Call<RestaurantModel> call,@NonNull final Response<RestaurantModel> response) {
@@ -199,6 +213,14 @@ public class RestaurantViewActivity extends FragmentActivity implements OnMapRea
                     } else {
                         CardView card = (CardView) findViewById(R.id.couponsSelectLayout);
                         card.setVisibility(View.GONE);
+                    }
+                    if(response.body().getReviews() != null && response.body().getReviews().size() > 0){
+                        RatingReviewsAdapter adapter_reviews = new RatingReviewsAdapter(response.body().getReviews());
+                        ratings_reviews_recycler_view.setLayoutManager(ratingLayoutManager);
+                        ratings_reviews_recycler_view.setAdapter(adapter_reviews);
+                    } else {
+                        RelativeLayout main_rating_layout = (RelativeLayout) findViewById(R.id.customer_reviews_layout);
+                        main_rating_layout.setVisibility(View.GONE);
                     }
                     if (restaurant_images.size() > 0){
                         Uri restaurant_header_image = Uri.parse("https://www.restroin.in/" + restaurant_images.get(0));
@@ -244,6 +266,79 @@ public class RestaurantViewActivity extends FragmentActivity implements OnMapRea
                     relativeLayout.setVisibility(View.VISIBLE);
                     progressBar.setVisibility(View.GONE);
                     imagesProgressBar.setVisibility(View.GONE);
+                    final View popupContent = getLayoutInflater().inflate(R.layout.layout_reviews_rating_popup, null);
+                    popupWindow = new PopupWindow();
+                    popupWindow.setWindowLayoutMode(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
+                    popupWindow.setContentView(popupContent);
+                    popupWindow.setTouchInterceptor(RestaurantViewActivity.this);
+                    popupWindow.setFocusable(true);
+                    popupWindow.setOutsideTouchable(true);
+                    popupWindow.setAnimationStyle(R.style.PopupAnimation);
+                    final ProgressBar popUpProgressBar = (ProgressBar) popupContent.findViewById(R.id.reviewsProgressBar);
+                    popUpProgressBar.setVisibility(View.GONE);
+                    final RelativeLayout reviewsRelativeLayout = (RelativeLayout) popupContent.findViewById(R.id.review_layout_full);
+                    reviewsRelativeLayout.setVisibility(View.VISIBLE);
+                    popupContent.findViewById(R.id.popup_exit).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            popupWindow.dismiss();
+                        }
+                    });
+                    Button write_review_button = (Button) findViewById(R.id.write_review_button);
+                    write_review_button.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if(new SaveSharedPreferences().getAccess_token(RestaurantViewActivity.this) != null){
+                                popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
+                                popUpProgressBar.setVisibility(View.GONE);
+                                reviewsRelativeLayout.setVisibility(View.VISIBLE);
+                                Button review_submit_button = (Button) popupContent.findViewById(R.id.review_submit_button);
+                                review_submit_button.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        TextInputEditText review = (TextInputEditText) popupContent.findViewById(R.id.review_edit_text);
+                                        RatingBar review_rating = (RatingBar) popupContent.findViewById(R.id.rating_bar);
+                                        if(!TextUtils.isEmpty(review.getText().toString())){
+                                            if(review_rating.getRating() != 0){
+                                                popUpProgressBar.setVisibility(View.VISIBLE);
+                                                reviewsRelativeLayout.setVisibility(View.GONE);
+                                                RestroINAuthClient inAuthClient = restaurant_retrofit.create(RestroINAuthClient.class);
+                                                SaveSharedPreferences saveSharedPreferences = new SaveSharedPreferences();
+                                                Call<MessageModel> reviewModel = inAuthClient.submitReview("Bearer " + saveSharedPreferences.getAccess_token(RestaurantViewActivity.this), id, saveSharedPreferences.getUser_id(RestaurantViewActivity.this), String.valueOf(review_rating.getRating()), review.getText().toString());
+                                                reviewModel.enqueue(new Callback<MessageModel>() {
+                                                    @Override
+                                                    public void onResponse(Call<MessageModel> call, Response<MessageModel> response) {
+                                                        if (Integer.parseInt(response.body().getStatus()) == 200){
+                                                            Toast.makeText(RestaurantViewActivity.this, "Thank You for your Review", Toast.LENGTH_SHORT).show();
+                                                            popupWindow.dismiss();
+                                                        } else {
+                                                            Toast.makeText(RestaurantViewActivity.this, "Something Went Wrong. Try again", Toast.LENGTH_SHORT).show();
+                                                            popUpProgressBar.setVisibility(View.GONE);
+                                                            reviewsRelativeLayout.setVisibility(View.VISIBLE);
+                                                        }
+                                                    }
+
+                                                    @Override
+                                                    public void onFailure(Call<MessageModel> call, Throwable t) {
+                                                        Toast.makeText(RestaurantViewActivity.this, "", Toast.LENGTH_SHORT).show();
+                                                        popUpProgressBar.setVisibility(View.GONE);
+                                                        reviewsRelativeLayout.setVisibility(View.VISIBLE);
+                                                    }
+                                                });
+                                            } else {
+                                                Toast.makeText(RestaurantViewActivity.this, "Please provide some rating", Toast.LENGTH_SHORT).show();
+                                            }
+                                        } else {
+                                            Toast.makeText(RestaurantViewActivity.this, "Please write a review", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
+                            } else {
+                                Intent goToLogin = new Intent(RestaurantViewActivity.this, LoginActivity.class);
+                                startActivity(goToLogin);
+                            }
+                        }
+                    });
                 } else {
                     Toast.makeText(RestaurantViewActivity.this, "Something Went Wrong: " + response.message(), Toast.LENGTH_SHORT).show();
                     finish();
@@ -339,5 +434,18 @@ public class RestaurantViewActivity extends FragmentActivity implements OnMapRea
 
     }
 
+    public void checkAccessTokenStatus(){
+        SaveSharedPreferences saveSharedPreferences = new SaveSharedPreferences();
+        String access_token = saveSharedPreferences.getAccess_token(RestaurantViewActivity.this);
+        if(access_token == null){
+            Intent goToLogin = new Intent(RestaurantViewActivity.this, LoginActivity.class);
+            startActivity(goToLogin);
+        }
+    }
 
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        return false;
+    }
 }

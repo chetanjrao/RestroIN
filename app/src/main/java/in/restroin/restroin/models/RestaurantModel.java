@@ -8,6 +8,34 @@ public class RestaurantModel {
     private List<String> restaurant_cuisines_available, restaurant_features_amenities, front_image, menu_image;
     private ArrayList<CouponModel> restaurant_coupon_selected;
     private ArrayList<RestaurantDishesModel> popular_dishes;
+    private ArrayList<ReviewsRatingModel> reviews;
+
+    public RestaurantModel(String restaurant_id, String restaurant_name, String restaurant_region, String restaurant_address, String city_id, String restaurant_about, String restaurant_manager_name, String restaurant_phone, String restaurant_email, String price_for_two, String restaurant_seat_available, String restaurant_speciality, String restaurant_lat, String restaurant_lng, String restaurant_opening_time, String restaurant_closing_time, String restaurant_rating, List<String> restaurant_cuisines_available, List<String> restaurant_features_amenities, List<String> front_image, List<String> menu_image, ArrayList<CouponModel> restaurant_coupon_selected, ArrayList<RestaurantDishesModel> popular_dishes, ArrayList<ReviewsRatingModel> reviews) {
+        this.restaurant_id = restaurant_id;
+        this.restaurant_name = restaurant_name;
+        this.restaurant_region = restaurant_region;
+        this.restaurant_address = restaurant_address;
+        this.city_id = city_id;
+        this.restaurant_about = restaurant_about;
+        this.restaurant_manager_name = restaurant_manager_name;
+        this.restaurant_phone = restaurant_phone;
+        this.restaurant_email = restaurant_email;
+        this.price_for_two = price_for_two;
+        this.restaurant_seat_available = restaurant_seat_available;
+        this.restaurant_speciality = restaurant_speciality;
+        this.restaurant_lat = restaurant_lat;
+        this.restaurant_lng = restaurant_lng;
+        this.restaurant_opening_time = restaurant_opening_time;
+        this.restaurant_closing_time = restaurant_closing_time;
+        this.restaurant_rating = restaurant_rating;
+        this.restaurant_cuisines_available = restaurant_cuisines_available;
+        this.restaurant_features_amenities = restaurant_features_amenities;
+        this.front_image = front_image;
+        this.menu_image = menu_image;
+        this.restaurant_coupon_selected = restaurant_coupon_selected;
+        this.popular_dishes = popular_dishes;
+        this.reviews = reviews;
+    }
 
     public String getRestaurant_id() {
         return restaurant_id;
@@ -193,29 +221,11 @@ public class RestaurantModel {
         this.popular_dishes = popular_dishes;
     }
 
-    public RestaurantModel(String restaurant_id, String restaurant_name, String restaurant_region, String restaurant_address, String city_id, String restaurant_about, String restaurant_manager_name, String restaurant_phone, String restaurant_email, String price_for_two, String restaurant_seat_available, String restaurant_speciality, String restaurant_lat, String restaurant_lng, String restaurant_opening_time, String restaurant_closing_time, String restaurant_rating, List<String> restaurant_cuisines_available, List<String> restaurant_features_amenities, List<String> front_image, List<String> menu_image, ArrayList<CouponModel> restaurant_coupon_selected, ArrayList<RestaurantDishesModel> popular_dishes) {
-        this.restaurant_id = restaurant_id;
-        this.restaurant_name = restaurant_name;
-        this.restaurant_region = restaurant_region;
-        this.restaurant_address = restaurant_address;
-        this.city_id = city_id;
-        this.restaurant_about = restaurant_about;
-        this.restaurant_manager_name = restaurant_manager_name;
-        this.restaurant_phone = restaurant_phone;
-        this.restaurant_email = restaurant_email;
-        this.price_for_two = price_for_two;
-        this.restaurant_seat_available = restaurant_seat_available;
-        this.restaurant_speciality = restaurant_speciality;
-        this.restaurant_lat = restaurant_lat;
-        this.restaurant_lng = restaurant_lng;
-        this.restaurant_opening_time = restaurant_opening_time;
-        this.restaurant_closing_time = restaurant_closing_time;
-        this.restaurant_rating = restaurant_rating;
-        this.restaurant_cuisines_available = restaurant_cuisines_available;
-        this.restaurant_features_amenities = restaurant_features_amenities;
-        this.front_image = front_image;
-        this.menu_image = menu_image;
-        this.restaurant_coupon_selected = restaurant_coupon_selected;
-        this.popular_dishes = popular_dishes;
+    public ArrayList<ReviewsRatingModel> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(ArrayList<ReviewsRatingModel> reviews) {
+        this.reviews = reviews;
     }
 }

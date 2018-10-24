@@ -8,17 +8,49 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    <android.support.v7.widget.SearchView
-        android:id="@+id/searchView"
-        android:theme="@style/EditTextTheme"
-        android:layout_width="match_parent"
-        android:layout_height="50sp">
+        android:layout_height="match_parent">
 
-    </android.support.v7.widget.SearchView>
+        <ProgressBar
+            android:layout_width="20dp"
+            android:id="@+id/ProgressBar"
+            android:indeterminateTint="@color/colorPrimary"
+            android:layout_centerInParent="true"
+            android:layout_height="20dp" />
+
+        <RelativeLayout
+            android:elevation="3dp"
+            android:background="#fff"
+            android:layout_width="match_parent"
+            android:id="@+id/toolbar_layout"
+            android:layout_height="60dp">
+
+            <ImageButton
+                android:layout_width="60dp"
+                android:id="@+id/exit_button"
+                android:src="@drawable/ic_back"
+                android:tint="@color/colorPrimary"
+                android:foreground="?attr/selectableItemBackground"
+                android:background="@android:color/transparent"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="Search Results"
+                android:fontFamily="@font/raleway"
+                android:textSize="20sp"
+                android:layout_toEndOf="@id/exit_button"
+                android:layout_marginStart="8sp"
+                android:layout_centerVertical="true"
+                android:textColor="#363636"
+                android:textStyle="bold"
+                android:layout_height="wrap_content" />
+
+
+        </RelativeLayout>
+
 <android.support.v7.widget.RecyclerView
     android:layout_width="match_parent"
-    android:layout_below="@id/searchView"
+    android:layout_below="@id/toolbar_layout"
     android:layout_marginStart="5dp"
     android:layout_marginEnd="5dp"
     android:id="@+id/searchRecyclerView"

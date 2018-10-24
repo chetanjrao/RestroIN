@@ -2,6 +2,7 @@ package in.restroin.restroin.interfaces;
 
 import java.util.List;
 
+import in.restroin.restroin.models.DiningModel;
 import in.restroin.restroin.models.HangoutRestaurants;
 import in.restroin.restroin.models.LoginModel;
 import in.restroin.restroin.models.MessageModel;
@@ -70,8 +71,24 @@ public interface RestroINAuthClient {
     @FormUrlEncoded
     @POST("v1/authorization/searchApi")
     Call<List<HangoutRestaurants>> getRestaurants(
-            @Field("filter_name") String filter_name
+            @Field("filter_name") String filter_name,
+            @Field("filter_type") String filter_type
     );
 
+    @FormUrlEncoded
+    @POST("developers/api/restroin/v1/authorization/submitReview")
+    Call<MessageModel> submitReview(
+            @Header("Authorization") String access_token,
+            @Field("restaurant_id") String restaurant_id,
+            @Field("user_id") String user_id,
+            @Field("rating") String rating,
+            @Field("review") String review
+    );
 
+    @FormUrlEncoded
+    @POST("v1/authorization/getDineHistory")
+    Call<DiningModel> getDiningHistory (
+      @Header("Authorization") String access_token,
+      @Field("user_id") String user_id
+    );
 }

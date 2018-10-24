@@ -26,6 +26,7 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -182,9 +183,71 @@ public class UserFeedActivity extends AppCompatActivity {
             @Override
             public void onResponse(@NonNull Call<List<HangoutRestaurants>> call,@NonNull Response<List<HangoutRestaurants>> response) {
                 if(response.isSuccessful()){
-                    List<HangoutRestaurants> popularRestaurants = response.body();
+                    final List<HangoutRestaurants> popularRestaurants = response.body();
                     HangoutPlacesAdapter popularRestaurantsAdapter = new HangoutPlacesAdapter(popularRestaurants, UserFeedActivity.this);
                     recyclerView.setAdapter(popularRestaurantsAdapter);
+                    final GestureDetector gestureDetector = new GestureDetector(UserFeedActivity.this, new GestureDetector.OnGestureListener() {
+                        @Override
+                        public boolean onDown(MotionEvent e) {
+                            return false;
+                        }
+
+                        @Override
+                        public void onShowPress(MotionEvent e) {
+
+                        }
+
+                        @Override
+                        public boolean onSingleTapUp(MotionEvent e) {
+                            return true;
+                        }
+
+                        @Override
+                        public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+                            return false;
+                        }
+
+                        @Override
+                        public void onLongPress(MotionEvent e) {
+
+                        }
+
+                        @Override
+                        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+                            return false;
+                        }
+                    });
+                    recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+                        @Override
+                        public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+                            final View offerView = rv.findChildViewUnder(e.getX(), e.getY());
+                            final int position = rv.getChildAdapterPosition(offerView);
+                            if(offerView != null && gestureDetector.onTouchEvent(e)){
+                                offerView.setScaleX((float)0.985);
+                                offerView.setScaleY((float) 0.985);
+                                Intent intent = new Intent(UserFeedActivity.this, RestaurantViewActivity.class);
+                                intent.putExtra("restaurant_id", popularRestaurants.get(position).getRestaurant_id());
+                                startActivity(intent);
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        offerView.setScaleX((float)1.0);
+                                        offerView.setScaleY((float)1.0);
+                                    }
+                                }, 100);
+                            }
+                            return false;
+                        }
+
+                        @Override
+                        public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+                        }
+
+                        @Override
+                        public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+                        }
+                    });
                 } else {
                     Toast.makeText(UserFeedActivity.this, "Something Went Wrong ", Toast.LENGTH_SHORT).show();
                 }
@@ -268,8 +331,9 @@ public class UserFeedActivity extends AppCompatActivity {
                     offerView.setScaleX((float)0.985);
                     offerView.setScaleY((float) 0.985);
                     Intent intent = new Intent(UserFeedActivity.this, SearchActivity.class);
+                    intent.putExtra("filter_type", "Coupon");
+                    intent.putExtra("filter_id", offers.get(position).getCoupon_id());
                     startActivity(intent);
-                    Toast.makeText(UserFeedActivity.this, "Coupon: " + offers.get(position).getCoupon_code(), Toast.LENGTH_SHORT).show();
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -366,9 +430,18 @@ public class UserFeedActivity extends AppCompatActivity {
             @Override
             public void onResponse(@NonNull Call<List<CusineGridModel>> call,@NonNull Response<List<CusineGridModel>> response) {
                 if(response.isSuccessful()){
-                    List<CusineGridModel> cusines = response.body();
+                    final List<CusineGridModel> cusines = response.body();
                     CusinesGridAdapter cusinesGridAdapter = new CusinesGridAdapter(cusines, UserFeedActivity.this);
                     cusinesGridView.setAdapter(cusinesGridAdapter);
+                    cusinesGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            Intent intent = new Intent(UserFeedActivity.this, SearchActivity.class);
+                            intent.putExtra("filter_type", "Cuisine");
+                            intent.putExtra("filter_id", cusines.get(position).getCusine_id());
+                            startActivity(intent);
+                        }
+                    });
                 } else {
                     Toast.makeText(UserFeedActivity.this, "Something went wrong: ", Toast.LENGTH_SHORT).show();
                 }
@@ -393,9 +466,72 @@ public class UserFeedActivity extends AppCompatActivity {
             @Override
             public void onResponse(@NonNull Call<List<PopularLocations>> call,@NonNull Response<List<PopularLocations>> response) {
                 if(response.isSuccessful()){
-                    List<PopularLocations> locations = response.body();
+                    final List<PopularLocations> locations = response.body();
                     PopularLocationsAdapter adapter = new PopularLocationsAdapter(locations, UserFeedActivity.this);
                     recyclerView.setAdapter(adapter);
+                    final GestureDetector gestureDetector = new GestureDetector(UserFeedActivity.this, new GestureDetector.OnGestureListener() {
+                        @Override
+                        public boolean onDown(MotionEvent e) {
+                            return false;
+                        }
+
+                        @Override
+                        public void onShowPress(MotionEvent e) {
+
+                        }
+
+                        @Override
+                        public boolean onSingleTapUp(MotionEvent e) {
+                            return true;
+                        }
+
+                        @Override
+                        public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+                            return false;
+                        }
+
+                        @Override
+                        public void onLongPress(MotionEvent e) {
+
+                        }
+
+                        @Override
+                        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+                            return false;
+                        }
+                    });
+                    recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+                        @Override
+                        public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+                            final View offerView = rv.findChildViewUnder(e.getX(), e.getY());
+                            final int position = rv.getChildAdapterPosition(offerView);
+                            if(offerView != null && gestureDetector.onTouchEvent(e)){
+                                offerView.setScaleX((float)0.985);
+                                offerView.setScaleY((float) 0.985);
+                                Intent intent = new Intent(UserFeedActivity.this, SearchActivity.class);
+                                intent.putExtra("filter_type", "Location");
+                                intent.putExtra("filter_id", locations.get(position).getId());
+                                startActivity(intent);
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        offerView.setScaleX((float)1.0);
+                                        offerView.setScaleY((float)1.0);
+                                    }
+                                }, 100);
+                            }
+                            return false;
+                        }
+
+                        @Override
+                        public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+                        }
+
+                        @Override
+                        public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+                        }
+                    });
                 } else {
                     Log.e(RETROFIT_TAG, "Something Went Wrong: " + response.message());
                 }

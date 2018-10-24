@@ -1,5 +1,6 @@
 package in.restroin.restroin;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -10,22 +11,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import in.restroin.restroin.utils.SaveSharedPreferences;
+
 public class ProfileActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
+        checkAccessTokenStatus();
         ProfileActivityFragment profileActivityFragment = new ProfileActivityFragment();
         addFragment(profileActivityFragment);
 
@@ -45,6 +39,14 @@ public class ProfileActivity extends AppCompatActivity {
             //addFragment(new ProfileActivityFragment());
         } else {
             super.onBackPressed();
+        }
+    }
+    public void checkAccessTokenStatus(){
+        SaveSharedPreferences saveSharedPreferences = new SaveSharedPreferences();
+        String access_token = saveSharedPreferences.getAccess_token(ProfileActivity.this);
+        if(access_token == null){
+            Intent goToLogin = new Intent(ProfileActivity.this, LoginActivity.class);
+            startActivity(goToLogin);
         }
     }
 }

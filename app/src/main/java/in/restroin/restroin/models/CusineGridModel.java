@@ -1,12 +1,12 @@
 package in.restroin.restroin.models;
 
 public class CusineGridModel {
-    private String cusine_name, cusine_count, cusine_image;
+    public String getCusine_id() {
+        return cusine_id;
+    }
 
-    public CusineGridModel(String cusine_name, String cusine_count, String cusine_image) {
-        this.cusine_name = cusine_name;
-        this.cusine_count = cusine_count;
-        this.cusine_image = cusine_image;
+    public void setCusine_id(String cusine_id) {
+        this.cusine_id = cusine_id;
     }
 
     public String getCusine_name() {
@@ -32,4 +32,16 @@ public class CusineGridModel {
     public void setCusine_image(String cusine_image) {
         this.cusine_image = cusine_image;
     }
+
+    public CusineGridModel(String cusine_id, String cusine_name, String cusine_count, String cusine_image) {
+
+        this.cusine_id = cusine_id;
+        this.cusine_name = cusine_name;
+        this.cusine_count = cusine_count;
+        this.cusine_image = cusine_image;
+    }
+
+    private String cusine_id, cusine_name, cusine_count, cusine_image;
+
+
 }

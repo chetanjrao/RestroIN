@@ -1,7 +1,16 @@
 package in.restroin.restroin.models;
 
 public class PopularLocations {
-    private String location_name, locations_restaurants, location_rating, location_image;
+    private String id, location_name, locations_restaurants, location_rating, location_image;
+
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getLocation_name() {
         return location_name;
@@ -35,8 +44,8 @@ public class PopularLocations {
         this.location_image = location_image;
     }
 
-    public PopularLocations(String location_name, String locations_restaurants, String location_rating, String location_image) {
-
+    public PopularLocations(String id, String location_name, String locations_restaurants, String location_rating, String location_image) {
+        this.id = id;
         this.location_name = location_name;
         this.locations_restaurants = locations_restaurants;
         this.location_rating = location_rating;
