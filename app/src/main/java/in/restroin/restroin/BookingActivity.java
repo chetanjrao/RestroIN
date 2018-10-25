@@ -250,13 +250,13 @@ public class BookingActivity extends AppCompatActivity implements onAdapterItemC
                     guest_email = guest_email_edit_text.getText().toString();
                     guest_phone = guest_phone_edit_text.getText().toString();
                     couponSelected = getIntent().getStringExtra("couponSelected");
-                    popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
                     RestroINAuthClient authClient = retrofit.create(RestroINAuthClient.class);
                     Call<MessageModel> otpCall = authClient.otpGenerator("Bearer " + saveSharedPreferences.getAccess_token(BookingActivity.this), "generateOtp", guest_phone_edit_text.getText().toString());
                     otpCall.enqueue(new Callback<MessageModel>() {
                         @Override
                         public void onResponse(Call<MessageModel> call, Response<MessageModel> response) {
                             if(Integer.parseInt(response.body().getStatus()) == 200){
+                                popupWindow.showAtLocation(v, Gravity.CENTER, 0, 0);
                                 Toast.makeText(BookingActivity.this, "OTP is valid for 10 mins", Toast.LENGTH_SHORT).show();
                             } else {
                                 Toast.makeText(BookingActivity.this, "Something Went Wrong. Try Again", Toast.LENGTH_SHORT).show();

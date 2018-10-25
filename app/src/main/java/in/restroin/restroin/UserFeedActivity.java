@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
@@ -24,12 +25,14 @@ import android.util.Log;
 import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.MotionEvent;
+import android.view.SearchEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.PieChart;
@@ -77,9 +80,24 @@ public class UserFeedActivity extends AppCompatActivity {
             .addConverterFactory(GsonConverterFactory.create());
 
     @Override
+    protected void onPostResume() {
+        setProfileImage();
+        super.onPostResume();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        setProfileImage();
+    }
+
+
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_feed);
+        setProfileImage();
         final ProgressBar progressBar = (ProgressBar) findViewById(R.id.ProgressBar);
         RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.main_layout);
         progressBar.setVisibility(View.VISIBLE);
@@ -89,19 +107,41 @@ public class UserFeedActivity extends AppCompatActivity {
         ViewGroup searchbarViewGroup = (ViewGroup) searchViewIcon.getParent();
         searchbarViewGroup.removeView(searchViewIcon);
         searchbarViewGroup.addView(searchViewIcon);
+        TextView textView = (TextView) findViewById(R.id.footer);
+        textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url = "https://www.restroin.in/home/privacy_policy";
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+            }
+        });
         View v = searchView.findViewById(android.support.v7.appcompat.R.id.search_plate);
         v.setBackgroundColor(Color.TRANSPARENT);
+        searchView.setOnSearchClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(UserFeedActivity.this, SearchActivity.class);
+                intent.putExtra("filter_type", "Restaurant");
+                intent.putExtra("filter_id", searchView.getQuery());
+                startActivity(intent);
+            }
+        });
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 Intent intent = new Intent(UserFeedActivity.this, SearchActivity.class);
                 intent.putExtra("filter_type", "Restaurant");
                 intent.putExtra("filter_id", query);
-                return true;
+                startActivity(intent);
+                return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                Intent intent = new Intent(UserFeedActivity.this, SearchActivity.class);
+                intent.putExtra("filter_type", "Restaurant");
+                intent.putExtra("filter_id", newText);
                 return false;
             }
         });
@@ -158,6 +198,7 @@ public class UserFeedActivity extends AppCompatActivity {
     protected void onStart() {
         CheckForfirstRejection();
         super.onStart();
+        setProfileImage();
     }
     @Override
     protected void onPause() {

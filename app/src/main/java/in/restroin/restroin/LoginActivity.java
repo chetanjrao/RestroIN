@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -49,6 +50,14 @@ public class LoginActivity extends AppCompatActivity {
         final RelativeLayout main_layout = (RelativeLayout) findViewById(R.id.main_layout);
         main_layout.setVisibility(View.VISIBLE);
         progressLayout.setVisibility(View.GONE);
+        TextView textView = (TextView) findViewById(R.id.forgot_password);
+        textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
+                startActivity(intent);
+            }
+        });
         final TextInputEditText username_editText = (TextInputEditText) findViewById(R.id.login_username);
         final TextInputEditText password_editText = (TextInputEditText) findViewById(R.id.login_password);
         Button loginBtn = (Button) findViewById(R.id.login_button);
@@ -107,7 +116,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<LoginModel> call, Response<LoginModel> response) {
                 String statusCode = response.body().getStatus();
-                if(statusCode != null && statusCode.equals("200")){
+                if(statusCode != null && Integer.parseInt(response.body().getStatus()) == 200){
                     String access_token = response.body().getToken();
                     String user_id = response.body().getId();
                     String mobile_no = response.body().getMobile_number();
@@ -117,15 +126,32 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, "Logged In Successfully", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(LoginActivity.this, UserFeedActivity.class);
                     startActivity(intent);
+                } else if(Integer.parseInt(response.body().getStatus()) == 402) {
+                    Toast.makeText(LoginActivity.this, "A confirmation email has been sent to you email address", Toast.LENGTH_SHORT).show();
+                    final ImageButton exit_button = (ImageButton) findViewById(R.id.exit_button);
+                    final RelativeLayout progressLayout = (RelativeLayout) findViewById(R.id.progressBarLayout);
+                    final RelativeLayout main_layout = (RelativeLayout) findViewById(R.id.main_layout);
+                    main_layout.setVisibility(View.VISIBLE);
+                    progressLayout.setVisibility(View.GONE);
+                    exit_button.setVisibility(View.VISIBLE);
+                }else {
+                    Toast.makeText(LoginActivity.this, "Invalid Login Credentials ", Toast.LENGTH_SHORT).show();
+                    final ImageButton exit_button = (ImageButton) findViewById(R.id.exit_button);
+                    final RelativeLayout progressLayout = (RelativeLayout) findViewById(R.id.progressBarLayout);
+                    final RelativeLayout main_layout = (RelativeLayout) findViewById(R.id.main_layout);
+                    main_layout.setVisibility(View.VISIBLE);
+                    progressLayout.setVisibility(View.GONE);
+                    exit_button.setVisibility(View.VISIBLE);
                 }
             }
 
             @Override
             public void onFailure(Call<LoginModel> call, Throwable t) {
+                final ImageButton exit_button = (ImageButton) findViewById(R.id.exit_button);
                 Toast.makeText(LoginActivity.this, "Something went wrong. Please try again", Toast.LENGTH_SHORT).show();
                 progressLayout.setVisibility(View.GONE);
                 main_layout.setVisibility(View.VISIBLE);
-
+                exit_button.setVisibility(View.VISIBLE);
             }
         });
 

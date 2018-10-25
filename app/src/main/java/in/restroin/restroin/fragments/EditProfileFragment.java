@@ -1,5 +1,6 @@
 package in.restroin.restroin.fragments;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -39,6 +40,7 @@ public class EditProfileFragment extends Fragment{
             .baseUrl("https://www.restroin.in/developers/api/restroin/")
             .addConverterFactory(GsonConverterFactory.create());
     Retrofit retrofit = builder.build();
+    private Uri uri;
 
     public EditProfileFragment(){
 

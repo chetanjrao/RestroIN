@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">RestroIn</string>
+    <string name="app_name">RestroIN</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_restaurant_view">RestaurantViewActivity</string>
     <string name="large_text">

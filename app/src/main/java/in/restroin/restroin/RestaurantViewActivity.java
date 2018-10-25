@@ -1,7 +1,9 @@
 package in.restroin.restroin;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.media.Rating;
@@ -12,6 +14,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.widget.NestedScrollView;
@@ -98,6 +101,7 @@ import in.restroin.restroin.utils.DishesDeserializer;
 import in.restroin.restroin.utils.MyGridView;
 import in.restroin.restroin.utils.MySpannable;
 import in.restroin.restroin.utils.SaveSharedPreferences;
+import pub.devrel.easypermissions.EasyPermissions;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -106,10 +110,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.github.mikephil.charting.utils.ColorTemplate.rgb;
 
-public class RestaurantViewActivity extends FragmentActivity implements OnMapReadyCallback, View.OnTouchListener {
+public class RestaurantViewActivity extends FragmentActivity implements OnMapReadyCallback, View.OnTouchListener, EasyPermissions.PermissionCallbacks {
     private GoogleMap mMap;
     private PopupWindow popupWindow;
-
+    private String phone;
     private final static String RETROFIT_TAG = "RETROFIT_LOG";
     private static final int[] COLORS = {
             rgb("#c70000"), rgb("#e23100"), rgb("#ff9500"), rgb("#88ff00"), rgb("#26ca02")
@@ -141,7 +145,7 @@ public class RestaurantViewActivity extends FragmentActivity implements OnMapRea
 
     }
 
-    public void showDatesRecycler(final RecyclerView recyclerView, Context context){
+    public void showDatesRecycler(final RecyclerView recyclerView, Context context) {
         final LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
     }
 
@@ -160,6 +164,18 @@ public class RestaurantViewActivity extends FragmentActivity implements OnMapRea
         restaurant_name.setTypeface(raleway);
         final TextView restaurant_city = (TextView) findViewById(R.id.restaurant_city);
         restaurant_city.setTypeface(raleway);
+        final CardView cardView = (CardView) findViewById(R.id.menu_images);
+        cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent newn = new Intent(RestaurantViewActivity.this, ImageViewActivity.class);
+                newn.putExtra("id", id);
+                startActivity(newn);
+            }
+        });
+        final RelativeLayout phonelayout = (RelativeLayout) findViewById(R.id.restaurant_phone_layout);
+        ;
+        final TextView restaurant_phone = (TextView) findViewById(R.id.restaurant_phone);
         final TextView restaurant_address = (TextView) findViewById(R.id.address_of_restaurant);
         restaurant_address.setTypeface(raleway);
         final TextView restaurant_timing = (TextView) findViewById(R.id.timing_of_restaurant);
@@ -189,19 +205,43 @@ public class RestaurantViewActivity extends FragmentActivity implements OnMapRea
         specialCouponsRecyclerView.setLayoutManager(linearLayoutManager);
         final RecyclerView ratings_reviews_recycler_view = (RecyclerView) findViewById(R.id.ratings_reviews_recycler);
         final LinearLayoutManager ratingLayoutManager = new LinearLayoutManager(RestaurantViewActivity.this, LinearLayoutManager.VERTICAL, false);
+        restaurant_phone.setTypeface(raleway);
         call.enqueue(new Callback<RestaurantModel>() {
             @Override
-            public void onResponse(@NonNull Call<RestaurantModel> call,@NonNull final Response<RestaurantModel> response) {
-                if(response.isSuccessful()){
+            public void onResponse(@NonNull Call<RestaurantModel> call, @NonNull final Response<RestaurantModel> response) {
+                if (response.isSuccessful()) {
                     List<String> restaurant_images = response.body().getFront_image();
                     List<String> restaurant_features = response.body().getRestaurant_features_amenities();
                     restaurant_name.setText(response.body().getRestaurant_name());
                     restaurant_city.setText(response.body().getCity_id() + ", " + response.body().getRestaurant_region() + " Bangalore");
-                    restaurant_address.setText(" " +response.body().getRestaurant_address());
-                    cost_for_two.setText(" \u20B9 " +response.body().getPrice_for_two() + "/- (for 2 people approx.)");
+                    restaurant_address.setText(" " + response.body().getRestaurant_address());
+                    cost_for_two.setText(" \u20B9 " + response.body().getPrice_for_two() + "/- (for 2 people approx.)");
                     List<String> menu_image = response.body().getMenu_image();
                     menu_images_count.setText(menu_image.size() + " images");
                     restaurant_image_count.setText(restaurant_images.size() + " images");
+                    restaurant_phone.setText(response.body().getRestaurant_phone());
+                    phone = response.body().getRestaurant_phone();
+                    phonelayout.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (EasyPermissions.hasPermissions(RestaurantViewActivity.this, Manifest.permission.CALL_PHONE)) {
+                                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + response.body().getRestaurant_phone()));
+                                if (ActivityCompat.checkSelfPermission(RestaurantViewActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                                    // TODO: Consider calling
+                                    //    ActivityCompat#requestPermissions
+                                    // here to request the missing permissions, and then overriding
+                                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                    //                                          int[] grantResults)
+                                    // to handle the case where the user grants the permission. See the documentation
+                                    // for ActivityCompat#requestPermissions for more details.
+                                    return;
+                                }
+                                startActivity(intent);
+                            } else {
+                                EasyPermissions.requestPermissions(RestaurantViewActivity.this, "RestroIN needs your permission to call", 300, Manifest.permission.CALL_PHONE);
+                            }
+                        }
+                    });
                     final ArrayList<CouponModel> special_coupons = response.body().getRestaurant_coupon_selected();
                     final CouponsSelectAdapter couponsSelectAdapter = new CouponsSelectAdapter(special_coupons, RestaurantViewActivity.this);
                     if(response.body().getPopular_dishes() != null && response.body().getPopular_dishes().size() > 0){
@@ -239,7 +279,7 @@ public class RestaurantViewActivity extends FragmentActivity implements OnMapRea
                     String currentTime = dateFormat.format(calendar.getTime());
                     final Button button = (Button) findViewById(R.id.book_now_button);
                     try {
-                        if(dateFormat.parse(currentTime).before(dateFormat.parse(response.body().getRestaurant_opening_time()))){
+                        if(dateFormat.parse(currentTime).before(dateFormat.parse(response.body().getRestaurant_opening_time())) || dateFormat.parse(currentTime).after(dateFormat.parse(response.body().getRestaurant_closing_time()))){
                             button.setEnabled(false);
                             button.setText("Closed Now");
                             button.setBackgroundResource(R.drawable.dark_bottom_background_full_curved);
@@ -476,5 +516,26 @@ public class RestaurantViewActivity extends FragmentActivity implements OnMapRea
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         return false;
+    }
+
+    @Override
+    public void onPermissionsGranted(int requestCode, List<String> perms) {
+        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phone));
+        if (ActivityCompat.checkSelfPermission(RestaurantViewActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        startActivity(intent);
+    }
+
+    @Override
+    public void onPermissionsDenied(int requestCode, List<String> perms) {
+        Toast.makeText(this, "You denied the permission to call", Toast.LENGTH_SHORT).show();
     }
 }

@@ -5,17 +5,25 @@ import java.util.List;
 import in.restroin.restroin.models.BookingStepModel;
 import in.restroin.restroin.models.DiningModel;
 import in.restroin.restroin.models.HangoutRestaurants;
+import in.restroin.restroin.models.ImageModel;
 import in.restroin.restroin.models.LoginModel;
 import in.restroin.restroin.models.MessageModel;
 import in.restroin.restroin.models.ProfileModel;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface RestroINAuthClient {
+
     @FormUrlEncoded
     @POST("v1/authorization/userCreator")
     Call<MessageModel> registerUser(
@@ -25,6 +33,17 @@ public interface RestroINAuthClient {
             @Field("dev_uid") String device_uid,
             @Field("mob_no") String mobile_number,
             @Field("action") String action
+    );
+
+    @GET("getRestaurantImages.php")
+    Call<ImageModel> getImages(
+            @Query("id") String id
+    );
+
+    @FormUrlEncoded
+    @POST("v1/authorization/resetPassword")
+    Call<MessageModel> resetPassword(
+            @Field("email") String email
     );
 
     @FormUrlEncoded
@@ -47,6 +66,18 @@ public interface RestroINAuthClient {
             @Field("guest_phone") String guest_phone,
             @Field("guest_email") String guest_email,
             @Field("couponSelected") String couponSelected
+    );
+
+    @FormUrlEncoded
+    @POST("v1/authorization/bookingsManager")
+    Call<MessageModel> cancelBooking(
+            @Header("Authorization") String access_token,
+            @Field("actionStep") String actionStep,
+            @Field("booking_id") String booking_id,
+            @Field("restaurant_name") String restaurant_name,
+            @Field("guest_name") String guest_name,
+            @Field("guest_phone") String guest_phone,
+            @Field("restaurant_phone") String restaurant_phone
     );
 
     @FormUrlEncoded
@@ -117,4 +148,13 @@ public interface RestroINAuthClient {
             @Header("Authorization") String access_token,
             @Field("booking_id") String booking_id
     );
+
+    @Multipart
+    @POST("v1/authorization/editProfile")
+    Call<MessageModel> updateImage(
+            @Header("Authorization") String access_token,
+            @Part MultipartBody.Part file,
+            @Part("name") RequestBody image_name,
+            @Part("action") RequestBody action
+            );
 }

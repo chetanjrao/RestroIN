@@ -200,9 +200,10 @@
                     android:fontFamily="@font/raleway"
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
-                    android:textSize="12sp"
+                    android:textSize="10sp"
+                    android:id="@+id/footer"
                     android:textAlignment="center"
-                    android:text="We provide genuine results and restuarant data. Kindly visit our website for Terms, Conditions, Privacy and Content Policy"
+                    android:text="\u00a9 Copyright 2018, TecideXa Services Pvt. Ltd. \n We provide genuine restuarant data and results. Click here for Terms &amp; Conditions, Privacy &amp; Content Policy"
                     android:layout_below="@id/footer_intro"
                     android:layout_height="wrap_content" />
 

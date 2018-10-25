@@ -7,6 +7,22 @@
     android:theme="@style/EditTextTheme"
     tools:context=".RegisterActivity">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ProgressBar
+            android:layout_width="20dp"
+            android:id="@+id/ProgressBar"
+            android:indeterminateTint="@color/colorPrimary"
+            android:layout_centerInParent="true"
+            android:layout_height="20dp" />
+
+        <RelativeLayout
+            android:id="@+id/main_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
     <ImageButton
         android:id="@+id/exit_button"
         android:padding="15dp"
@@ -154,5 +170,9 @@
     </RelativeLayout>
 
     </android.support.v4.widget.NestedScrollView>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>
