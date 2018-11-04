@@ -165,7 +165,6 @@ public class SaveSharedPreferences {
         editor.remove("user_id");
         editor.remove("mobile_no");
         editor.remove("device_uid");
-        editor.remove("firstLoginRejected");
         editor.remove("image");
         editor.apply();
     }

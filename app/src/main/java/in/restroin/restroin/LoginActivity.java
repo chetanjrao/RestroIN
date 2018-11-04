@@ -169,6 +169,7 @@ public class LoginActivity extends AppCompatActivity {
         String access_token = saveSharedPreferences.getAccess_token(LoginActivity.this);
         if(access_token != null){
             Intent goToLogin = new Intent(LoginActivity.this, UserFeedActivity.class);
+            goToLogin.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(goToLogin);
         }
     }

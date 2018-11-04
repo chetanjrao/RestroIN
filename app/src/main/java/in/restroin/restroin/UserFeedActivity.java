@@ -153,12 +153,18 @@ public class UserFeedActivity extends AppCompatActivity {
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.popular_locations_recycler);
         ShowPopularLocations(recyclerView);
         ShowHangoutRestaurants(UserFeedActivity.this);
-        RelativeLayout profileLayout = (RelativeLayout) findViewById(R.id.toolbar);
-        profileLayout.setOnClickListener(new View.OnClickListener() {
+        CircleImageView profile_image__ = (CircleImageView) findViewById(R.id.profile_image);
+        profile_image__.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent goToProfile = new Intent(UserFeedActivity.this, ProfileActivity.class);
-                startActivity(goToProfile);
+                if(new SaveSharedPreferences().getAccess_token(UserFeedActivity.this) == null){
+                    Intent goToProfile = new Intent(UserFeedActivity.this, ProfileActivity.class);
+                    goToProfile.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(goToProfile);
+                } else {
+                    Intent goToProfile = new Intent(UserFeedActivity.this, ProfileActivity.class);
+                    startActivity(goToProfile);
+                }
             }
         });
     }

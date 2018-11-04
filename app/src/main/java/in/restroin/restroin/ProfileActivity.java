@@ -46,6 +46,7 @@ public class ProfileActivity extends AppCompatActivity {
         String access_token = saveSharedPreferences.getAccess_token(ProfileActivity.this);
         if(access_token == null){
             Intent goToLogin = new Intent(ProfileActivity.this, LoginActivity.class);
+            goToLogin.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(goToLogin);
         }
     }

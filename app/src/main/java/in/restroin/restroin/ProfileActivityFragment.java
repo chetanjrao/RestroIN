@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -68,9 +69,8 @@ public class ProfileActivityFragment extends Fragment implements EasyPermissions
             .addConverterFactory(GsonConverterFactory.create());
     Retrofit retrofit = builder.build();
     private Uri uri;
-
     public ProfileActivityFragment() {
-        checkAccessTokenStatus();
+
     }
 
     @Override
@@ -149,7 +149,7 @@ public class ProfileActivityFragment extends Fragment implements EasyPermissions
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
+                intent.setAction(Intent.ACTION_PICK);
                 startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1);
             }
         });
@@ -165,7 +165,9 @@ public class ProfileActivityFragment extends Fragment implements EasyPermissions
                 ProfileBookingStatusAdapter profileBookingStatusAdapter = new ProfileBookingStatusAdapter(response.body().getBookings());
                 dine_count.setText(response.body().getDine_count());
                 profile_name.setText(response.body().getName());
-                Uri uri = Uri.parse(saveSharedPreferences.getImage(getContext()));
+                if(getContext() != null){ uri = Uri.parse(saveSharedPreferences.getImage(getContext())); } else {
+                    uri = Uri.parse("https://www.restroin.in/developers/api/images/blank.png");
+                }
                 Picasso.get().load(uri).into(profile_image);
                 if(saveSharedPreferences.getFirst_name(view.getContext()) == null || saveSharedPreferences.getFirst_name(view.getContext()).equals("")){
                     saveSharedPreferences.setFirst_name(response.body().getFirst_name(), view.getContext());
@@ -280,7 +282,6 @@ public class ProfileActivityFragment extends Fragment implements EasyPermissions
                 final ProgressBar progressBar = (ProgressBar) getView().findViewById(R.id.ProgressBar);
                 final RelativeLayout relativeLayout = (RelativeLayout) getView().findViewById(R.id.main_layout);
                 final CircleImageView circleImageView = (CircleImageView) getView().findViewById(R.id.profile_image);
-                final Uri[] image_path = new Uri[1];
                 progressBar.setVisibility(View.VISIBLE);
                 relativeLayout.setVisibility(View.GONE);
                 String file_path = getRealPathFromUriPath(uri, getActivity());
@@ -298,8 +299,8 @@ public class ProfileActivityFragment extends Fragment implements EasyPermissions
                         if(Integer.parseInt(response.body().getStatus()) == 200){
                             saveSharedPreferences.setImage("https://www.restroin.in/developers/api/images/" + response.body().getMessage(), getContext());
                             Toast.makeText(getContext(), "Profile Image Updated", Toast.LENGTH_SHORT).show();
-                            image_path[0] = Uri.parse(saveSharedPreferences.getImage(getContext()));
-                            Picasso.get().load(image_path[0]).into(circleImageView);
+                            Uri image_path = Uri.parse(saveSharedPreferences.getImage(getContext()));
+                            Picasso.get().load(image_path).into(circleImageView);
                             progressBar.setVisibility(View.GONE);
                             relativeLayout.setVisibility(View.VISIBLE);
                         } else {
@@ -320,20 +321,6 @@ public class ProfileActivityFragment extends Fragment implements EasyPermissions
                 EasyPermissions.requestPermissions(getContext(), "RestroIN needs to access your files", 300, Manifest.permission.READ_EXTERNAL_STORAGE);
             }
         }
-    }
-
-
-    public String getRealPathFromUriPath(Uri contenUri, Activity activity){
-        Cursor cursor = activity.getContentResolver().query(contenUri, null, null, null, null);
-        if(cursor == null){
-            return contenUri.getPath();
-        } else {
-            cursor.moveToFirst();
-            int index = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
-            return  cursor.getString(index);
-        }
-
-
     }
 
 
@@ -386,7 +373,21 @@ public class ProfileActivityFragment extends Fragment implements EasyPermissions
     public void onPermissionsDenied(int requestCode, List<String> perms) {
         Toast.makeText(getContext(), "You denied the permission", Toast.LENGTH_SHORT).show();
     }
+    public String getRealPathFromUriPath(Uri contentUri, Activity activity){
+        String res = null;
+        String[] proj = {MediaStore.Images.Media.DATA};
+        Cursor cursor = activity.getContentResolver().query(contentUri, proj, null, null, null);
+        if (cursor != null) {
+            cursor.moveToFirst();
+            int columnIndex = cursor.getColumnIndex(proj[0]);
+            res = cursor.getString(columnIndex);
+            cursor.close();
+        }
 
+        return res;
+
+
+    }
     public void checkAccessTokenStatus(){
         SaveSharedPreferences saveSharedPreferences = new SaveSharedPreferences();
         String access_token = saveSharedPreferences.getAccess_token(getContext());
