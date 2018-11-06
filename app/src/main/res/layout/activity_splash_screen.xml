@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="#000"
+    android:layout_height="match_parent"
+    tools:context=".SplashScreenActivity">
+
+    <RelativeLayout
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    <ImageView
+        android:layout_width="60dp"
+        android:id="@+id/image_view"
+        android:layout_centerHorizontal="true"
+        android:src="@mipmap/ic_launcher"
+        android:background="@android:color/transparent"
+        android:layout_height="60dp" />
+
+        <RelativeLayout
+            android:layout_below="@id/image_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:textSize="45sp"
+            android:layout_centerHorizontal="true"
+            android:text="restroin"
+            android:id="@+id/restroin"
+            android:textColor="@color/colorPrimary"
+            android:fontFamily="@font/hobo"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:fontFamily="@font/hobo"
+            android:textSize="15sp"
+            android:layout_centerHorizontal="true"
+            android:paddingStart="20dp"
+            android:textAlignment="textEnd"
+            android:textColor="@color/colorPrimary"
+            android:text="dine at your best"
+            android:layout_below="@id/restroin"
+            android:layout_height="wrap_content" />
+        </RelativeLayout>
+
+
+
+    </RelativeLayout>
+
+</RelativeLayout>
